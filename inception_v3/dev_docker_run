@@ -10,5 +10,6 @@ fi
 
 $DOCKER_CMD run --rm -it \
 	-v `pwd`:/shared \
+	-v `pwd`/../utils:/shared/utils \
 	-w /shared \
 	$(cat docker_image_name.txt) "$@"
