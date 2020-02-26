@@ -1,0 +1,6 @@
+#!/bin/bash
+
+nvidia-docker run --rm -it \
+	-v `pwd`:/shared \
+	-w /shared \
+	latentaiorg/public-images-limited:gpu_base_1.4 "$@"
