@@ -2,7 +2,9 @@ Inception V3
 
 # Docker Build
 
+```bash
 docker build -t $(cat docker_image_name.txt) .
+```
 
 # Download Dataset
 
