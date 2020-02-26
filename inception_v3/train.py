@@ -960,7 +960,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--image_dir',	# definiert in train.sh
       type=str,
-      default='training_dataset',
+      default='datasets/open_images_10_classes_200',
       help='Path to folders of labeled images.'
   )
   parser.add_argument(
