@@ -1,18 +1,18 @@
 # Inception V3
 
-# Docker Build
+### Docker Build
 
 ```bash
 sudo docker build -t $(cat docker_image_name.txt) .
 ```
 
-# Download Dataset
+### Download Dataset
 
 ```bash
 sudo ./dev_docker_run ./download_dataset.py
 ```
 
-# Train
+### Train
 
 ```bash
 sudo ./dev_docker_run ./train.py
@@ -23,18 +23,17 @@ Quick train for testing:
 sudo ./dev_docker_run ./train.py --how_many_training_steps 10
 ```
 
-# Eval
+### Eval
 
 sudo ./dev_docker_run ./eval.py
 
-# Test
+### Test
 
 sudo ./dev_docker_run ./test.py
 
-# Quantize with LEIP SDK
-
+### Quantize with LEIP SDK
 Todo.
 
-# Evaluate with LEIP SDK
+### Evaluate with LEIP SDK
 
 Todo.
