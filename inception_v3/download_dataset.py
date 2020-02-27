@@ -2,6 +2,6 @@
 
 import dload
 
-dload.save_unzip("https://model-zoo-data.latentai.io/datasets/open_images_10_classes_200/b06e615442323e61312cbfa7c5f7a82e.zip", "./datasets/open_images_10_classes_200")
+dload.save_unzip("https://model-zoo-data.latentai.io/datasets/open_images_10_classes_200/e843f42b95a46473ce210d15b1f26ef1.zip", "./datasets/open_images_10_classes_200")
 
 print('Downloaded!')
