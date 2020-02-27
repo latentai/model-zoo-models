@@ -27,9 +27,9 @@ sudo ./dev_docker_run ./train.py --how_many_training_steps 10
 
 sudo ./dev_docker_run ./eval.py
 
-### Test
+### Run Model Demo on command line or web browser
 
-sudo ./dev_docker_run ./test.py
+sudo ./dev_docker_run ./demo.py
 
 ### Quantize with LEIP SDK
 Todo.
