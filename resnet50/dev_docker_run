@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if ! [ -x "$(command -v nvidia-docker)" ]; then
+  echo 'nvidia-docker is not installed. Using docker instead' >&2
+  DOCKER_CMD=docker
+else
+  echo 'using nvidia-docker' >&2
+  DOCKER_CMD=nvidia-docker
+fi
+
+$DOCKER_CMD run --rm -it \
+	-v `pwd`:/shared \
+	-v `pwd`/../utils:/shared/utils \
+	-w /shared \
+	$(cat docker_image_name.txt) "$@"
