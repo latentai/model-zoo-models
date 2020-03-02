@@ -5,6 +5,9 @@ Note that Dockerfile is currently for CPU mode
 docker build -t $(cat docker_image_name.txt) .
 ./dev_docker_run python3 imagenet_test.py
 
+# Download pretrained base net, trained on imagenet
+./dev_docker_run ./download_imagenet_trained_base_model.py
+
 
 # ResNet in TensorFlow
 
