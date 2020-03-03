@@ -8,8 +8,12 @@ else
   DOCKER_CMD=nvidia-docker
 fi
 
+
+mkdir ~/.keras
+
 $DOCKER_CMD run --rm -it \
 	-v `pwd`:/shared \
 	-v `pwd`/../utils:/shared/utils \
+	-v ~/.keras:/root/.keras \
 	-w /shared \
 	$(cat docker_image_name.txt) "$@"
