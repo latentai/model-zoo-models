@@ -9,7 +9,7 @@ else
 fi
 
 
-mkdir ~/.keras
+mkdir -p ~/.keras
 
 $DOCKER_CMD run --rm -it \
 	-v `pwd`:/shared \
