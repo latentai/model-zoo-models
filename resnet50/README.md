@@ -1,10 +1,10 @@
 # Build Docker Image
 
-docker build -t $(cat docker_image_name.txt) -f Dockerfile.cpu .
+sudo docker build -t $(cat docker_image_name.txt) -f Dockerfile.cpu .
 
 OR:
 
-docker build -t $(cat docker_image_name.txt) -f Dockerfile.gpu .
+sudo docker build -t $(cat docker_image_name.txt) -f Dockerfile.gpu .
 
 # Download dataset
 
@@ -17,3 +17,13 @@ docker build -t $(cat docker_image_name.txt) -f Dockerfile.gpu .
 # Convert Trained Model to TF Checkpoint format for use in LEIP SDK
 
 ./dev_docker_run ./convert_keras_model_to_checkpoint.py --input_model_path trained_model.h5 --output_model_path converted
+
+# Evaluate a trained model
+
+./dev_docker_run ./eval.py --dataset_path datasets/open_images_10_classes_200/ --input_model_path trained_model.h5
+
+# Demo
+
+This runs inference on a single image.
+./dev_docker_run ./demo.py --dataset_path datasets/open_images_10_classes_200/ --input_model_path trained_model.h5 --image_file path_to_image.jpg
+ 
