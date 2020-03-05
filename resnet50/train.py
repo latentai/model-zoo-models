@@ -10,6 +10,8 @@ import tensorflow.keras as keras
 import math, os, sys
 import matplotlib.pyplot as plt
 
+from model_definition import image_size
+
 
 def get_model(num_classes):
     input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_data_format() == 'channels_last'
@@ -139,7 +141,6 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
-    image_size = (224, 224)
     train_data_dir = os.path.join(args.dataset_path, 'train')
     validation_data_dir = os.path.join(args.dataset_path, 'eval')
     nb_epoch = args.epochs
