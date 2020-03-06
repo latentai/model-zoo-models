@@ -1,3 +1,2 @@
-FROM latentaiorg/public-images-limited:cpu_base_1.4
+FROM latentaiorg/public-images-limited:gpu_base_1.5
 
-RUN pip3 install dload
