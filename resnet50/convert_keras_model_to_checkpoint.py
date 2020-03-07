@@ -3,9 +3,9 @@ import argparse
 import os
 
 import tensorflow as tf
+
 tf.compat.v1.disable_eager_execution()
 import tensorflow.keras as keras
-from tensorflow.keras import backend as K
 
 if __name__ == '__main__':
     # constants

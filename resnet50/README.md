@@ -1,11 +1,3 @@
-# Build Docker Image
-
-sudo docker build -t $(cat docker_image_name.txt) -f Dockerfile.cpu .
-
-OR:
-
-sudo docker build -t $(cat docker_image_name.txt) -f Dockerfile.gpu .
-
 # Download dataset
 
 ./dev_docker_run ./download_dataset.py
