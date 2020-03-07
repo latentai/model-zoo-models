@@ -8,7 +8,7 @@
 
 # Convert Trained Model to TF Checkpoint format for use in LEIP SDK
 
-./dev_docker_run ./convert_keras_model_to_checkpoint.py --input_model_path trained_model.h5 --output_model_path converted
+./dev_docker_run ./convert_keras_model_to_checkpoint.py --input_model_path trained_model.h5
 
 # Evaluate a trained model
 
@@ -17,4 +17,4 @@
 # Demo
 
 This runs inference on a single image.
-./dev_docker_run ./demo.py --dataset_path datasets/open_images_10_classes_200/ --input_model_path trained_model.h5 --image_file path_to_image.jpg
+./dev_docker_run ./demo.py --input_model_path trained_model.h5 --image_file path_to_image.jpg

@@ -73,6 +73,21 @@ def modelFitGenerator():
         print('number of classes in train and test do not match, train {}, test {}'.format(train_classes, test_classes))
         exit(1)
 
+    # save class names list before training
+
+
+    label_map = (train_generator.class_indices)
+    class_idx_to_label = {v: k for k, v in label_map.items()}
+    labels = []
+    for i in range(len(class_idx_to_label)):
+        label = class_idx_to_label[i]
+        labels.append(label)
+
+    labels_txt = u"\n".join(labels)
+    with open(output_class_names_path, 'w') as classes_f:
+        classes_f.write(labels_txt)
+    print("Saved class names list file to {}".format(output_class_names_path))
+
     fitModel = get_model(num_classes=train_classes)
     compile_model(fitModel)
     history = fitModel.fit_generator(
@@ -128,6 +143,13 @@ if __name__ == '__main__':
         help='Where to save the trained model.'
     )
     parser.add_argument(
+        '--output_class_names_path',
+        type=str,
+        default='class_names.txt',
+        required=False,
+        help='Where to save the class names used by the trained model.'
+    )
+    parser.add_argument(
         '--epochs',
         type=int,
         default=1,
@@ -146,4 +168,5 @@ if __name__ == '__main__':
     nb_epoch = args.epochs
     batch_size = args.batch_size
     output_model_path = args.output_model_path
+    output_class_names_path = args.output_class_names_path
     main()
