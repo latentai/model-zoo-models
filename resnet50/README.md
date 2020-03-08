@@ -18,3 +18,10 @@
 
 This runs inference on a single image.
 ./dev_docker_run ./demo.py --input_model_path trained_model.h5 --image_file path_to_image.jpg
+
+# Run a converted checkpoint on a single image within LEIP SDK
+
+Assuming your checkpoint is in "checkpoint/" after converting with ./convert_keras_model_to_checkpoint.py :
+
+dev-leip-run leip run -in checkpoint/ --class_names class_names.txt --framework tf --preprocessor imagenet_caffe --test_path path_to_image.jpg
+
