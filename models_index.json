@@ -1,0 +1,79 @@
+{
+  "models": [
+    {
+      "id": "audio-recognition",
+      "full_name": "Audio Recognition",
+      "variants": [
+        {
+          "id": "original",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/audio-recognition/2020-01-30-15-31-41/4166508def416ac56c20445888af4942.zip",
+          "model_schema": {
+            "output_names": "add_2",
+            "input_names": "fingerprint_input,dropout_prob"
+          }
+        }
+      ]
+    },
+      {
+      "id": "inception",
+      "full_name": "Inception",
+      "variants": [
+        {
+          "id": "original",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/inception/2020-02-19-15-31-41/0157539760afa517cef1c425ea1904fb.zip",
+          "model_schema": {
+            "output_names": "InceptionV2/Predictions/Softmax",
+            "input_names": "Placeholder"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mobilenet",
+      "full_name": "Mobilenet",
+      "variants": [
+        {
+          "id": "original",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenet/2020-02-19-15-31-41/b30cacc6db345f06293dd10e83190efa.zip",
+          "model_schema": {
+            "output_names": "MobilenetV2/Predictions/Softmax",
+            "input_names": "input"
+          }
+        }
+      ]
+    },
+        {
+      "id": "resnetv2-50",
+      "full_name": "Resnetv2-50",
+      "variants": [
+        {
+          "id": "original",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/2020-02-19-15-31-41/67f4c4aafaafde44236eea5bdf0fd6a3.zip",
+          "model_schema": {
+            "output_names": "resnet_v2_50/predictions/Softmax",
+            "input_names": "Placeholder"
+          }
+        }
+      ]
+    },
+    {
+      "id": "keras-resnet-18",
+      "full_name": "Keras Resnet 18",
+      "variants": [
+        {
+          "id": "original",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/keras-resnet-18/2020-02-19-15-31-41/98f09bdd50ad73fc4489764ef62a7f8d.zip",
+          "model_schema": {
+            "output_names": "softmax_tensor",
+            "input_names": "IteratorGetNext"
+          }
+        }
+      ]
+    }
+  ]
+}
