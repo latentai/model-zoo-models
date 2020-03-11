@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 import argparse
 import os
+import shutil
 
 import tensorflow as tf
+
+tf.compat.v1.disable_eager_execution()
 import tensorflow.keras as keras
-from tensorflow.keras import backend as K
 
 if __name__ == '__main__':
     # constants
@@ -18,6 +20,13 @@ if __name__ == '__main__':
         help='Load keras model at path'
     )
     parser.add_argument(
+        '--input_class_names_path',
+        type=str,
+        default='class_names.txt',
+        required=False,
+        help='Where to load the class names used by the trained model.'
+    )
+    parser.add_argument(
         '--output_model_path',
         type=str,
         default='checkpoint',
@@ -29,7 +38,11 @@ if __name__ == '__main__':
 
     model = keras.models.load_model(args.input_model_path)
 
-    sess = K.get_session()
+    sess = tf.compat.v1.keras.backend.get_session()
     saver = tf.compat.v1.train.Saver()
     os.makedirs(args.output_model_path, exist_ok=True)
+    if os.path.exists(args.input_class_names_path) and os.path.isfile(args.input_class_names_path):
+        shutil.copyfile(args.input_class_names_path, os.path.join(args.output_model_path, 'class_names.txt'))
+    else:
+        print('Warning! No class_names.txt file found. This converted checkpoint will not have an associated class_names.txt file present')
     saver.save(sess, os.path.join(args.output_model_path, 'converted'))
