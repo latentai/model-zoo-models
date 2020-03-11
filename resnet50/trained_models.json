@@ -1,0 +1,29 @@
+{
+    "id": "google_audio",
+    "full_name": "Google Audio",
+    "variants": [
+        {
+            "id": "original",
+            "compressed": false,
+            "weights_url": "https://model-zoo-data.latentai.io/google_audio/2020-01-30-15-31-41/4166508def416ac56c20445888af4942.zip",
+            "training_dataset_id": "open_images_10",
+            "training_dataset_variant_id": "open_images_10_v2",
+            "repo_url": "https://github.com/latentai/model-zoo-models/"
+            "model_schema": {
+                "output_names": "add_2",
+                "input_names": "fingerprint_input,dropout_prob"
+            },
+            "compression": {
+                "type": "FP32",
+                "bit_depth": "",
+                "quantizer": "",
+                "skip_layers": "",
+                "input_names": "",
+                "output_names": ""
+                },
+            "compile": {
+                "type": "x86_FP32"
+            }
+        }
+    ]
+}
