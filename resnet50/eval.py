@@ -48,7 +48,8 @@ if __name__ == '__main__':
         validation_data_dir,
         target_size=image_size,
         batch_size=1,
-        class_mode='categorical', shuffle=True
+        class_mode='categorical', shuffle=True,
+        interpolation='lanczos'
     )
 
     model.compile(loss=keras.losses.categorical_crossentropy,

@@ -35,7 +35,7 @@ model = keras.models.load_model(args.input_model_path)
 
 class_names = open(args.input_class_names_path, 'r').read().split('\n')
 
-img = image.load_img(args.image_file, target_size=(224, 224))
+img = image.load_img(args.image_file, target_size=(224, 224), interpolation='lanczos')
 x = image.img_to_array(img)
 x = np.expand_dims(x, axis=0)
 x = preprocess_input(x)

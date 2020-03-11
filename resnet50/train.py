@@ -56,14 +56,16 @@ def modelFitGenerator():
         train_data_dir,
         target_size=image_size,
         batch_size=batch_size,
-        class_mode='categorical', shuffle=True
+        class_mode='categorical', shuffle=True,
+        interpolation='lanczos'
     )
 
     validation_generator = test_datagen.flow_from_directory(
         validation_data_dir,
         target_size=image_size,
         batch_size=batch_size,
-        class_mode='categorical', shuffle=True
+        class_mode='categorical', shuffle=True,
+        interpolation='lanczos'
     )
 
     train_classes = len(set(train_generator.classes))
