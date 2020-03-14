@@ -35,6 +35,7 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
+    tf.keras.backend.set_learning_phase(0)
 
     model = keras.models.load_model(args.input_model_path)
 
