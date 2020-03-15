@@ -6,6 +6,7 @@ from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adadelta
+from tf.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
 import tensorflow.keras as keras
 import math, os, sys
 import matplotlib.pyplot as plt
@@ -92,12 +93,17 @@ def modelFitGenerator():
 
     fitModel = get_model(num_classes=train_classes)
     compile_model(fitModel)
+    earlyStopping = EarlyStopping(monitor='val_loss', patience=10, verbose=0, mode='min')
+    mcp_save = ModelCheckpoint('.mdl_wts.h5', save_best_only=True, monitor='val_loss', mode='min')
+    reduce_lr_loss = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=7, verbose=1, epsilon=1e-4, mode='min')
     history = fitModel.fit_generator(
         train_generator,
         steps_per_epoch=num_train_steps,
         epochs=nb_epoch,
         validation_data=validation_generator,
-        validation_steps=num_valid_steps)
+        validation_steps=num_valid_steps,
+        callbacks = [earlyStopping, mcp_save, reduce_lr_loss]
+    )
 
     # printGraph(history)
     fitModel.save(output_model_path)
