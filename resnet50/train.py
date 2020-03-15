@@ -6,7 +6,7 @@ from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adadelta
-from tf.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
+from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
 import tensorflow.keras as keras
 import math, os, sys
 import matplotlib.pyplot as plt
