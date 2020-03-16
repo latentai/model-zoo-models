@@ -1,1 +1,0 @@
-inception_v3_docker
