@@ -1,0 +1,28 @@
+{
+    "id": "mobilenetv2",
+    "full_name": "MobileNetV2",
+    "variants": [
+        {
+            "id": "baseline-keras",
+            "compressed": false,
+            "weights_url": "",
+            "training_dataset_id": null,
+            "training_dataset_variant_id": null,
+            "repo_url": "https://github.com/latentai/model-zoo-models/",
+            "model_schema": {
+                "output_names": "add_2",
+                "input_names": "input_1",
+                "input_shapes": "1, 224, 224, 3"
+            },
+            "compress": {
+                "type": null,
+                "bit_depth": null,
+                "quantizer": null,
+                "skip_layers": null
+                },
+            "compile": {
+                "type": null
+            }
+        }
+    ]
+}

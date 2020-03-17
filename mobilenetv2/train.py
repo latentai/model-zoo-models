@@ -4,7 +4,7 @@ import math
 import os
 
 import tensorflow.keras as keras
-from tensorflow.keras.applications.resnet50 import ResNet50
+from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
 from tensorflow.keras.models import Model
@@ -18,7 +18,7 @@ def get_model(num_classes):
     input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_data_format() == 'channels_last'
 
     # create the base pre-trained model
-    base_model = ResNet50(input_tensor=input_tensor, weights='imagenet', include_top=False)
+    base_model = MobileNetV2(input_tensor=input_tensor, weights='imagenet', include_top=False)
 
     for layer in base_model.layers:
         layer.trainable = False
