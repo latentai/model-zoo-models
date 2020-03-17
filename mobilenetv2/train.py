@@ -24,8 +24,12 @@ def get_model(num_classes):
         layer.trainable = False
 
     x = base_model.output
-    x = GlobalAveragePooling2D(data_format='channels_last')(x)
-    x = Dense(num_classes, activation='softmax')(x)
+    x = GlobalAveragePooling2D()(x)
+    x = Dense(1024, activation='relu')(
+        x)  # we add dense layers so that the model can learn more complex functions and classify for better results.
+    x = Dense(1024, activation='relu')(x)  # dense layer 2
+    x = Dense(512, activation='relu')(x)  # dense layer 3
+    x = Dense(2, activation='softmax')(x)  # final layer with softmax activation
 
     updatedModel = Model(base_model.input, x)
 
