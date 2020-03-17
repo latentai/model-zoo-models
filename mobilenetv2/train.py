@@ -93,7 +93,7 @@ def modelFitGenerator():
 
     fitModel = get_model(num_classes=train_classes)
     compile_model(fitModel)
-    earlyStopping = EarlyStopping(monitor='val_loss', patience=10, verbose=0, mode='min')
+    earlyStopping = EarlyStopping(monitor='val_loss', patience=30, verbose=0, mode='min')
     mcp_save = ModelCheckpoint('.mdl_wts.h5', save_best_only=True, monitor='val_loss', mode='min')
     reduce_lr_loss = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=7, verbose=1, epsilon=1e-4, mode='min')
     fitModel.fit_generator(
