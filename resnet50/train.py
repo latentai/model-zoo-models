@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 import argparse
+import math
+import os
 
-from tensorflow.keras.applications.resnet50 import ResNet50
-from tensorflow.keras.models import Model, load_model
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.optimizers import Adadelta
-from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
 import tensorflow.keras as keras
-import math, os, sys
-import matplotlib.pyplot as plt
+from tensorflow.keras.applications.resnet50 import ResNet50
+from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
+from tensorflow.keras.models import Model
+from tensorflow.keras.optimizers import Adadelta
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from model_definition import image_size
 
@@ -78,8 +78,7 @@ def modelFitGenerator():
 
     # save class names list before training
 
-
-    label_map = (train_generator.class_indices)
+    label_map = train_generator.class_indices
     class_idx_to_label = {v: k for k, v in label_map.items()}
     labels = []
     for i in range(len(class_idx_to_label)):
@@ -96,36 +95,17 @@ def modelFitGenerator():
     earlyStopping = EarlyStopping(monitor='val_loss', patience=10, verbose=0, mode='min')
     mcp_save = ModelCheckpoint('.mdl_wts.h5', save_best_only=True, monitor='val_loss', mode='min')
     reduce_lr_loss = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=7, verbose=1, epsilon=1e-4, mode='min')
-    history = fitModel.fit_generator(
+    fitModel.fit_generator(
         train_generator,
         steps_per_epoch=num_train_steps,
         epochs=nb_epoch,
         validation_data=validation_generator,
         validation_steps=num_valid_steps,
-        callbacks = [earlyStopping, mcp_save, reduce_lr_loss]
+        callbacks=[earlyStopping, mcp_save, reduce_lr_loss]
     )
 
-    # printGraph(history)
     fitModel.save(output_model_path)
     print("Saved trained model to {}".format(output_model_path))
-
-
-def printGraph(history):
-    plt.plot(history.history['acc'])
-    plt.plot(history.history['val_acc'])
-    plt.title('model accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.show()
-    # summarize history for loss
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.show()
 
 
 def main():
