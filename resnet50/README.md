@@ -28,7 +28,7 @@ Assuming your checkpoint is in "checkpoint/" after converting with ./convert_ker
 dev-leip-run leip run -in checkpoint/ --class_names class_names.txt --framework tf --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 
 # Make eval dataset index.txt file
-
+./dev_docker_run ./utils/make_dataset_index_file.py --input_dataset_path datasets/open_images_10_classes_200/train --output_dataset_index_path datasets/open_images_10_classes_200/train/index.txt
 ./dev_docker_run ./utils/make_dataset_index_file.py --input_dataset_path datasets/open_images_10_classes_200/eval --output_dataset_index_path datasets/open_images_10_classes_200/eval/index.txt
 
 # Evaluate baseline model within LEIP SDK
