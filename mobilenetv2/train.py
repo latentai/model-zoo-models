@@ -20,8 +20,8 @@ def get_model(num_classes):
     # create the base pre-trained model
     base_model = MobileNetV2(input_tensor=input_tensor, weights='imagenet', include_top=False)
 
-    for layer in base_model.layers:
-        layer.trainable = False
+    # for layer in base_model.layers:
+    #     layer.trainable = False
 
     x = base_model.output
     x = GlobalAveragePooling2D()(x)
