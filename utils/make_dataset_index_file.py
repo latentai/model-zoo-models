@@ -3,6 +3,16 @@ import argparse
 import os
 from glob import glob
 
+'''
+Demo:
+
+# Make dataset index.txt files
+./dev_docker_run ./utils/make_dataset_index_file.py --input_dataset_path datasets/open_images_10_classes_200/train --output_dataset_index_path datasets/open_images_10_classes_200/train/index.txt
+./dev_docker_run ./utils/make_dataset_index_file.py --input_dataset_path datasets/open_images_10_classes_200/eval --output_dataset_index_path datasets/open_images_10_classes_200/eval/index.txt
+
+
+'''
+
 IMAGE_FILE_EXTENSIONS = ['.png', '.jpeg', '.jpg', '.bmp', '.gif']
 
 

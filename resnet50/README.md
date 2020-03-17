@@ -27,13 +27,7 @@ Assuming your checkpoint is in "checkpoint/" after converting with ./convert_ker
 
 dev-leip-run leip run -in checkpoint/ --class_names class_names.txt --framework tf --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 
-# Make eval dataset index.txt file
-./dev_docker_run ./utils/make_dataset_index_file.py --input_dataset_path datasets/open_images_10_classes_200/train --output_dataset_index_path datasets/open_images_10_classes_200/train/index.txt
-./dev_docker_run ./utils/make_dataset_index_file.py --input_dataset_path datasets/open_images_10_classes_200/eval --output_dataset_index_path datasets/open_images_10_classes_200/eval/index.txt
-
 # Evaluate baseline model within LEIP SDK
-
-Ensure the index.txt has been created above...
 
 dev-leip-run leip evaluate -fw tf -in checkpoint/ --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
 
@@ -61,6 +55,7 @@ dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=float32 -
 # LEIP Compress
 
 dev-leip-run leip compress -in checkpoint/ -q ASYMMETRIC -b 8 -out checkpointCompressed/
+dev-leip-run leip compress -in checkpoint/ -q POWER_OF_TWO -b 8 -out checkpointCompressedPow2/
 
 # Evaluate compressed with TF
 
@@ -75,6 +70,11 @@ dev-leip-run leip compile -in checkpointCompressed/model_save/ -ishapes "1, 224,
 dev-leip-run leip run -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_int8/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 ### Evaluate compiled model with INT8
 dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_int8/bin --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+
+### LEIP Compile with TVM INT8 Pow2
+rm -rf leip_compiled_tvm_int8_pow2
+mkdir leip_compiled_tvm_int8_pow2
+dev-leip-run leip compile -in checkpointCompressedPow2/model_save/ -ishapes "1, 224, 224, 3" -o leip_compiled_tvm_int8_pow2/bin --input_types=float32 --dump_relay=true --data_type=int8
 
 ### LEIP Compile with TVM FP32
 rm -rf leip_compiled_tvm_fp32
