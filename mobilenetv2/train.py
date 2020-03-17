@@ -29,7 +29,7 @@ def get_model(num_classes):
         x)  # we add dense layers so that the model can learn more complex functions and classify for better results.
     x = Dense(1024, activation='relu')(x)  # dense layer 2
     x = Dense(512, activation='relu')(x)  # dense layer 3
-    x = Dense(2, activation='softmax')(x)  # final layer with softmax activation
+    x = Dense(num_classes, activation='softmax')(x)  # final layer with softmax activation
 
     updatedModel = Model(base_model.input, x)
 
