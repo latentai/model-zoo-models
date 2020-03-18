@@ -8,7 +8,7 @@
 
 (Set --epochs and --batch_size to 1 for a quick training run.)
 
-./dev_docker_run ./train.py --dataset_path datasets/open_images_10_classes_200/ --epochs 600
+./dev_docker_run ./train.py --dataset_path datasets/open_images_10_classes_200/ --epochs 150
 
 # Convert Trained Model to TF Checkpoint format for use in LEIP SDK
 
