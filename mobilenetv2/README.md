@@ -29,16 +29,20 @@ Assuming your checkpoint is in "checkpoint/" after converting with ./convert_ker
 
 dev-leip-run leip run -in checkpoint/ --class_names class_names.txt --framework tf --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 
+# Evaluate baseline model within LEIP SDK
+
+dev-leip-run leip evaluate -fw tf -in checkpoint/ --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+
 
 # Evaluate with TVM
 ### Baseline Compile with TVM INT8
 rm -rf compiled_tvm_int8
 mkdir compiled_tvm_int8
-dev-leip-run leip compile -in checkpoint/ -ishapes "1, 224, 224, 3" -o compiled_tvm_int8/bin --input_types=float32  --data_type=int8
+dev-leip-run leip compile -in checkpoint/ -ishapes "1, 224, 224, 3" -o compiled_tvm_int8/bin --input_types=uint8  --data_type=int8
 ### Run compiled model with INT8 on single image
-dev-leip-run leip run -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in compiled_tvm_int8/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
+dev-leip-run leip run -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in compiled_tvm_int8/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 ### Evaluate compiled model with INT8
-dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in compiled_tvm_int8/bin --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in compiled_tvm_int8/bin --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
 
 ### Baseline Compile with TVM FP32
 rm -rf compiled_tvm_fp32
@@ -63,16 +67,16 @@ dev-leip-run leip evaluate -fw tf -in checkpointCompressed/model_save/ --test_pa
 ### LEIP Compile with TVM INT8
 rm -rf leip_compiled_tvm_int8
 mkdir leip_compiled_tvm_int8
-dev-leip-run leip compile -in checkpointCompressed/model_save/ -ishapes "1, 224, 224, 3" -o leip_compiled_tvm_int8/bin --input_types=float32  --data_type=int8
+dev-leip-run leip compile -in checkpointCompressed/model_save/ -ishapes "1, 224, 224, 3" -o leip_compiled_tvm_int8/bin --input_types=uint8  --data_type=int8
 ### Run compiled model with INT8 on single image
-dev-leip-run leip run -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_int8/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
+dev-leip-run leip run -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_int8/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 ### Evaluate compiled model with INT8
-dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_int8/bin --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_int8/bin --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
 
 ### LEIP Compile with TVM INT8 Pow2
 rm -rf leip_compiled_tvm_int8_pow2
 mkdir leip_compiled_tvm_int8_pow2
-dev-leip-run leip compile -in checkpointCompressedPow2/model_save/ -ishapes "1, 224, 224, 3" -o leip_compiled_tvm_int8_pow2/bin --input_types=float32  --data_type=int8
+dev-leip-run leip compile -in checkpointCompressedPow2/model_save/ -ishapes "1, 224, 224, 3" -o leip_compiled_tvm_int8_pow2/bin --input_types=uint8  --data_type=int8
 
 ### LEIP Compile with TVM FP32
 rm -rf leip_compiled_tvm_fp32
