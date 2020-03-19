@@ -5,7 +5,7 @@
         {
             "id": "baseline-keras",
             "compressed": false,
-            "weights_url": "",
+            "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/baseline-keras/2020-03-18-01-21-40/e28f54c6dbba1ec46077b693a2716f77.zip",
             "training_dataset_id": null,
             "training_dataset_variant_id": null,
             "repo_url": "https://github.com/latentai/model-zoo-models/",
