@@ -7,8 +7,9 @@
 # Train
 
 (Set --epochs and --batch_size to 1 for a quick training run.)
+48 epochs produced about 80% top1 accuracy. 150 epochs would perform better.
 
-./dev_docker_run ./train.py --dataset_path datasets/open_images_10_classes_200/ --epochs 150
+./dev_docker_run ./train.py --dataset_path datasets/open_images_10_classes_200/ --epochs 48
 
 # Convert Trained Model to TF Checkpoint format for use in LEIP SDK
 
