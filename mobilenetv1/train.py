@@ -4,7 +4,7 @@ import math
 import os
 
 import tensorflow.keras as keras
-from tensorflow.keras.applications.mobilenet_v2 import MobileNetV1
+from tensorflow.keras.applications.mobilenet_v1 import MobileNetV1
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
 from tensorflow.keras.models import Model
