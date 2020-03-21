@@ -1,8 +1,8 @@
-# Download dataset
+# Download dataset for Transfer Learning training
 
 ./dev_docker_run ./download_dataset.py
 
-# Train
+# Train a new model with Transfer Learning on top of a base trained on Imagenet
 
 (Set --epochs and --batch_size to 1 for a quick training run.)
 
@@ -53,7 +53,7 @@ dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=float32 -
 
 
 # LEIP Compress
-
+rm -rf checkpointCompressed checkpointCompressedPow2
 dev-leip-run leip compress -in checkpoint/ -q ASYMMETRIC -b 8 -out checkpointCompressed/
 dev-leip-run leip compress -in checkpoint/ -q POWER_OF_TWO -b 8 -out checkpointCompressedPow2/
 

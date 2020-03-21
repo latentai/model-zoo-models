@@ -52,7 +52,7 @@ if __name__ == '__main__':
         default='class_names.txt',
         required=False,
         help='Where to save the class names used by the trained model.'
-    )
+    ) # NOT USED YET
 
     args = parser.parse_args()
     output_model_path = args.output_model_path
