@@ -20,7 +20,7 @@ def logCmd(args):
     commands_run.append(args)
     if not dry_run:
         subprocess.check_call(args)
-
+sections = []
 section_to_results = {}
 def getResults(dirname):
     global section_to_results
@@ -31,7 +31,9 @@ def getResults(dirname):
 
 def setSectionName(name):
     global current_section
+    global sections
     current_section = name
+    sections.append(name)
     commands_run.append(['# '+name])
 
 setSectionName("Preparation")
@@ -86,6 +88,16 @@ for command in commands_run:
     line = ' '.join(command)
     print(line)
 
+for section in sections:
+    if section in section_to_results:
+        results = section_to_results[section]
 
+        top1 = results['results']['stats']['results']['top1']
+        top5 = results['results']['stats']['results']['top5']
+        items = results['results']['stats']['results']['items']
+        duration = results['results']['stats']['results']['duration']
 
-print(section_to_results)
+        per_sec = items / duration
+        print('{}\t{}\t{}\t{}'.format(section, top1, top5, per_sec))
+
+#print(section_to_results)
