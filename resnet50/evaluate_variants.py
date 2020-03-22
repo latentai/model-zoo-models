@@ -11,7 +11,7 @@ input_names = 'input_1'
 output_names = 'probs/Softmax'
 input_shapes = '1,224,224,3'
 
-dry_run=True
+dry_run=False
 
 
 commands_run = []
@@ -91,7 +91,7 @@ for command in commands_run:
 for section in sections:
     if section in section_to_results:
         results = section_to_results[section]
-        print(results)
+        #print(results)
         top1 = results['results']['evaluate']['results']['top1']
         top5 = results['results']['evaluate']['results']['top5']
         items = results['results']['evaluate']['results']['items']
