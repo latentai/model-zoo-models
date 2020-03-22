@@ -38,7 +38,7 @@ def setSectionName(name):
 
 setSectionName("Preparation")
 
-logCmd(["rm", "-rf", "variants"])
+logCmd(["rm", "-rf", "variants", "baselineFp32Results"])
 logCmd(["mkdir", "variants"])
 logCmd(["mkdir", "baselineFp32Results"])
 
