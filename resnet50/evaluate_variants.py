@@ -91,7 +91,7 @@ for command in commands_run:
 for section in sections:
     if section in section_to_results:
         results = section_to_results[section]
-
+        print(results)
         top1 = results['results']['stats']['results']['top1']
         top5 = results['results']['stats']['results']['top5']
         items = results['results']['stats']['results']['items']
