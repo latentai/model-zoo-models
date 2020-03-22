@@ -92,10 +92,10 @@ for section in sections:
     if section in section_to_results:
         results = section_to_results[section]
         print(results)
-        top1 = results['results']['stats']['evaluate']['results']['top1']
-        top5 = results['results']['stats']['evaluate']['results']['top5']
-        items = results['results']['stats']['evaluate']['results']['items']
-        duration = results['results']['stats']['evaluate']['results']['duration']
+        top1 = results['results']['evaluate']['results']['top1']
+        top5 = results['results']['evaluate']['results']['top5']
+        items = results['results']['evaluate']['results']['items']
+        duration = results['results']['evaluate']['results']['duration']
 
         per_sec = items / duration
         print('{}\t{}\t{}\t{}'.format(section, top1, top5, per_sec))
