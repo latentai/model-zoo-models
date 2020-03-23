@@ -1,5 +1,9 @@
 # MobileNetV1
 
+# Download pretrained model on open images 10 classes
+
+./dev_docker_run leip zoo download mobilenetv1 keras-open-images-10-classes
+
 # Download dataset
 
 ./dev_docker_run ./download_dataset.py
