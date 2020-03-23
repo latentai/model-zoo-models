@@ -126,9 +126,6 @@ logCmd(["leip", "evaluate", "--output_path","variants/leip_compiled_tvm_fp32","-
 getResults("variants/leip_compiled_tvm_fp32/")
 
 
-for command in commands_run:
-    line = ' '.join(command)
-    print(line)
 
 output_rows = [''] + FRAMEWORKS # columns
 
@@ -168,3 +165,13 @@ for rowtype in ROWTYPES:
                     cellvalue = 'N/A'
                 row.append(cellvalue)
     #print(section_to_results)
+
+print('Output report:')
+for command in commands_run:
+    line = ' '.join(command)
+    print(line)
+
+for row in output_rows:
+    rowstr = "\t".join(row)
+    print(rowstr)
+    
