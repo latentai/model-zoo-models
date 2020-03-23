@@ -158,7 +158,7 @@ for rowtype in ROWTYPES:
                     per_sec = items / duration
                     #print('{}\t{}\t{}\t{}'.format(section_name, top1, top5, per_sec))
                     if rowtype == 'Inference Speed':
-                        cellvalue = per_sec + 'inferences/sec'
+                        cellvalue = str(per_sec) + 'inferences/sec'
                     elif rowtype == 'Accuracy':
                         cellvalue = "Top1: {}\nTop5: {}".format(top1, top5)
                     else:
