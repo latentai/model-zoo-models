@@ -157,7 +157,7 @@ for precision in PRECISIONS:
                     if rowtype == 'Inference Speed':
                         cellvalue = '{0:.2f} inferences/sec'.format(per_sec)
                     elif rowtype == 'Accuracy':
-                        cellvalue = "Top1: {0:.1f}%\\n Top5: {0:.1f}%".format(100*top1, 100*top5)
+                        cellvalue = "Top1: {0:.1f}%, Top5: {0:.1f}%".format(100*top1, 100*top5)
                     else:
                         cellvalue = '???'
                 else:
