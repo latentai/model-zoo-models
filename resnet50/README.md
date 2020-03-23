@@ -1,3 +1,9 @@
+# Download pretrained model on Open Images 10 Classes
+leip zoo download resnetv2-50 keras-open-images-10-classes
+
+# Download pretrained imagenet model
+leip zoo download resnetv2-50 keras-imagenet
+
 # Download dataset for Transfer Learning training
 
 ./dev_docker_run ./download_dataset.py
