@@ -135,8 +135,10 @@ for compression_mode in COMPRESSION_MODES:
         for framework in FRAMEWORKS:
 
             section = (framework, precision, compression_mode,)
-            section_name = section_to_name[section]
+            section_name = "{} {} {}".format(framework, precision, compression_mode)
+
             if section in section_to_results:
+
                 results = section_to_results[section]
                 #print(results)
                 top1 = results['results']['evaluate']['results']['top1']
