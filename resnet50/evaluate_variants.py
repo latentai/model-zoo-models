@@ -10,7 +10,7 @@ dataset_index_file = "datasets/open_images_10_classes_200/eval/index.txt"
 class_names_file = 'class_names.txt'
 preprocessor = 'imagenet_caffe'
 input_names = 'input_1'
-output_names = 'probs/Softmax'
+output_names = 'dense/Softmax'
 input_shapes = '1,224,224,3'
 
 dry_run=False
