@@ -13,7 +13,7 @@ input_names = 'input_1'
 output_names = 'probs/Softmax'
 input_shapes = '1,224,224,3'
 
-dry_run=True
+dry_run=False
 
 FRAMEWORKS = ['tflite', 'TF', 'TVM'] # columns
 PRECISIONS = ['FP32', 'INT8'] # rows
