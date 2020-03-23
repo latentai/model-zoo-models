@@ -46,6 +46,37 @@
       ]
     },
     {
+      "id": "mobilenetv1",
+      "full_name": "Mobilenet V1",
+      "variants": [
+        {
+          "id": "keras-open-images-10-classes",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/baseline-keras/2020-03-19-07-39-52/8cc68a3b3ba25adaf3ec1799c54353ae.zip",
+          "model_schema": {
+            "output_names": "dense/Softmax",
+            "input_names": "input_1"
+          }
+        }
+      ]
+    },
+        {
+      "id": "mobilenetv2",
+      "full_name": "Mobilenet V2",
+      "variants": [
+        {
+          "id": "keras-open-images-10-classes",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/baseline-keras/2020-03-18-01-21-40/e28f54c6dbba1ec46077b693a2716f77.zip",
+          "model_schema": {
+            "output_names": "dense/Softmax",
+            "input_names": "input_1"
+          }
+        }
+      ]
+    },
+
+    {
       "id": "resnetv2-50",
       "full_name": "Resnetv2-50",
       "variants": [
