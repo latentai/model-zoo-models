@@ -45,7 +45,7 @@
         }
       ]
     },
-        {
+    {
       "id": "resnetv2-50",
       "full_name": "Resnetv2-50",
       "variants": [
@@ -56,6 +56,24 @@
           "model_schema": {
             "output_names": "resnet_v2_50/predictions/Softmax",
             "input_names": "Placeholder"
+          }
+        },
+        {
+          "id": "keras-open-images-10-classes",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/baseline-keras/2020-03-16-06-13-03/221242539ce1af0fb6d605251bf1de4a.zip",
+          "model_schema": {
+            "output_names": "dense/Softmax",
+            "input_names": "input_1"
+          }
+        },
+        {
+          "id": "keras-imagenet",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/keras-imagenet/2020-03-23-19-13-02/e7cde16c3e0514d7358bf7fe6115cc10.zip",
+          "model_schema": {
+            "output_names": "probs/Softmax",
+            "input_names": "input_1"
           }
         }
       ]
