@@ -130,24 +130,41 @@ for command in commands_run:
     line = ' '.join(command)
     print(line)
 
-for compression_mode in COMPRESSION_MODES:
-    for precision in PRECISIONS:
-        for framework in FRAMEWORKS:
+output_rows = [''] + FRAMEWORKS # columns
 
-            section = (framework, precision, compression_mode,)
-            section_name = "{} {} {}".format(framework, precision, compression_mode)
+ROWTYPES = ['Inference Speed', 'Accuracy']
 
-            if section in section_to_results:
+for rowtype in ROWTYPES:
+    row = []
+    output_rows.append(row)
+    for compression_mode in COMPRESSION_MODES:
+        for precision in PRECISIONS:
+            rowname = "{} {} {}".format(compression_mode, precision, rowtype)
+            row.append(rowname)
+            for framework in FRAMEWORKS: # column
 
-                results = section_to_results[section]
-                #print(results)
-                top1 = results['results']['evaluate']['results']['top1']
-                top5 = results['results']['evaluate']['results']['top5']
-                items = results['results']['evaluate']['results']['items']
-                duration = results['results']['evaluate']['results']['duration']
+                section = (framework, precision, compression_mode,)
+                section_name = "{} {} {}".format(framework, precision, compression_mode)
 
-                per_sec = items / duration
-                print('{}\t{}\t{}\t{}'.format(section, top1, top5, per_sec))
-            else:
-                print('No results for {}'.format(section))
-#print(section_to_results)
+                if section in section_to_results:
+
+                    results = section_to_results[section]
+                    #print(results)
+                    top1 = results['results']['evaluate']['results']['top1']
+                    top5 = results['results']['evaluate']['results']['top5']
+                    items = results['results']['evaluate']['results']['items']
+                    duration = results['results']['evaluate']['results']['duration']
+
+                    per_sec = items / duration
+                    #print('{}\t{}\t{}\t{}'.format(section_name, top1, top5, per_sec))
+                    if rowtype == 'Inference Speed':
+                        cellvalue = per_sec + 'inferences/sec'
+                    elif rowtype == 'Accuracy':
+                        cellvalue = "Top1: {}\nTop5: {}".format(top1, top5)
+                    else:
+                        cellvalue = '???'
+                else:
+                    print('No results for {}'.format(section_name))
+                    cellvalue = 'N/A'
+                row.append(cellvalue)
+    #print(section_to_results)
