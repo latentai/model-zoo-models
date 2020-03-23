@@ -132,10 +132,10 @@ output_rows = [''] + FRAMEWORKS # columns
 ROWTYPES = ['Inference Speed', 'Accuracy']
 
 for rowtype in ROWTYPES:
-    row = []
-    output_rows.append(row)
     for compression_mode in COMPRESSION_MODES:
         for precision in PRECISIONS:
+            row = []
+            output_rows.append(row)
             rowname = "{} {} {}".format(compression_mode, precision, rowtype)
             row.append(rowname)
             for framework in FRAMEWORKS: # column
@@ -174,4 +174,3 @@ for command in commands_run:
 for row in output_rows:
     rowstr = "\t".join(row)
     print(rowstr)
-    
