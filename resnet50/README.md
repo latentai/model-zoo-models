@@ -36,7 +36,7 @@ dev-leip-run leip evaluate -fw tf -in checkpoint/ --test_path=datasets/open_imag
 ### Baseline Compile with TVM INT8
 rm -rf compiled_tvm_int8
 mkdir compiled_tvm_int8
-dev-leip-run leip compile -in checkpoint/ -ishapes "1, 224, 224, 3" -o compiled_tvm_int8/bin --input_types=uint8  --data_type=int8
+dev-leip-run leip compile --input_path checkpoint/ --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_int8/bin --input_types=uint8  --data_type=int8
 ### Run compiled model with INT8 on single image
 dev-leip-run leip run -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in compiled_tvm_int8/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 ### Evaluate compiled model with INT8

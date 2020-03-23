@@ -3,9 +3,11 @@ import json
 import os
 import subprocess
 
-input_checkpoint = 'imagenet_checkpoint/'
-dataset_index_file = "/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt"
-class_names_file = '/data/sample-models/resources/data/imagenet/imagenet1000.names'
+input_checkpoint = 'checkpoint/'
+#dataset_index_file = "/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt"
+#class_names_file = '/data/sample-models/resources/data/imagenet/imagenet1000.names'
+dataset_index_file = "datasets/open_images_10_classes_200/eval/index.txt"
+class_names_file = 'class_names.txt'
 preprocessor = 'imagenet_caffe'
 input_names = 'input_1'
 output_names = 'probs/Softmax'
