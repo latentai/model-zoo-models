@@ -134,8 +134,9 @@ output_rows.append([''] + FRAMEWORKS) # columns
 ROWTYPES = ['Inference Speed', 'Accuracy']
 for precision in PRECISIONS:
 
-    for rowtype in ROWTYPES:
-        for compression_mode in COMPRESSION_MODES:
+    for compression_mode in COMPRESSION_MODES:
+        for rowtype in ROWTYPES:
+
             row = []
             output_rows.append(row)
             rowname = "{} {} {}".format(compression_mode, precision, rowtype)
