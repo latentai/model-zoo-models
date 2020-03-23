@@ -86,7 +86,7 @@ logCmd(["mkdir", "baselineFp32Results"])
 
 setSectionName(None, "TF", "FP32", "Baseline")
 
-logCmd(["leip", "evaluate", "--output_path","baselineFp32Results", "--framework", "tf2", "--input_path", input_checkpoint, "--test_path="+dataset_index_file, "--class_names="+class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor, "--input_shapes", input_shapes, "--input_names", input_names, "--output_names", output_names])
+logCmd(["leip", "evaluate", "--output_path","baselineFp32Results", "--framework", "tf2", "--input_path", input_checkpoint, "--test_path",dataset_index_file, "--class_names",class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor, "--input_shapes", input_shapes, "--input_names", input_names, "--output_names", output_names])
 getResults("baselineFp32Results/")
 setSectionName("LEIP Compress")
 
@@ -94,46 +94,46 @@ logCmd(["leip", "compress", "--input_path", input_checkpoint, "--quantizer", "AS
 logCmd(["leip", "compress", "--input_path", input_checkpoint, "--quantizer", "POWER_OF_TWO", "--bits", "8", "--output_path", "variants/checkpointCompressedPow2/"])
 
 setSectionName(None, "TF", "FP32", "LEIP")
-logCmd(["leip", "evaluate", "--output_path","variants/checkpointCompressed/", "--framework", "tf2", "--input_path", "variants/checkpointCompressed/model_save/", "--test_path="+dataset_index_file, "--class_names="+class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor, "--input_shapes", input_shapes, "--input_names", input_names, "--output_names", output_names])
+logCmd(["leip", "evaluate", "--output_path","variants/checkpointCompressed/", "--framework", "tf2", "--input_path", "variants/checkpointCompressed/model_save/", "--test_path",dataset_index_file, "--class_names",class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor, "--input_shapes", input_shapes, "--input_names", input_names, "--output_names", output_names])
 getResults("variants/checkpointCompressed/")
 
 setSectionName(None, "TVM", "INT8", "Baseline")
 logCmd(["rm", "-rf", "variants/compiled_tvm_int8"])
 logCmd(["mkdir", "variants/compiled_tvm_int8"])
 logCmd(["leip", "compile", "--input_path", input_checkpoint, "--input_shapes", input_shapes, "--output_path", "variants/compiled_tvm_int8/bin", "--input_types=uint8", "--data_type=int8"])
-logCmd(["leip", "evaluate", "--output_path","variants/compiled_tvm_int8/","--framework", "tvm", "--input_names", input_names, "--input_types=uint8", "--input_shapes", input_shapes, "--input_path", "variants/compiled_tvm_int8/bin", "--test_path="+dataset_index_file, "--class_names="+class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor])
+logCmd(["leip", "evaluate", "--output_path","variants/compiled_tvm_int8/","--framework", "tvm", "--input_names", input_names, "--input_types=uint8", "--input_shapes", input_shapes, "--input_path", "variants/compiled_tvm_int8/bin", "--test_path",dataset_index_file, "--class_names",class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor])
 getResults("variants/compiled_tvm_int8/")
 
 setSectionName(None, "TVM", "FP32", "Baseline")
 logCmd(["rm", "-rf", "variants/compiled_tvm_fp32"])
 logCmd(["mkdir", "variants/compiled_tvm_fp32"])
 logCmd(["leip", "compile", "--input_path", input_checkpoint, "--input_shapes", input_shapes, "--output_path", "variants/compiled_tvm_fp32/bin", "--input_types=float32", "--data_type=float32"])
-logCmd(["leip", "evaluate", "--output_path","variants/compiled_tvm_fp32/","--framework", "tvm", "--input_names", input_names, "--input_types=float32", "--input_shapes", input_shapes, "--input_path", "variants/compiled_tvm_fp32/bin", "--test_path="+dataset_index_file, "--class_names="+class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor])
+logCmd(["leip", "evaluate", "--output_path","variants/compiled_tvm_fp32/","--framework", "tvm", "--input_names", input_names, "--input_types=float32", "--input_shapes", input_shapes, "--input_path", "variants/compiled_tvm_fp32/bin", "--test_path",dataset_index_file, "--class_names",class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor])
 getResults("variants/compiled_tvm_fp32/")
 
 setSectionName(None, "TVM", "INT8", "LEIP")
 logCmd(["rm", "-rf", "variants/leip_compiled_tvm_int8"])
 logCmd(["mkdir", "variants/leip_compiled_tvm_int8"])
 logCmd(["leip", "compile", "--input_path", "variants/checkpointCompressed/model_save/", "--input_shapes", input_shapes, "--output_path", "variants/leip_compiled_tvm_int8/bin", "--input_types=uint8", "--data_type=int8"])
-logCmd(["leip", "evaluate", "--output_path","variants/leip_compiled_tvm_int8","--framework", "tvm", "--input_names", input_names, "--input_types=uint8", "--input_shapes", input_shapes, "--input_path", "variants/leip_compiled_tvm_int8/bin", "--test_path="+dataset_index_file, "--class_names="+class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor])
+logCmd(["leip", "evaluate", "--output_path","variants/leip_compiled_tvm_int8","--framework", "tvm", "--input_names", input_names, "--input_types=uint8", "--input_shapes", input_shapes, "--input_path", "variants/leip_compiled_tvm_int8/bin", "--test_path",dataset_index_file, "--class_names",class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor])
 getResults("variants/leip_compiled_tvm_int8/")
 
 setSectionName(None, "TVM", "FP32", "LEIP")
 logCmd(["rm", "-rf", "variants/leip_compiled_tvm_fp32"])
 logCmd(["mkdir", "variants/leip_compiled_tvm_fp32"])
 logCmd(["leip", "compile", "--input_path", "variants/checkpointCompressed/model_save/", "--input_shapes", input_shapes, "--output_path", "variants/leip_compiled_tvm_fp32/bin", "--input_types=float32", "--data_type=float32"])
-logCmd(["leip", "evaluate", "--output_path","variants/leip_compiled_tvm_fp32","--framework", "tvm", "--input_names", input_names, "--input_types=float32", "--input_shapes", input_shapes, "--input_path", "variants/leip_compiled_tvm_fp32/bin", "--test_path="+dataset_index_file, "--class_names="+class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor])
+logCmd(["leip", "evaluate", "--output_path","variants/leip_compiled_tvm_fp32","--framework", "tvm", "--input_names", input_names, "--input_types=float32", "--input_shapes", input_shapes, "--input_path", "variants/leip_compiled_tvm_fp32/bin", "--test_path",dataset_index_file, "--class_names",class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor])
 getResults("variants/leip_compiled_tvm_fp32/")
 
 
-
-output_rows = [''] + FRAMEWORKS # columns
+output_rows = []
+output_rows.append([''] + FRAMEWORKS) # columns
 
 ROWTYPES = ['Inference Speed', 'Accuracy']
+for precision in PRECISIONS:
 
-for rowtype in ROWTYPES:
-    for compression_mode in COMPRESSION_MODES:
-        for precision in PRECISIONS:
+    for rowtype in ROWTYPES:
+        for compression_mode in COMPRESSION_MODES:
             row = []
             output_rows.append(row)
             rowname = "{} {} {}".format(compression_mode, precision, rowtype)
