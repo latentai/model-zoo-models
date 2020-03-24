@@ -1,0 +1,29 @@
+{
+    "id": "audiorecognition",
+    "full_name": "Audio Recognition, 30 words",
+    "variants": [
+        {
+            "id": "baseline-tf",
+            "compressed": false,
+            "weights_url": "TBD",
+            "accuracy": 0.829,
+            "training_dataset_id": null,
+            "training_dataset_variant_id": null,
+            "repo_url": "https://github.com/latentai/model-zoo-models/",
+            "model_schema": {
+                "output_names": "Add_2",
+                "input_names": "fingerprint_input,dropout_prob",
+                "input_shapes": "1, 224, 224, 3"
+            },
+            "compress": {
+                "type": null,
+                "bit_depth": null,
+                "quantizer": null,
+                "skip_layers": null
+                },
+            "compile": {
+                "type": null
+            }
+        }
+    ]
+}
