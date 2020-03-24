@@ -27,6 +27,7 @@ current_compression = None
 def logCmd(args):
     commands_run.append(args)
     if not dry_run:
+        print('')
         subprocess.check_call(args)
 sections = []
 section_to_results = {}
@@ -100,7 +101,7 @@ getResults("variants/checkpointCompressed/")
 setSectionName(None, "TVM", "INT8", "Baseline")
 logCmd(["rm", "-rf", "variants/compiled_tvm_int8"])
 logCmd(["mkdir", "variants/compiled_tvm_int8"])
-logCmd(["leip", "compile", "--input_path", input_checkpoint, "--input_shapes", input_shapes, "--output_path", "variants/compiled_tvm_int8/bin", "--input_types=uint8", "--data_type=int8"])
+logCmd(["leip", "compile", "--input_path", input_checkpoint, "--input_shapes", input_shapes, "--output_path", "variants/compiled_tvm_int8/bin", "--input_types=float32", "--data_type=int8"])
 logCmd(["leip", "evaluate", "--output_path","variants/compiled_tvm_int8/","--framework", "tvm", "--input_names", input_names, "--input_types=uint8", "--input_shapes", input_shapes, "--input_path", "variants/compiled_tvm_int8/bin", "--test_path",dataset_index_file, "--class_names",class_names_file, "--task=classifier", "--dataset=custom", "--preprocessor", preprocessor])
 getResults("variants/compiled_tvm_int8/")
 
