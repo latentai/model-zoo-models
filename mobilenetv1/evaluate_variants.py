@@ -8,7 +8,7 @@ dataset_index_file = "/data/sample-models/resources/data/imagenet/testsets/tests
 class_names_file = '/data/sample-models/resources/data/imagenet/imagenet1000.names'
 preprocessor = 'imagenet'
 input_names = 'input_1'
-output_names = 'act_softmax/Softmaxcat'
+output_names = 'act_softmax/Softmax'
 input_shapes = '1,224,224,3'
 
 dry_run=False
