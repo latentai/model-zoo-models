@@ -41,9 +41,11 @@ x = np.expand_dims(x, axis=0)
 x = preprocess_input(x)
 
 preds = model.predict(x)[0]
-print('Predicted:', preds)
+#print('Predicted:', preds)
 
-for i in range(len(preds)):
+top_values_index = sorted(range(len(preds)), key=lambda i: preds[i])[-5:]
+
+for i in top_values_index:
     label = class_names[i]
     score = preds[i]
-    print("{}\t{}".format(score, label))
+    print("index  {}\t{}\t{}".format(i, score, label))
