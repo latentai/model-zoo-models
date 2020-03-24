@@ -5,6 +5,7 @@ import tensorflow.keras as keras
 from tensorflow.keras.applications.mobilenet import MobileNet
 from tensorflow.keras.layers import Input
 from tensorflow.keras.optimizers import Adadelta
+from tensorflow.keras.models import Model
 
 
 def get_model():
@@ -12,8 +13,12 @@ def get_model():
 
     # create the base pre-trained model
     base_model = MobileNet(input_tensor=input_tensor, weights='imagenet', include_top=True)
+    x = base_model.output
 
-    return base_model
+    updatedModel = Model(base_model.input, x)
+
+    return updatedModel
+
 
 
 def compile_model(compiledModel):
