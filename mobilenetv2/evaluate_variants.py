@@ -1,15 +1,71 @@
 #!/usr/bin/env python3
+import argparse
 import json
 import os
 import subprocess
 
-input_checkpoint = 'imagenet_checkpoint/'
-dataset_index_file = "/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt"
-class_names_file = '/data/sample-models/resources/data/imagenet/imagenet1000.names'
-preprocessor = 'imagenet'
-input_names = 'input_1'
-output_names = 'Logits/Softmax'
-input_shapes = '1,224,224,3'
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    '--input_checkpoint',
+    type=str,
+    default=None,
+    required=True,
+    help='Where load the input checkpoint'
+)
+parser.add_argument(
+    '--dataset_index_file',
+    type=str,
+    default=None,
+    required=True,
+    help='path to dataset index file'
+)
+parser.add_argument(
+    '--class_names_file',
+    type=str,
+    default=None,
+    required=True,
+    help='path to class names file'
+)
+parser.add_argument(
+    '--preprocessor',
+    type=str,
+    default=None,
+    required=True,
+    help='preprocessor to use for evaluation'
+)
+parser.add_argument(
+    '--input_names',
+    type=str,
+    default=None,
+    required=True,
+    help='input names'
+)
+parser.add_argument(
+    '--input_shapes',
+    type=str,
+    default='1,224,224,3',
+    required=False,
+    help='input shapes'
+)
+args = parser.parse_args()
+input_checkpoint = args.input_checkpoint
+dataset_index_file = args.dataset_index_file
+class_names_file = args.class_names_file
+preprocessor = args.preprocessor
+input_names = args.input_names
+output_names = args.output_names
+input_shapes = args.input_shapes
+
+# dev-leip-run ./evaluate_variants.py --input_checkpoint imagenet_checkpoint --dataset_index_file /data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names_file /data/sample-models/resources/data/imagenet/imagenet1000.names --preprocessor imagenet --input_names input_1 --output_names Logits/Softmax --input_shapes 1,224,224,3
+
+# input_checkpoint = 'imagenet_checkpoint/'
+# dataset_index_file = "/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt"
+# class_names_file = '/data/sample-models/resources/data/imagenet/imagenet1000.names'
+# preprocessor = 'imagenet'
+# input_names = 'input_1'
+# output_names = 'Logits/Softmax'
+# input_shapes = '1,224,224,3'
 
 dry_run=False
 
