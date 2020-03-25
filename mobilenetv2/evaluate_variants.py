@@ -42,6 +42,13 @@ parser.add_argument(
     help='input names'
 )
 parser.add_argument(
+    '--output_names',
+    type=str,
+    default=None,
+    required=True,
+    help='output names'
+)
+parser.add_argument(
     '--input_shapes',
     type=str,
     default='1,224,224,3',
