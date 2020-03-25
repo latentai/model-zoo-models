@@ -57,6 +57,15 @@
             "output_names": "dense/Softmax",
             "input_names": "input_1"
           }
+        },
+        {
+          "id": "keras-imagenet",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-imagenet/2020-03-24-00-32-41/99a6e90cb7cedd4d8cd9402a519e3ba3.zip",
+          "model_schema": {
+            "output_names": "act_softmax/Softmax",
+            "input_names": "input_1"
+          }
         }
       ]
     },
@@ -69,7 +78,7 @@
           "compressed": false,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/baseline-keras/2020-03-18-01-21-40/e28f54c6dbba1ec46077b693a2716f77.zip",
           "model_schema": {
-            "output_names": "dense/Softmax",
+            "output_names": "dense_3/Softmax",
             "input_names": "input_1"
           }
         }
