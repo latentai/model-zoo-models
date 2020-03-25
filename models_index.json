@@ -81,7 +81,17 @@
             "output_names": "dense_3/Softmax",
             "input_names": "input_1"
           }
+        },
+        {
+          "id": "keras-open-images-10-classes",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras/imagenet/2020-03-25-03-56-04/a454ff40483b837c35d30ceb1208e182.zip",
+          "model_schema": {
+            "output_names": "Logits/Softmax",
+            "input_names": "input_1"
+          }
         }
+
       ]
     },
 
