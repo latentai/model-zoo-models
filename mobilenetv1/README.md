@@ -32,11 +32,11 @@ This runs inference on a single image.
 
 Assuming your checkpoint is in "checkpoint/" after converting with ./convert_keras_model_to_checkpoint.py :
 
-dev-leip-run leip run -in checkpoint/ --class_names class_names.txt --framework tf --preprocessor imagenet_caffe --test_path test_images/dog.jpg
+dev-leip-run leip run --input_path checkpoint/ --class_names class_names.txt --framework tf --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 
 # Evaluate baseline model within LEIP SDK
 
-dev-leip-run leip evaluate -fw tf -in checkpoint/ --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+dev-leip-run leip evaluate -fw tf --input_path checkpoint/ --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
 
 
 # Evaluate with TVM

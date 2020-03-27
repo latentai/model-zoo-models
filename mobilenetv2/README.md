@@ -27,6 +27,13 @@
 This runs inference on a single image.
 ./dev_docker_run ./demo.py --input_model_path trained_model.h5 --image_file test_images/dog.jpg
 
+# Run multiple variant evaluation on imagenet
+dev-leip-run leip-evaluate-variants --input_checkpoint imagenet_checkpoint --dataset_index_file /data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names_file /data/sample-models/resources/data/imagenet/imagenet1000.names --preprocessor imagenet --input_names input_1 --output_names Logits/Softmax --input_shapes 1,224,224,3
+
+# Run multiple variant evaluation on open images 10 classes eval
+dev-leip-run leip-evaluate-variants --input_checkpoint checkpoint --dataset_index_file datasets/open_images_10_classes_200/eval/index.txt --class_names_file class_names.txt --preprocessor imagenet_caffe --input_names input_1 --output_names dense_3/Softmax --input_shapes 1,224,224,3
+
+
 # Run a converted checkpoint on a single image within LEIP SDK
 
 Assuming your checkpoint is in "checkpoint/" after converting with ./convert_keras_model_to_checkpoint.py :
