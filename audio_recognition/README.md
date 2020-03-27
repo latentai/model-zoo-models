@@ -1,19 +1,20 @@
 # Train the model
 
-`python train.py --how_many_training_steps 10000,10000 --eval_step_interval 10 --data_dir dataset/ --train_dir train_data --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree`
+`./dev_docker_run python train.py --how_many_training_steps 10000,10000 --eval_step_interval 2000 --data_dir dataset/ --train_dir train_data --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree`
 
 Once model trained `train_data` derictory will be created. It will contain tensorflow summaries and checkpoint of trained model.
 
 # Evaluate the model
 
 In order to evaluate the model on test set run following command:
-`python eval.py --start_checkpoint train_data/conv.ckpt-20000 --data_dir dataset/ --train_dir train_data --wanted_wordsup,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree`
+
+`./dev_docker_run python eval.py --start_checkpoint train_data/conv.ckpt-20000 --data_dir dataset/ --train_dir train_data --wanted_wordsup,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree`
 
 # Demo
 
 To make a prediction on wav file run following command:
 
-`python eval.py --start_checkpoint train_data/conv.ckpt-20 --data_dir dataset/ --train_dir train_data --wanted_wordsup,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree --wav dataset/cat/030ec18b_nohash_1.wav`
+`./dev_docker_run python demo.py --start_checkpoint train_data/conv.ckpt-20000 --data_dir dataset/ --train_dir train_data --wanted_wordsup,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree --wav dataset/cat/030ec18b_nohash_1.wav`
 
 This command will output the prediction of word "cat".
 
