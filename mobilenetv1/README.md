@@ -6,14 +6,17 @@
 
 # Download dataset
 
-./dev_docker_run ./download_dataset.py
+# Download dataset for Transfer Learning training
+
+./dev_docker_run leip zoo download open-images-10-classes train
+./dev_docker_run leip zoo download open-images-10-classes eval
 
 # Train
 
 (Set --epochs and --batch_size to 1 for a quick training run.)
 48 epochs produced about 80% top1 accuracy. 150 epochs would perform better.
 
-./dev_docker_run ./train.py --dataset_path datasets/open_images_10_classes_200/ --epochs 48
+./dev_docker_run ./train.py --dataset_path latentai-zoo-models/datasets/open-images-10-classes/train/train/  --eval_dataset_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/ --epochs 48
 
 # Convert Trained Model to TF Checkpoint format for use in LEIP SDK
 
@@ -21,7 +24,7 @@
 
 # Evaluate a trained model
 
-./dev_docker_run ./eval.py --dataset_path datasets/open_images_10_classes_200/ --input_model_path trained_model.h5
+./dev_docker_run ./eval.py --dataset_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/ --input_model_path trained_model.h5
 
 # Demo
 
@@ -36,7 +39,7 @@ dev-leip-run leip run --input_path checkpoint/ --class_names class_names.txt --f
 
 # Evaluate baseline model within LEIP SDK
 
-dev-leip-run leip evaluate -fw tf --input_path checkpoint/ --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+dev-leip-run leip evaluate -fw tf --input_path checkpoint/ --test_path=latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
 
 
 # Evaluate with TVM
@@ -47,7 +50,7 @@ dev-leip-run leip compile -in checkpoint/ -ishapes "1, 224, 224, 3" -o compiled_
 ### Run compiled model with INT8 on single image
 dev-leip-run leip run -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in compiled_tvm_int8/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 ### Evaluate compiled model with INT8
-dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in compiled_tvm_int8/bin --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in compiled_tvm_int8/bin --test_path=latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
 
 ### Baseline Compile with TVM FP32
 rm -rf compiled_tvm_fp32
@@ -56,7 +59,7 @@ dev-leip-run leip compile -in checkpoint/ -ishapes "1, 224, 224, 3" -o compiled_
 ### Run compiled model with FP32 on single image
 dev-leip-run leip run -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in compiled_tvm_fp32/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 ### Evaluate compiled model with FP32
-dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in compiled_tvm_fp32/bin --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in compiled_tvm_fp32/bin --test_path=latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
 
 
 # LEIP Compress
@@ -66,7 +69,7 @@ dev-leip-run leip compress -in checkpoint/ -q POWER_OF_TWO -b 8 -out checkpointC
 
 # Evaluate compressed with TF
 
-dev-leip-run leip evaluate -fw tf -in checkpointCompressed/model_save/ --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+dev-leip-run leip evaluate -fw tf -in checkpointCompressed/model_save/ --test_path=latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
 
 # Evaluate compressed with TVM
 ### LEIP Compile with TVM INT8
@@ -76,7 +79,7 @@ dev-leip-run leip compile -in checkpointCompressed/model_save/ -ishapes "1, 224,
 ### Run compiled model with INT8 on single image
 dev-leip-run leip run -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_int8/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 ### Evaluate compiled model with INT8
-dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_int8/bin --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=uint8 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_int8/bin --test_path=latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
 
 ### LEIP Compile with TVM INT8 Pow2
 rm -rf leip_compiled_tvm_int8_pow2
@@ -90,4 +93,4 @@ dev-leip-run leip compile -in checkpointCompressed/model_save/ -ishapes "1, 224,
 ### Run compiled model with FP32 on single image
 dev-leip-run leip run -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_fp32/bin --class_names class_names.txt --preprocessor imagenet_caffe --test_path test_images/dog.jpg
 ### Evaluate compiled model with FP32
-dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_fp32/bin --test_path=datasets/open_images_10_classes_200/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+dev-leip-run leip evaluate -fw tvm --input_names input_1 --input_types=float32 -ishapes "1, 224, 224, 3" -in leip_compiled_tvm_fp32/bin --test_path=latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe

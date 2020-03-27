@@ -122,7 +122,14 @@ if __name__ == '__main__':
         type=str,
         default=None,
         required=True,
-        help='Path to folders of labeled images. Expects "train" and "eval" subfolders'
+        help='Path to folders of labeled train images'
+    )
+    parser.add_argument(
+        '--eval_dataset_path',
+        type=str,
+        default=None,
+        required=True,
+        help='Path to folders of labeled eval images'
     )
     parser.add_argument(
         '--output_model_path',
@@ -152,8 +159,8 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
-    train_data_dir = os.path.join(args.dataset_path, 'train')
-    validation_data_dir = os.path.join(args.dataset_path, 'eval')
+    train_data_dir = args.dataset_path
+    validation_data_dir = args.eval_dataset_path
     nb_epoch = args.epochs
     batch_size = args.batch_size
     output_model_path = args.output_model_path

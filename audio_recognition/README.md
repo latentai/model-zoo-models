@@ -1,3 +1,7 @@
+# Download dataset
+
+./dev_docker_run leip zoo download google-speech-commands v0.02
+
 # Train the model
 
 `python train.py --how_many_training_steps 10000,10000 --eval_step_interval 10 --data_dir dataset/ --train_dir train_data --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree`

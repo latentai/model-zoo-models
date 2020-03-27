@@ -1,5 +1,9 @@
 # MobeilNetV1 SSD
 
+## Download dataset
+
+`./dev_docker_run leip zoo download pascal-voc2007 full-dataset`
+
 ## Train the model
 
 `python train.py --voc_dir_path dataset/VOCdevkit --epochs 1000 --batch_size 5`
