@@ -21,7 +21,7 @@ def get_model(num_classes):
     base_model = VGG16(input_tensor=input_tensor, weights='imagenet', include_top=False)
 
     for layer in base_model.layers:
-        layer.trainable = False
+        layer.trainable = True
 
     x = base_model.output
     x = GlobalAveragePooling2D(data_format='channels_last')(x)
