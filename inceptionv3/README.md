@@ -31,7 +31,7 @@ This runs inference on a single image.
 ./dev_docker_run ./demo.py --input_model_path trained_model.h5 --image_file test_images/dog.jpg
 
 # Run multi-evaluate on open images 10 classes model
-dev-leip-run leip-evaluate-variants --input_checkpoint checkpoint --dataset_index_file latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names_file checkpoint/class_names.txt --preprocessor imagenet --input_names input_1 --output_names dense/Softmax --input_shapes 1,224,224,3
+dev-leip-run leip-evaluate-variants --input_checkpoint checkpoint --dataset_index_file latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names_file checkpoint/class_names.txt --preprocessor '' --input_names input_1 --output_names dense/Softmax --input_shapes 1,224,224,3
 
 # Run multi-evaluate on imagenet model
 dev-leip-run leip-evaluate-variants --input_checkpoint imagenet_checkpoint --dataset_index_file /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names_file /shared/data/sample-models/resources/data/imagenet/imagenet1000.names --preprocessor imagenet --input_names input_1 --output_names predictions/Softmax --input_shapes 1,224,224,3
@@ -46,29 +46,34 @@ rm -rf variants baselineFp32Results
 mkdir variants
 mkdir baselineFp32Results
 # TF FP32 Baseline
-leip evaluate --output_path baselineFp32Results --framework tf2 --input_path checkpoint/ --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names class_names.txt --task=classifier --dataset=custom --preprocessor imagenet_caffe --input_shapes 1,224,224,3 --input_names input_1 --output_names dense/Softmax
-# LEIP Compress
-leip compress --input_path checkpoint/ --quantizer ASYMMETRIC --bits 8 --output_path variants/checkpointCompressed/
-leip compress --input_path checkpoint/ --quantizer POWER_OF_TWO --bits 8 --output_path variants/checkpointCompressedPow2/
+leip evaluate --output_path baselineFp32Results --framework tf2 --input_path checkpoint --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names checkpoint/class_names.txt --task=classifier --dataset=custom --preprocessor '' --input_shapes 1,224,224,3 --input_names input_1 --output_names dense/Softmax
+# LEIP Compress ASYMMETRIC
+leip compress --input_path checkpoint --quantizer ASYMMETRIC --bits 8 --output_path variants/checkpointCompressed/
+# LEIP Compress POWER_OF_TWO (POW2)
+leip compress --input_path checkpoint --quantizer POWER_OF_TWO --bits 8 --output_path variants/checkpointCompressedPow2/
 # TF FP32 LEIP
-leip evaluate --output_path variants/checkpointCompressed/ --framework tf2 --input_path variants/checkpointCompressed/model_save/ --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names class_names.txt --task=classifier --dataset=custom --preprocessor imagenet_caffe --input_shapes 1,224,224,3 --input_names input_1 --output_names dense/Softmax
+leip evaluate --output_path variants/checkpointCompressed/ --framework tf2 --input_path variants/checkpointCompressed/model_save/ --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names checkpoint/class_names.txt --task=classifier --dataset=custom --preprocessor '' --input_shapes 1,224,224,3 --input_names input_1 --output_names dense/Softmax
 # TVM INT8 Baseline
 rm -rf variants/compiled_tvm_int8
 mkdir variants/compiled_tvm_int8
-leip compile --input_path checkpoint/ --input_shapes 1,224,224,3 --output_path variants/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path variants/compiled_tvm_int8/ --framework tvm --input_names input_1 --input_types=uint8 --input_shapes 1,224,224,3 --input_path variants/compiled_tvm_int8/bin --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names class_names.txt --task=classifier --dataset=custom --preprocessor imagenet_caffe
+leip compile --input_path checkpoint --input_shapes 1,224,224,3 --output_path variants/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
+leip evaluate --output_path variants/compiled_tvm_int8/ --framework tvm --input_names input_1 --input_types=uint8 --input_shapes 1,224,224,3 --input_path variants/compiled_tvm_int8/bin --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names checkpoint/class_names.txt --task=classifier --dataset=custom --preprocessor ''
 # TVM FP32 Baseline
 rm -rf variants/compiled_tvm_fp32
 mkdir variants/compiled_tvm_fp32
-leip compile --input_path checkpoint/ --input_shapes 1,224,224,3 --output_path variants/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path variants/compiled_tvm_fp32/ --framework tvm --input_names input_1 --input_types=float32 --input_shapes 1,224,224,3 --input_path variants/compiled_tvm_fp32/bin --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names class_names.txt --task=classifier --dataset=custom --preprocessor imagenet_caffe
+leip compile --input_path checkpoint --input_shapes 1,224,224,3 --output_path variants/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
+leip evaluate --output_path variants/compiled_tvm_fp32/ --framework tvm --input_names input_1 --input_types=float32 --input_shapes 1,224,224,3 --input_path variants/compiled_tvm_fp32/bin --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names checkpoint/class_names.txt --task=classifier --dataset=custom --preprocessor ''
 # TVM INT8 LEIP
 rm -rf variants/leip_compiled_tvm_int8
 mkdir variants/leip_compiled_tvm_int8
 leip compile --input_path variants/checkpointCompressed/model_save/ --input_shapes 1,224,224,3 --output_path variants/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path variants/leip_compiled_tvm_int8 --framework tvm --input_names input_1 --input_types=uint8 --input_shapes 1,224,224,3 --input_path variants/leip_compiled_tvm_int8/bin --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names class_names.txt --task=classifier --dataset=custom --preprocessor imagenet_caffe
+leip evaluate --output_path variants/leip_compiled_tvm_int8 --framework tvm --input_names input_1 --input_types=uint8 --input_shapes 1,224,224,3 --input_path variants/leip_compiled_tvm_int8/bin --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names checkpoint/class_names.txt --task=classifier --dataset=custom --preprocessor ''
 # TVM FP32 LEIP
 rm -rf variants/leip_compiled_tvm_fp32
 mkdir variants/leip_compiled_tvm_fp32
 leip compile --input_path variants/checkpointCompressed/model_save/ --input_shapes 1,224,224,3 --output_path variants/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path variants/leip_compiled_tvm_fp32 --framework tvm --input_names input_1 --input_types=float32 --input_shapes 1,224,224,3 --input_path variants/leip_compiled_tvm_fp32/bin --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names class_names.txt --task=classifier --dataset=custom --preprocessor imagenet_caffe
+leip evaluate --output_path variants/leip_compiled_tvm_fp32 --framework tvm --input_names input_1 --input_types=float32 --input_shapes 1,224,224,3 --input_path variants/leip_compiled_tvm_fp32/bin --test_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names checkpoint/class_names.txt --task=classifier --dataset=custom --preprocessor ''
+# TVM INT8 LEIP-POW2
+rm -rf variants/leip_compiled_tvm_int8_pow2
+mkdir variants/leip_compiled_tvm_int8_pow2
+leip compile --input_path variants/checkpointCompressedPow2/model_save/ --input_shapes 1,224,224,3 --output_path variants/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8
