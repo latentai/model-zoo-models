@@ -15,7 +15,7 @@
 
 (Set --epochs and --batch_size to 1 for a quick training run.)
 
-./dev_docker_run ./train.py --dataset_path latentai-zoo-models/datasets/open-images-10-classes/train/train/  --eval_dataset_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/ --epochs 600
+./dev_docker_run ./train.py --dataset_path latentai-zoo-models/datasets/open-images-10-classes/train/train/  --eval_dataset_path latentai-zoo-models/datasets/open-images-10-classes/eval/eval/ --epochs 100
 
 # Convert Trained Model to TF Checkpoint format for use in LEIP SDK
 
@@ -29,6 +29,13 @@
 
 This runs inference on a single image.
 ./dev_docker_run ./demo.py --input_model_path trained_model.h5 --image_file test_images/dog.jpg
+
+# Run multi-evaluate on open images 10 classes model
+dev-leip-run leip-evaluate-variants --input_checkpoint checkpoint --dataset_index_file latentai-zoo-models/datasets/open-images-10-classes/eval/eval/index.txt --class_names_file checkpoint/class_names.txt --preprocessor imagenet --input_names input_1 --output_names dense/Softmax --input_shapes 1,224,224,3
+
+
+# Run multi-evaluate on imagenet model
+dev-leip-run leip-evaluate-variants --input_checkpoint imagenet_checkpoint --dataset_index_file /data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names_file /data/sample-models/resources/data/imagenet/imagenet1000.names --preprocessor imagenet --input_names input_1 --output_names predictions/Softmax --input_shapes 1,224,224,3
 
 # Run a converted checkpoint on a single image within LEIP SDK
 
