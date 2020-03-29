@@ -17,7 +17,7 @@
     },
     {
       "id": "inception",
-      "full_name": "Inception",
+      "full_name": "Inception V2",
       "variants": [
         {
           "id": "original",
@@ -32,7 +32,7 @@
     },
     {
       "id": "mobilenet",
-      "full_name": "Mobilenet",
+      "full_name": "Mobilenet V2",
       "variants": [
         {
           "id": "original",
@@ -191,6 +191,90 @@
           "model_schema": {
             "output_names": "softmax_tensor",
             "input_names": "IteratorGetNext"
+          }
+        }
+      ]
+    },
+    {
+      "id": "vgg16",
+      "full_name": "VGG16",
+      "variants": [
+        {
+          "id": "keras-open-images-10-classes",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes/2020-03-29-00-38-35/3a11758c0accb36c95d511c4366920e4.zip",
+          "model_schema": {
+            "output_names": "dense/Softmax",
+            "input_names": "input_1"
+          }
+        },
+        {
+          "id": "keras-open-images-10-classes-tf-checkpoint",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes-tf-checkpoint/2020-03-29-00-33-16/6797c682eeaf3e5936804976b9ae8cc5.zip",
+          "model_schema": {
+            "output_names": "dense/Softmax",
+            "input_names": "input_1"
+          }
+        },
+        {
+          "id": "keras-imagenet",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet/2020-03-29-00-40-28/933083e7ec8c35ceaa2f863f8ec10fe9.zip",
+          "model_schema": {
+            "output_names": "predictions/Softmax",
+            "input_names": "input_1"
+          }
+        },
+        {
+          "id": "keras-imagenet-tf-checkpoint",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet-tf-checkpoint/2020-03-29-00-32-06/51bdbcbdb19d9e75d2d946b02321edce.zip",
+          "model_schema": {
+            "output_names": "predictions/Softmax",
+            "input_names": "input_1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "inceptionv3",
+      "full_name": "Inception V3",
+      "variants": [
+        {
+          "id": "keras-open-images-10-classes",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes/2020-03-29-00-46-43/9414db1692b7721f81551faebd6fa186.zip",
+          "model_schema": {
+            "output_names": "dense/Softmax",
+            "input_names": "input_1"
+          }
+        },
+        {
+          "id": "keras-open-images-10-classes-tf-checkpoint",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes-tf-checkpoint/2020-03-29-00-43-43/817965f05e2265c01f01aa897ae8eff8.zip",
+          "model_schema": {
+            "output_names": "dense/Softmax",
+            "input_names": "input_1"
+          }
+        },
+        {
+          "id": "keras-imagenet",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet/2020-03-29-00-49-40/2064dd4a9a51db2b032d6c3157fab850.zip",
+          "model_schema": {
+            "output_names": "predictions/Softmax",
+            "input_names": "input_1"
+          }
+        },
+        {
+          "id": "keras-imagenet-tf-checkpoint",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet-tf-checkpoint/2020-03-29-00-42-04/c52332c2ffce9449bc0990107b2ecc7d.zip",
+          "model_schema": {
+            "output_names": "predictions/Softmax",
+            "input_names": "input_1"
           }
         }
       ]
