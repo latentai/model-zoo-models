@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
@@ -19,8 +20,7 @@ import pickle
 import argparse
 import yaml
 from random import shuffle
-from scipy.misc import imread
-from scipy.misc import imresize
+from PIL import Image
 
 from model.ssd300MobileNetV2Lite import SSD
 from ssd_training import MultiboxLoss
@@ -175,11 +175,14 @@ class Generator(object):
             targets = []
             for key in keys:
                 img_path = self.path_prefix + key
-                img = imread(img_path).astype('float32')
+                img = Image.open(img_path)
+                img = img.resize(self.image_size, Image.ANTIALIAS)
+                img = np.array(img).astype('float32')
                 y = self.gt[key].copy()
+
                 if train and self.do_crop:
                     img, y = self.random_sized_crop(img, y)
-                img = imresize(img, self.image_size).astype('float32')
+
                 if train:
                     shuffle(self.color_jitter)
                     for jitter in self.color_jitter:

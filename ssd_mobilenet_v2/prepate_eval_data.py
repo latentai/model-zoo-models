@@ -10,9 +10,9 @@ from glob import glob
 import shutil
 from xml.etree import ElementTree
 from tqdm import tqdm
+from PIL import Image
 from model.ssd300MobileNetV2Lite import SSD
 from keras.preprocessing import image
-from scipy.misc import imread
 from ssd_utils import BBoxUtility
 from keras.applications.imagenet_utils import preprocess_input
 
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--path_to_settings', help='Path to dataset', required=True)
     parser.add_argument('--model_checkpoints', help='Model checkpoints', required=True)
-    parser.add_argument('--n_images', help='Model checkpoints', default=4000)
+    parser.add_argument('--n_images', help='Model checkpoints', default=500)
 
     NUM_CLASSES = 21
     THRESHOLD = 0.6
@@ -80,7 +80,7 @@ if __name__ == '__main__':
                 img = image.load_img(img_path, target_size=(300, 300))
                 img = image.img_to_array(img)
                 result_images.append(img_path)
-                images.append(imread(img_path))
+                images.append(img)
                 inputs.append(img.copy())
                 annotation_files.append(annotation)
             except Exception as e:

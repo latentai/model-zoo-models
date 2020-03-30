@@ -1,7 +1,9 @@
+#!/usr/bin/python
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 from keras.applications.imagenet_utils import preprocess_input
 from keras.preprocessing import image
+from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 from glob import glob
@@ -9,7 +11,6 @@ import yaml
 import pickle
 import os
 import argparse
-from scipy.misc import imread
 
 
 from ssd_utils import BBoxUtility
@@ -61,7 +62,8 @@ if __name__ == '__main__':
 
         img = image.load_img(img_path, target_size=(sets['img_height'], sets['img_width']))
         img = image.img_to_array(img)
-        images.append(imread(img_path))
+
+        images.append(img)
         inputs.append(img.copy())
 
         inputs = preprocess_input(np.array(inputs))
