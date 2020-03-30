@@ -10,7 +10,7 @@ from misc.keras_layer_L2Normalization import L2Normalization
 from misc.keras_layer_AnchorBoxes import AnchorBoxes
 from misc.keras_layer_DecodeDetectionsFast import DecodeDetectionsFast
 
-concat_as_class = False
+concat_as_class = True
 if concat_as_class:
     from keras.layers import Concatenate
 else:

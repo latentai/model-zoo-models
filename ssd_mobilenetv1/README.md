@@ -14,7 +14,13 @@ After last iteration the additional directory ***checkpoint*** will be created. 
 
 `python eval.py --voc_dir_path dataset/VOCdevkit --weight_file ssd300_epoch-1000.h5`
 
-This script will evaluate the model on training metrics.
+### Genarate detections first
+
+`./dev_docker_run rm -r detections/ && python generate_detections.py --images_dir dataset/VOCdevkit/VOC2007/JPEGImages/ --weight_file ssd300_epoch-1000.h5`
+
+### Evaluate
+
+`./dev_docker_run python pascalvoc.py -gt dataset/ground_truth/ -det detections/`
 
 ## Showcase on single example
 
