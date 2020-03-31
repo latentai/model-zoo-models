@@ -3,11 +3,11 @@
 if ! [ -x "$(command -v nvidia-docker)" ]; then
   echo 'nvidia-docker is not installed. Using CPU mode docker' >&2
   DOCKER_CMD=docker
-  DOCKER_IMG="latentaiorg/public-images-limited:cpu_base_2.2"
+  DOCKER_IMG="latentaiorg/public-images-limited:cpu_base_2.4"
 else
   echo 'Found nvidia-docker. Using GPU mode nvidia-docker' >&2
   DOCKER_CMD=nvidia-docker
-  DOCKER_IMG="latentaiorg/public-images-limited:gpu_base_2.2"
+  DOCKER_IMG="latentaiorg/public-images-limited:gpu_base_2.4"
 fi
 
 
