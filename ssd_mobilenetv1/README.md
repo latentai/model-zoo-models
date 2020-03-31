@@ -20,7 +20,7 @@ After last iteration the additional directory ***checkpoint*** will be created. 
 
 ### Evaluate
 
-`./dev_docker_run python pascalvoc.py -gt dataset/ground_truth/ -det detections/`
+`./dev_docker_run python eval.py -gtforma xyrb -detformat xyrb -gt dataset/VOCdevkit/VOC2007/Annotations/ -det detections/`
 
 ## Showcase on single example
 

@@ -16,6 +16,8 @@ import os
 import shutil
 import sys
 
+import xml.etree.ElementTree as ET
+
 from eval.BoundingBox import BoundingBox as BoundingBox
 from eval.BoundingBoxes import BoundingBoxes as BoundingBoxes
 from eval.Evaluator import *
@@ -86,6 +88,91 @@ def ValidatePaths(arg, nameArg, errors):
     else:
         arg = os.path.join(currentPath, arg)
     return arg
+
+def extract_annotation_from_xml(path):
+    xml = ET.parse(path)
+    xml_root = xml.getroot()
+    tags = {'size': None, 'objects': list()}
+    for child in xml_root:
+        if child.tag == 'size':
+            tags['size'] = child
+        if child.tag == 'object':
+            tags['objects'].append(child)
+
+    size = {
+        'width': float(tags['size'].find('width').text),
+        'height': float(tags['size'].find('height').text)
+    }
+
+    tags['size'] = size
+
+    for i in range(len(tags['objects'])):
+        bbox = {
+            'name': tags['objects'][i].find('name').text.capitalize(),
+            'xmin': float(tags['objects'][i].find('bndbox').find('xmin').text) / tags['size']['width'],
+            'ymin': float(tags['objects'][i].find('bndbox').find('ymin').text) / tags['size']['height'],
+            'xmax': float(tags['objects'][i].find('bndbox').find('xmax').text) / tags['size']['width'],
+            'ymax': float(tags['objects'][i].find('bndbox').find('ymax').text) / tags['size']['height'],
+        }
+
+        tags['objects'][i] = bbox
+
+    return tags
+
+def getBoundingBoxesXML(directory,
+                     isGT,
+                     bbFormat,
+                     coordType,
+                     allBoundingBoxes=None,
+                     allClasses=None,
+                     imgSize=(0, 0)):
+    """
+    Read xml files containing bounding boxes (ground truth and detections) in VOC format.
+    It only supports format: <class_name> <left> <top> <right> <bottom>
+    """
+    if allBoundingBoxes is None:
+        allBoundingBoxes = BoundingBoxes()
+    if allClasses is None:
+        allClasses = []
+    # Read ground truths
+    os.chdir(directory)
+    files = glob.glob("*.xml")
+    files.sort()
+    # Read GT detections from txt file
+    # Each line of the files in the groundtruths folder represents a ground truth bounding box
+    # (bounding boxes that a detector should detect)
+    # Each value of each line is  "class_id, x, y, width, height" respectively
+    # Class_id represents the class of the bounding box
+    # x, y represents the most top-left coordinates of the bounding box
+    # x2, y2 represents the most bottom-right coordinates of the bounding box
+    for f in files:
+        ann = extract_annotation_from_xml(f)
+
+        nameOfImage = f.replace(".xml", "")
+
+        for obj in ann['objects']:
+            idClass = obj['name']
+            x = obj['xmin']
+            y = obj['ymin']
+            w = obj['xmax']
+            h = obj['ymax']
+            bb = BoundingBox(
+                nameOfImage,
+                idClass,
+                x,
+                y,
+                w,
+                h,
+                coordType,
+                imgSize,
+                BBType.GroundTruth,
+                format = bbFormat)
+        allBoundingBoxes.addBoundingBox(bb)
+        if idClass not in allClasses:
+            allClasses.append(idClass)
+
+    return allBoundingBoxes, allClasses
+
 
 
 def getBoundingBoxes(directory,
@@ -308,7 +395,7 @@ showPlot = args.showPlot
 # print('showPlot %s' % showPlot)
 
 # Get groundtruth boxes
-allBoundingBoxes, allClasses = getBoundingBoxes(
+allBoundingBoxes, allClasses = getBoundingBoxesXML(
     gtFolder, True, gtFormat, gtCoordType, imgSize=imgSize)
 # Get detected boxes
 allBoundingBoxes, allClasses = getBoundingBoxes(
