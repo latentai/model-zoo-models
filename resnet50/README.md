@@ -1,13 +1,13 @@
 # Download pretrained model on Open Images 10 Classes
-./dev_docker_run leip zoo download resnetv2-50 keras-open-images-10-classes
+./dev_docker_run leip zoo download --model_id resnetv2-50 --variant_id keras-open-images-10-classes
 
 # Download pretrained imagenet model
-./dev_docker_run leip zoo download resnetv2-50 keras-imagenet
+./dev_docker_run leip zoo download --model_id resnetv2-50 --variant_id keras-imagenet
 
 # Download dataset for Transfer Learning training
 
-./dev_docker_run leip zoo download open-images-10-classes train
-./dev_docker_run leip zoo download open-images-10-classes eval
+./dev_docker_run leip zoo download --dataset_id open-images-10-classes --variant_id train
+./dev_docker_run leip zoo download --dataset_id open-images-10-classes --variant_id eval
 
 # Train a new model with Transfer Learning on top of a base trained on Imagenet
 

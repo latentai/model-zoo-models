@@ -1,6 +1,6 @@
 # Download dataset
 
-./dev_docker_run leip zoo download google-speech-commands v0.02
+./dev_docker_run leip zoo download --dataset_id google-speech-commands --variant_id v0.02
 
 # Train the model
 
