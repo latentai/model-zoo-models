@@ -14,11 +14,12 @@ fi
 mkdir -p ~/.keras
 mkdir -p ~/.latentai-model-zoo
 
+# add 	-p 6006:6006 to share port...
+
 $DOCKER_CMD run --rm -it \
 	-v `pwd`:/shared \
 	-v `pwd`/../utils:/shared/utils \
 	-v ~/.keras:/root/.keras \
 	-v ~/.latentai-model-zoo:/root/.latentai-model-zoo \
 	-w /shared \
-	-p 6006:6006 \
 	$DOCKER_IMG "$@"
