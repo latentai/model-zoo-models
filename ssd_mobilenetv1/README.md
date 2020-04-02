@@ -6,7 +6,9 @@
 
 ## Train the model
 
-`python train.py --voc_dir_path dataset/VOCdevkit --epochs 1000 --batch_size 5`
+(Set epochs to 1 for a quick training run.)
+
+`./dev_docker_run python train.py --voc_dir_path /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset --epochs 1000 --batch_size 5`
 
 After last iteration the additional directory ***checkpoint*** will be created. This directory will have a tensorflow checkpoint.
 
