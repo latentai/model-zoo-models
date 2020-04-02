@@ -15,14 +15,16 @@ Once model trained `train_data` directory will be created. It will contain tenso
 # Evaluate the model
 
 In order to evaluate the model on test set run following command:
+(Adjust the file name passed to --checkpoint if needed)
 
 `./dev_docker_run python eval.py --checkpoint train_data/conv.ckpt-20000 --data_dir /root/.latentai-model-zoo/datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree`
 
 # Demo
 
 To make a prediction on wav file run following command:
+(Adjust the file name passed to --checkpoint if needed)
 
-`./dev_docker_run python demo.py --checkpoint train_data/conv.ckpt-20000 --data_dir /root/.latentai-model-zoo/datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree --wav dataset/cat/030ec18b_nohash_1.wav`
+`./dev_docker_run python demo.py --checkpoint train_data/conv.ckpt-20000 --data_dir /root/.latentai-model-zoo/datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree --wav /root/.latentai-model-zoo/datasets/google-speech-commands/v0.02/speech_commands/cat/030ec18b_nohash_1.wav`
 
 This command will output the prediction of word "cat".
 
