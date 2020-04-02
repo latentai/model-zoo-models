@@ -54,7 +54,7 @@
           "compressed": false,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/baseline-keras/2020-03-19-07-39-52/8cc68a3b3ba25adaf3ec1799c54353ae.zip",
           "model_schema": {
-            "output_names": "dense/Softmax",
+            "output_names": "dense_3/Softmax",
             "input_names": "input_1"
           }
         },
@@ -72,7 +72,7 @@
           "compressed": false,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-open-images-10-classes-tf-checkpoint/2020-03-27-23-01-15/d509ea2aab78ad29ea1d5292b3e9508e.zip",
           "model_schema": {
-            "output_names": "dense/Softmax",
+            "output_names": "dense_3/Softmax",
             "input_names": "input_1"
           }
         },

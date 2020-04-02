@@ -10,7 +10,7 @@
             "training_dataset_variant_id": null,
             "repo_url": "https://github.com/latentai/model-zoo-models/",
             "model_schema": {
-                "output_names": "add_2",
+                "output_names": "dense_3/Softmax",
                 "input_names": "input_1",
                 "input_shapes": "1, 224, 224, 3"
             },
