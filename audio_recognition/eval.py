@@ -113,11 +113,11 @@ def main(_):
 
     start_step = 1
 
-    if FLAGS.start_checkpoint:
-        models.load_variables_from_checkpoint(sess, FLAGS.start_checkpoint)
+    if FLAGS.checkpoint:
+        models.load_variables_from_checkpoint(sess, FLAGS.checkpoint)
         start_step = global_step.eval(session=sess)
         tf.compat.v1.logging.info(
-            'Checkpoint: {}'.format(FLAGS.start_checkpoint))
+            'Checkpoint: {}'.format(FLAGS.checkpoint))
 
     tf.compat.v1.logging.info('Training from step: {}'.format(start_step))
 
@@ -283,7 +283,7 @@ if __name__ == '__main__':
         default=100,
         help='Save Model checkpoint every save_steps.')
     parser.add_argument(
-        '--start_checkpoint',
+        '--checkpoint',
         type=str,
         help='If specified, restore this pretrained Model before any training.')
     parser.add_argument(
