@@ -28,6 +28,12 @@ To make a prediction on wav file run following command:
 
 This command will output the prediction of word "cat".
 
+# Download pretrained theckpoint
+
+`./dev_docker_run leip zoo download --model_id audio-recognition --variant_id tf-baselinoe`
+
+# LEIP part
+
 ## Compress tensorflow checkpoint
 
 ***Asymetric***
