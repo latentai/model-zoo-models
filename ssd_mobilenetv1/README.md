@@ -4,6 +4,16 @@
 
 `./dev_docker_run leip zoo download --dataset_id pascal-voc2007 --variant_id full-dataset`
 
+## Download pretrained checkpoints
+
+### Tensorflow
+
+`./dev_docker_run leip zoo download --model_id ssd_mobilenetv1 --variant_id tf-checkpoint`
+
+### Keras
+
+`./dev_docker_run leip zoo download --model_id ssd_mobilenetv1 --variant_id keras-checkpoint`
+
 ## Train the model
 
 (Set epochs to 1 for a quick training run.)
@@ -14,11 +24,13 @@ After last iteration the additional directory ***checkpoint*** will be created. 
 
 ## Evaluate the model
 (Change ssd300_epoch-1000.h5 to ssd300_epoch-01.h5 if you did 1 epoch...)
-rm -r detections/
-`./dev_docker_run python generate_detections.py --images_dir /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/ --weight_file ssd300_epoch-1000.h5`
-`./dev_docker_run python eval.py -gtforma xyrb -detformat xyrb -gt /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset/VOC2007/Annotations/ -det detections/`
+
+`rm -r detections/`
+
+`./dev_docker_run python eval.py --images_dir /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/ --weight_file ssd300_epoch-1000.h5 -gtformat xyrb -detformat xyrb -gt /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset/VOC2007/Annotations/ -det detections/`
 
 ## Showcase on single example
+
 (Change ssd300_epoch-1000.h5 to ssd300_epoch-01.h5 if you did 1 epoch...)
 
 Person riding the horse:

@@ -16,6 +16,32 @@
       ]
     },
     {
+      "id": "ssd_mobilenetv1",
+      "full_name": "Singe Shot Detector with MobileNet v1 as a backbone",
+      "variants": [
+        {
+          "id": "tf-checkpoint",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/model-weights/ssd_mobilenetv1/2020-04-06-13-29-33/1c43a9afc7832b88b652538a4f6f770d.zip",
+          "model_schema": {
+            "output_names": "predictions/concat",
+            "input_names": "input_1",
+            "input_shapes": "1, 300, 300, 3"
+          }
+        },
+        {
+          "id": "keras-checkpoint",
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/model-weights/ssd_mobilenetv1/2020-04-06-13-30-23/6042b3e976bce1138639ab2750a10688.zip",
+          "model_schema": {
+            "output_names": "predictions/concat",
+            "input_names": "input_1",
+            "input_shapes": "1, 300, 300, 3"
+          }
+        }
+      ]
+    },
+    {
       "id": "inception",
       "full_name": "Inception V2",
       "variants": [
