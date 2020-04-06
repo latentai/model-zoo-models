@@ -26,7 +26,7 @@
     },
     {
       "id": "ssd_mobilenetv1",
-      "full_name": "Singe Shot Detector with MobileNet v1 as a backbone",
+      "full_name": "SSD MobilenetV1",
       "variants": [
         {
           "id": "tf-checkpoint",
