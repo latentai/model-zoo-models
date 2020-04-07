@@ -5,15 +5,6 @@
       "full_name": "Audio Recognition",
       "variants": [
         {
-          "id": "original",
-          "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/audio-recognition/2020-01-30-15-31-41/4166508def416ac56c20445888af4942.zip",
-          "model_schema": {
-            "output_names": "add_2",
-            "input_names": "fingerprint_input,dropout_prob"
-          }
-        },
-        {
           "id": "tf-baseline",
           "compressed": false,
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio_recognition/2020-04-02-15-24-04/92847cc4b33bf13afff48dd1fed62268.zip",
@@ -46,36 +37,6 @@
             "output_names": "predictions/concat",
             "input_names": "input_1",
             "input_shapes": "1, 300, 300, 3"
-          }
-        }
-      ]
-    },
-    {
-      "id": "inception",
-      "full_name": "Inception V2",
-      "variants": [
-        {
-          "id": "original",
-          "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/inception/2020-02-19-15-31-41/0157539760afa517cef1c425ea1904fb.zip",
-          "model_schema": {
-            "output_names": "InceptionV2/Predictions/Softmax",
-            "input_names": "Placeholder"
-          }
-        }
-      ]
-    },
-    {
-      "id": "mobilenet",
-      "full_name": "Mobilenet V2",
-      "variants": [
-        {
-          "id": "original",
-          "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/mobilenet/2020-02-19-15-31-41/b30cacc6db345f06293dd10e83190efa.zip",
-          "model_schema": {
-            "output_names": "MobilenetV2/Predictions/Softmax",
-            "input_names": "input"
           }
         }
       ]
@@ -169,15 +130,6 @@
       "full_name": "Resnetv2-50",
       "variants": [
         {
-          "id": "original",
-          "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/2020-02-19-15-31-41/67f4c4aafaafde44236eea5bdf0fd6a3.zip",
-          "model_schema": {
-            "output_names": "resnet_v2_50/predictions/Softmax",
-            "input_names": "Placeholder"
-          }
-        },
-        {
           "id": "keras-open-images-10-classes",
           "compressed": false,
           "weights_url": "https://model-zoo-data.latentai.io/baseline-keras/2020-03-16-06-13-03/221242539ce1af0fb6d605251bf1de4a.zip",
@@ -211,21 +163,6 @@
           "model_schema": {
             "output_names": "probs/Softmax",
             "input_names": "input_1"
-          }
-        }
-      ]
-    },
-    {
-      "id": "keras-resnet-18",
-      "full_name": "Keras Resnet 18",
-      "variants": [
-        {
-          "id": "original",
-          "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/keras-resnet-18/2020-02-19-15-31-41/98f09bdd50ad73fc4489764ef62a7f8d.zip",
-          "model_schema": {
-            "output_names": "softmax_tensor",
-            "input_names": "IteratorGetNext"
           }
         }
       ]
