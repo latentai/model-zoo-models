@@ -26,7 +26,7 @@ def saveImagenetModel():
     fitModel = get_model()
     compile_model(fitModel)
 
-    fitModel.save(output_model_path)
+    fitModel.save(output_model_path, include_optimizer=False)
     print("Saved trained model to {}".format(output_model_path))
 
 
