@@ -32,6 +32,10 @@ This command will output the prediction of word "cat".
 
 `./dev_docker_run leip zoo download --model_id audio-recognition --variant_id tf-baseline`
 
+# Evaluate pretrained checkpoint
+
+`./dev_docker_run python eval.py --checkpoint models/audio-recognition/tf-baseline/pretrained_tf_checkpoint/conv.ckpt-35000 --data_dir datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree`
+
 # LEIP part
 
 ## Compress tensorflow checkpoint
