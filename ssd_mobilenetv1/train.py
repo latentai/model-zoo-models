@@ -217,9 +217,6 @@ def train(args):
                                   callbacks=callbacks
                                   )
 
-    with open('model_architecture.json', 'w') as f:
-        f.write(model.to_json())
-
     print('History:', history)
 
     weights_file = sorted(glob('*.h5'))[-1]
