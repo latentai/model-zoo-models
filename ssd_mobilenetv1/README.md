@@ -25,7 +25,7 @@ After last iteration the additional directory ***checkpoint*** will be created. 
 ## Evaluate the model
 (Change ssd300_epoch-1000.h5 to ssd300_epoch-01.h5 if you did 1 epoch...)
 
-`rm -r detections/`
+`rm -rf detections/`
 
 `./dev_docker_run python eval.py --images_dir datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/ --weight_file ssd300_epoch-1000.h5 -gtformat xyrb -detformat xyrb -gt datasets/pascal-voc2007/full-dataset/VOC2007/Annotations/ -det detections/`
 
