@@ -18,7 +18,7 @@
 
 (Set epochs to 1 for a quick training run.)
 
-`./dev_docker_run python train.py --voc_dir_path /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset --epochs 1000 --batch_size 5`
+`./dev_docker_run python train.py --voc_dir_path datasets/pascal-voc2007/full-dataset --epochs 1000 --batch_size 5`
 
 After last iteration the additional directory ***checkpoint*** will be created. This directory will have a tensorflow checkpoint.
 
@@ -27,17 +27,17 @@ After last iteration the additional directory ***checkpoint*** will be created. 
 
 `rm -r detections/`
 
-`./dev_docker_run python eval.py --images_dir /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/ --weight_file ssd300_epoch-1000.h5 -gtformat xyrb -detformat xyrb -gt /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset/VOC2007/Annotations/ -det detections/`
+`./dev_docker_run python eval.py --images_dir datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/ --weight_file ssd300_epoch-1000.h5 -gtformat xyrb -detformat xyrb -gt datasets/pascal-voc2007/full-dataset/VOC2007/Annotations/ -det detections/`
 
 ## Showcase on single example
 
 (Change ssd300_epoch-1000.h5 to ssd300_epoch-01.h5 if you did 1 epoch...)
 
 Person riding the horse:
-`./dev_docker_run python demo.py --weight_file ssd300_epoch-1000.h5 --filename /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/000483.jpg`
+`./dev_docker_run python demo.py --weight_file ssd300_epoch-1000.h5 --filename datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/000483.jpg`
 
 Cat:
-`./dev_docker_run python demo.py --weight_file ssd300_epoch-1000.h5 --filename /root/.latentai-model-zoo/datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/000486.jpg`
+`./dev_docker_run python demo.py --weight_file ssd300_epoch-1000.h5 --filename datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/000486.jpg`
 
 ## Compress tensorflow checkpoint
 
