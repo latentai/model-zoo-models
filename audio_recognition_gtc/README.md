@@ -1,3 +1,13 @@
+# Download pretrained checkpoints
+
+`./dev_docker_run leip zoo download --model_id audio-recognition-gtc --variant_id gtc_baseline_30`
+
+Downloaded checkpoint will have two directories: `int_model_10000` and `training_10000`
+
+`int_model_10000` has tensorflow checkpoint with quantized model during training i.e. low precision model
+
+`training_10000` this is a high precision model.
+
 # Train
 
 Training procedure for LEIP model (training aware quantization) is being done in two stages.

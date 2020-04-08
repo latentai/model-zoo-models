@@ -25,6 +25,23 @@
       ]
     },
     {
+      "id": "audio-recognition-gtc",
+      "full_name": "Audio Regognition: Training Aware",
+      "variants": [
+      {
+        "id": "gtc_baseline_30",
+        "lp_accuracy": 0.77,
+        "hp_accuracy": 0.87,
+          "compressed": false,
+          "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio_recognition/2020-04-02-15-24-04/92847cc4b33bf13afff48dd1fed62268.zip",
+          "model_schema": {
+            "output_names": "dense",
+            "input_names": "fingerprint_input",
+            "input_shapes": "1, 224, 224, 3"
+          }
+        }
+      ],
+    {
       "id": "ssd_mobilenetv1",
       "full_name": "SSD MobilenetV1",
       "variants": [
