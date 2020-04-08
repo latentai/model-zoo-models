@@ -14,6 +14,10 @@
 
 `./dev_docker_run leip zoo download --model_id ssd_mobilenetv1 --variant_id keras-checkpoint`
 
+## Evaluate pretrained checkpoint
+
+`./dev_docker_run python eval.py --images_dir datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/ --weight_file models/ssd_mobilenetv1/keras-checkpoint/keras_h5/ssd300_epoch-1000.h5 -gtformat xyrb -detformat xyrb -gt datasets/pascal-voc2007/full-dataset/VOC2007/Annotations/ -det detections/`
+
 ## Train the model
 
 (Set epochs to 1 for a quick training run.)
@@ -22,7 +26,7 @@
 
 After last iteration the additional directory ***checkpoint*** will be created. This directory will have a tensorflow checkpoint.
 
-## Evaluate the model
+## Evaluate the trained model
 (Change ssd300_epoch-1000.h5 to ssd300_epoch-01.h5 if you did 1 epoch...)
 
 `rm -rf detections/`
