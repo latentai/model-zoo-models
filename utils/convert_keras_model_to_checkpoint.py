@@ -38,6 +38,11 @@ if __name__ == '__main__':
     tf.keras.backend.set_learning_phase(0)
 
     model = keras.models.load_model(args.input_model_path)
+    model.save('tmp.h5', include_optimizer=False)
+    tf.keras.backend.clear_session()
+    tf.keras.backend.set_learning_phase(0)
+    model2 = keras.models.load_model('tmp.h5')
+    os.remove('tmp.h5')
 
     sess = tf.compat.v1.keras.backend.get_session()
     saver = tf.compat.v1.train.Saver()
