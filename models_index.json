@@ -108,7 +108,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/baseline-keras/2020-03-19-07-39-52/8cc68a3b3ba25adaf3ec1799c54353ae.zip",
           "model_schema": {
             "output_names": "dense_3/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -117,7 +119,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-imagenet/2020-03-24-00-32-41/99a6e90cb7cedd4d8cd9402a519e3ba3.zip",
           "model_schema": {
             "output_names": "act_softmax/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -126,7 +130,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-open-images-10-classes-tf-checkpoint/2020-03-27-23-01-15/d509ea2aab78ad29ea1d5292b3e9508e.zip",
           "model_schema": {
             "output_names": "dense_3/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -135,7 +141,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-imagenet-tf-checkpoint/2020-03-27-23-02-24/4730badfbbbf5c7d91f6e6ef3c4065fe.zip",
           "model_schema": {
             "output_names": "act_softmax/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet",
+            "input_shapes": "1,224,224,3"
           }
         }
       ]
@@ -150,7 +158,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/baseline-keras/2020-03-18-01-21-40/e28f54c6dbba1ec46077b693a2716f77.zip",
           "model_schema": {
             "output_names": "dense_3/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -159,7 +169,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-open-images-10-classes-tf-checkpoint/2020-03-27-22-57-41/a1ad6c673b908891a7b43b1baa0fd632.zip",
           "model_schema": {
             "output_names": "dense_3/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -168,7 +180,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras/imagenet/2020-03-25-03-56-04/a454ff40483b837c35d30ceb1208e182.zip",
           "model_schema": {
             "output_names": "Logits/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -177,7 +191,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-imagenet-tf-checkpoint/2020-03-27-22-56-52/5fa5462b679004d09b85bfe8343b3962.zip",
           "model_schema": {
             "output_names": "Logits/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet",
+            "input_shapes": "1,224,224,3"
           }
         }
       ]
@@ -201,7 +217,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/baseline-keras/2020-03-16-06-13-03/221242539ce1af0fb6d605251bf1de4a.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -210,7 +228,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-open-images-10-classes-tf-checkpoint/2020-03-27-22-48-23/1fbd7ab885e38c39325a8e7b536df4cf.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -219,7 +239,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/keras-imagenet/2020-03-23-19-13-02/e7cde16c3e0514d7358bf7fe6115cc10.zip",
           "model_schema": {
             "output_names": "probs/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet_caffe",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -228,7 +250,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-imagenet-tf-checkpoint/2020-03-27-22-51-41/6c737b648c298d0f11efdb5ce7ace12c.zip",
           "model_schema": {
             "output_names": "probs/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet_caffe",
+            "input_shapes": "1,224,224,3"
           }
         }
       ]
@@ -258,7 +282,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes/2020-03-29-00-38-35/3a11758c0accb36c95d511c4366920e4.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -267,7 +293,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes-tf-checkpoint/2020-03-29-00-33-16/6797c682eeaf3e5936804976b9ae8cc5.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -276,7 +304,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet/2020-03-29-00-40-28/933083e7ec8c35ceaa2f863f8ec10fe9.zip",
           "model_schema": {
             "output_names": "predictions/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -285,7 +315,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet-tf-checkpoint/2020-03-29-00-32-06/51bdbcbdb19d9e75d2d946b02321edce.zip",
           "model_schema": {
             "output_names": "predictions/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet",
+            "input_shapes": "1,224,224,3"
           }
         }
       ]
@@ -300,7 +332,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes/2020-03-29-00-46-43/9414db1692b7721f81551faebd6fa186.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -309,7 +343,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes-tf-checkpoint/2020-03-29-00-43-43/817965f05e2265c01f01aa897ae8eff8.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -318,7 +354,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet/2020-03-29-00-49-40/2064dd4a9a51db2b032d6c3157fab850.zip",
           "model_schema": {
             "output_names": "predictions/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet",
+            "input_shapes": "1,224,224,3"
           }
         },
         {
@@ -327,7 +365,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet-tf-checkpoint/2020-03-29-00-42-04/c52332c2ffce9449bc0990107b2ecc7d.zip",
           "model_schema": {
             "output_names": "predictions/Softmax",
-            "input_names": "input_1"
+            "input_names": "input_1",
+            "preprocessor": "imagenet",
+            "input_shapes": "1,224,224,3"
           }
         }
       ]
