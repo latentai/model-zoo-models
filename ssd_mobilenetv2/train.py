@@ -218,7 +218,7 @@ if __name__ == '__main__':
     input_shape = (sets['img_height'], sets['img_width'], 3)
     batch_size = sets['batch_size']
 
-    priors = pickle.load(open(os.path.join(dir_path, 'priorFiles/prior_boxes_ssd300MobileNetV2.pkl'), 'rb'))
+    priors = pickle.load(open(os.path.join(dir_path, 'priorFiles/prior_boxes_ssd300MobileNetV2_224_224.pkl'), 'rb'))
     bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
     gt = pickle.load(open(os.path.join(dir_path, 'voc_2007.pkl'), 'rb'))

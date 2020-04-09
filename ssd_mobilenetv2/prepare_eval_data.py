@@ -57,7 +57,7 @@ if __name__ == '__main__':
     input_shape = (sets['img_height'], sets['img_width'], 3)
 
     priors = pickle.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                           'priorFiles/prior_boxes_ssd300MobileNetV2.pkl'), 'rb'))
+                                           'priorFiles/prior_boxes_ssd300MobileNetV2_224_224.pkl'), 'rb'))
 
     np.set_printoptions(suppress=True)
 
