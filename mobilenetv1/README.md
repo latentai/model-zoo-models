@@ -1,10 +1,10 @@
 # MobileNetV1
 
-# Download pretrained model on open images 10 classes
-
+# Download pretrained model on Open Images 10 Classes
 ./dev_docker_run leip zoo download --model_id mobilenetv1 --variant_id keras-open-images-10-classes
 
-# Download dataset
+# Download pretrained imagenet model
+./dev_docker_run leip zoo download --model_id mobilenetv1 --variant_id keras-imagenet
 
 # Download dataset for Transfer Learning training
 
@@ -36,6 +36,13 @@ This runs inference on a single image.
 Assuming your checkpoint is in "checkpoint/" after converting with ./convert_keras_model_to_checkpoint.py :
 
 dev-leip-run leip run --input_path checkpoint/ --class_names class_names.txt --framework tf --preprocessor imagenet_caffe --test_path test_images/dog.jpg
+
+# Run multi-evaluate on open images 10 classes model
+dev-leip-run leip-evaluate-variants --input_checkpoint checkpoint --dataset_index_file datasets/open-images-10-classes/eval/eval/index.txt --class_names_file checkpoint/class_names.txt --preprocessor 'float32' --input_names input_1 --output_names dense_3/Softmax --input_shapes 1,224,224,3
+
+# Run multi-evaluate on imagenet model [crashes TVM error]
+dev-leip-run leip-evaluate-variants --input_checkpoint imagenet_checkpoint --dataset_index_file /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names_file /shared/data/sample-models/resources/data/imagenet/imagenet1000.names --preprocessor imagenet --input_names input_1 --output_names act_softmax/Softmax --input_shapes 1,224,224,3
+
 
 # Evaluate baseline model within LEIP SDK
 

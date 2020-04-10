@@ -1,8 +1,10 @@
 # MobileNetV2
 
-# Download pretrained model on open images 10 classes
-
+# Download pretrained model on Open Images 10 Classes
 ./dev_docker_run leip zoo download --model_id mobilenetv2 --variant_id keras-open-images-10-classes
+
+# Download pretrained imagenet model
+./dev_docker_run leip zoo download --model_id mobilenetv2 --variant_id keras-imagenet
 
 # Download dataset for Transfer Learning training
 
