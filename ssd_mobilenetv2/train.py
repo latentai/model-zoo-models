@@ -272,11 +272,11 @@ if __name__ == '__main__':
         # graph.get_tensor_by_name()
 
         nb_epoch = sets['epochs']
-        history = model.fit_generator(gen.generate(True), gen.train_batches,
-                                      nb_epoch, verbose=1,
+        history = model.fit_generator(gen.generate(True), 1,
+                                      1, verbose=1,
                                       callbacks=callbacks,
                                       validation_data=gen.generate(False),
-                                      nb_val_samples=gen.val_batches,
+                                      nb_val_samples=1,
                                       nb_worker=1)
         saver = tf.train.Saver()
         saver.save(sess, os.path.join(sets['tf_model_path'], 'model'))

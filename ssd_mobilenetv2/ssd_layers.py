@@ -118,10 +118,7 @@ class PriorBox(Layer):
         return (input_shape[0], num_boxes, 8)
 
     def call(self, x, mask=None):
-        if hasattr(x, '_keras_shape'):
-            input_shape = x._keras_shape
-        elif hasattr(K, 'int_shape'):
-            input_shape = K.int_shape(x)
+        input_shape = K.int_shape(x)
         layer_width = input_shape[self.waxis]
         layer_height = input_shape[self.haxis]
         img_width = self.img_size[0]
@@ -174,10 +171,7 @@ class PriorBox(Layer):
             raise Exception('Must provide one or four variances.')
         prior_boxes = np.concatenate((prior_boxes, variances), axis=1)
         prior_boxes_tensor = K.expand_dims(K.variable(prior_boxes), 0)
-        if K.backend() == 'tensorflow':
-            pattern = [tf.shape(x)[0], 1, 1]
-            prior_boxes_tensor = tf.tile(prior_boxes_tensor, pattern)
-        elif K.backend() == 'theano':
-            #TODO
-            pass
+
+        prior_boxes_tensor = tf.ones([tf.shape(x)[0], 1, 1]) * prior_boxes_tensor
+
         return prior_boxes_tensor
