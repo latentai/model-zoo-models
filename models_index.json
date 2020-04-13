@@ -105,7 +105,7 @@
         {
           "id": "keras-open-images-10-classes",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/baseline-keras/2020-03-19-07-39-52/8cc68a3b3ba25adaf3ec1799c54353ae.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-open-images-10-classes/2020-04-13-23-38-16/8996927447f725c0a897bcbf4d876a25.zip",
           "model_schema": {
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
@@ -116,7 +116,7 @@
         {
           "id": "keras-imagenet",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-imagenet/2020-03-24-00-32-41/99a6e90cb7cedd4d8cd9402a519e3ba3.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-imagenet/2020-04-13-23-38-12/ad27ad2f39b3d73215ae55839d72eeca.zip",
           "model_schema": {
             "output_names": "act_softmax/Softmax",
             "input_names": "input_1",
@@ -155,7 +155,7 @@
         {
           "id": "keras-open-images-10-classes",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/baseline-keras/2020-03-18-01-21-40/e28f54c6dbba1ec46077b693a2716f77.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-open-images-10-classes/2020-04-13-23-38-25/f3de5bf63a2fceafefcf7cfac689fc6d.zip",
           "model_schema": {
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
@@ -177,7 +177,7 @@
         {
           "id": "keras-imagenet",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras/imagenet/2020-03-25-03-56-04/a454ff40483b837c35d30ceb1208e182.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-imagenet/2020-04-13-23-38-21/7b91c2ab8d28181894ce3a423cb8eb1c.zip",
           "model_schema": {
             "output_names": "Logits/Softmax",
             "input_names": "input_1",
@@ -214,7 +214,7 @@
         {
           "id": "keras-open-images-10-classes",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/baseline-keras/2020-03-16-06-13-03/221242539ce1af0fb6d605251bf1de4a.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-open-images-10-classes/2020-04-13-23-38-41/04618b5b9060438668b1a878d5473ae0.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
@@ -236,7 +236,7 @@
         {
           "id": "keras-imagenet",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/keras-imagenet/2020-03-23-19-13-02/e7cde16c3e0514d7358bf7fe6115cc10.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-imagenet/2020-04-13-23-38-32/69598b3630011f49cbb582704cbeefac.zip",
           "model_schema": {
             "output_names": "probs/Softmax",
             "input_names": "input_1",
@@ -279,7 +279,7 @@
         {
           "id": "keras-open-images-10-classes",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes/2020-03-29-00-38-35/3a11758c0accb36c95d511c4366920e4.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes/2020-04-13-23-39-26/7fecd4ed9cb6ce1f48d9605728fac3be.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
@@ -301,7 +301,7 @@
         {
           "id": "keras-imagenet",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet/2020-03-29-00-40-28/933083e7ec8c35ceaa2f863f8ec10fe9.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet/2020-04-13-23-39-07/90cd0632afb0fa49925398d9f6ea9880.zip",
           "model_schema": {
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
@@ -329,7 +329,7 @@
         {
           "id": "keras-open-images-10-classes",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes/2020-03-29-00-46-43/9414db1692b7721f81551faebd6fa186.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes/2020-04-13-23-38-08/f4984b05f49065831ef176716a14a660.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
@@ -351,7 +351,7 @@
         {
           "id": "keras-imagenet",
           "compressed": false,
-          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet/2020-03-29-00-49-40/2064dd4a9a51db2b032d6c3157fab850.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet/2020-04-13-23-37-59/321a4048251230bca334403319ab9d71.zip",
           "model_schema": {
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
