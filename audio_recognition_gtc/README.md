@@ -1,3 +1,11 @@
+# Sample code for Audio Recognition task: Training Aware Quantization
+
+This sample of code shows how to train the model with LEIP framework.
+
+# Download dataset
+
+./dev_docker_run leip zoo download --dataset_id google-speech-commands --variant_id v0.02
+
 # Download pretrained checkpoints
 
 `./dev_docker_run leip zoo download --model_id audio-recognition-gtc --variant_id gtc_baseline_30`
