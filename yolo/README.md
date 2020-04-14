@@ -4,9 +4,15 @@
 
 `./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained
 
+# Demo
+
+Once you download (or train) the model you can run demo script. By default this scrip will create `output` directory and put all predictions there.
+
+`python demo.py --conf config_voc.json --input dataset/VOCdevkit/VOC2007/JPEGImages/000346.jpg`
+
 # Convert keras checkpoint to tensorflow checkpoint
 
-./dev_docker_run ./utils/convert_keras_model_to_checkpoint.py --input_model_path h5/voc.h5
+`./dev_docker_run ./utils/convert_keras_model_to_checkpoint.py --input_model_path h5/voc.h5`
 
 # LEIP part
 
