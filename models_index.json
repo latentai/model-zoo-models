@@ -305,7 +305,7 @@
           "model_schema": {
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
-            "preprocessor": "imagenet",
+            "preprocessor": "imagenet_caffe",
             "input_shapes": "1,224,224,3"
           }
         },
@@ -316,7 +316,7 @@
           "model_schema": {
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
-            "preprocessor": "imagenet",
+            "preprocessor": "imagenet_caffe",
             "input_shapes": "1,224,224,3"
           }
         }
