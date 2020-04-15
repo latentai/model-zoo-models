@@ -78,7 +78,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/inception/2020-02-19-15-31-41/0157539760afa517cef1c425ea1904fb.zip",
           "model_schema": {
             "output_names": "InceptionV2/Predictions/Softmax",
-            "input_names": "Placeholder"
+            "input_names": "Placeholder",
+            "task": "classifier",
+            "dataset": "custom"
           }
         }
       ]
@@ -93,7 +95,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenet/2020-02-19-15-31-41/b30cacc6db345f06293dd10e83190efa.zip",
           "model_schema": {
             "output_names": "MobilenetV2/Predictions/Softmax",
-            "input_names": "input"
+            "input_names": "input",
+            "task": "classifier",
+            "dataset": "custom"
           }
         }
       ]
@@ -110,7 +114,9 @@
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -121,7 +127,9 @@
             "output_names": "act_softmax/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -132,7 +140,9 @@
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -143,7 +153,9 @@
             "output_names": "act_softmax/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         }
       ]
@@ -160,7 +172,9 @@
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -171,7 +185,9 @@
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -182,7 +198,9 @@
             "output_names": "Logits/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -193,7 +211,9 @@
             "output_names": "Logits/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         }
       ]
@@ -208,7 +228,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/2020-02-19-15-31-41/67f4c4aafaafde44236eea5bdf0fd6a3.zip",
           "model_schema": {
             "output_names": "resnet_v2_50/predictions/Softmax",
-            "input_names": "Placeholder"
+            "input_names": "Placeholder",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -219,7 +241,9 @@
             "output_names": "dense/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -230,7 +254,9 @@
             "output_names": "dense/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -241,7 +267,9 @@
             "output_names": "probs/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet_caffe",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -252,7 +280,9 @@
             "output_names": "probs/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet_caffe",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         }
       ]
@@ -267,7 +297,9 @@
           "weights_url": "https://model-zoo-data.latentai.io/keras-resnet-18/2020-02-19-15-31-41/98f09bdd50ad73fc4489764ef62a7f8d.zip",
           "model_schema": {
             "output_names": "softmax_tensor",
-            "input_names": "IteratorGetNext"
+            "input_names": "IteratorGetNext",
+            "task": "classifier",
+            "dataset": "custom"
           }
         }
       ]
@@ -284,7 +316,9 @@
             "output_names": "dense/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -295,7 +329,9 @@
             "output_names": "dense/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -306,7 +342,9 @@
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet_caffe",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -317,7 +355,9 @@
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet_caffe",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         }
       ]
@@ -334,7 +374,9 @@
             "output_names": "dense/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -345,7 +387,9 @@
             "output_names": "dense/Softmax",
             "input_names": "input_1",
             "preprocessor": "float32",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -356,7 +400,9 @@
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         },
         {
@@ -367,7 +413,9 @@
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
             "preprocessor": "imagenet",
-            "input_shapes": "1,224,224,3"
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
           }
         }
       ]
