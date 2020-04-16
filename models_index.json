@@ -43,6 +43,22 @@
       ]
     },
     {
+      "id": "yolo",
+      "full_name": "You Look Only Once Object Detection",
+      "variants": [
+        {
+            "id": "keras_pretrained",
+            "compressed": false,
+            "weights_url": "http://model-zoo-data.latentai.io.s3.amazonaws.com/model-weights/yolo/2020-04-10-11-47-03/c73e22164d298dce0c5001ff501272a7.zip",
+            "model_schema": {
+              "output_names": "conv_105/BiasAdd",
+              "input_names": "input_1",
+              "input_shapes": "1, 224, 224, 3"
+            }
+        }
+      ]
+    },
+    {
       "id": "ssd_mobilenetv1",
       "full_name": "SSD MobilenetV1",
       "variants": [
