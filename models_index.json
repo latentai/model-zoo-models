@@ -114,6 +114,68 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "21.39 inferences/sec",
+              "82.7%",
+              "98.7%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "21.78 inferences/sec",
+              "84.0%",
+              "98.0%"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "33.66 inferences/sec",
+              "7.3%",
+              "40.7%"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "21.73 inferences/sec",
+              "82.7%",
+              "98.7%"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "10.91 inferences/sec",
+              "7.3%",
+              "46.7%"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "10.74 inferences/sec",
+              "84.0%",
+              "98.0%"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "10.92 inferences/sec",
+              "7.3%",
+              "46.7%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "14.42 inferences/sec",
+              "20.7%",
+              "61.3%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "16.37 inferences/sec",
+              "20.0%",
+              "62.7%"
+            ]
+          ],
           "model_schema": {
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
@@ -131,6 +193,68 @@
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "43.50 inferences/sec",
+              "67.3%",
+              "90.4%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "44.78 inferences/sec",
+              "60.9%",
+              "86.9%"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ]
+          ],
           "model_schema": {
             "output_names": "act_softmax/Softmax",
             "input_names": "input_1",
@@ -180,6 +304,68 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "16.88 inferences/sec",
+              "94.7%",
+              "100.0%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "17.57 inferences/sec",
+              "31.3%",
+              "75.3%"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "17.10 inferences/sec",
+              "12.0%",
+              "60.0%"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "22.33 inferences/sec",
+              "94.7%",
+              "100.0%"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "22.44 inferences/sec",
+              "8.0%",
+              "46.0%"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "11.88 inferences/sec",
+              "31.3%",
+              "75.3%"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "15.19 inferences/sec",
+              "8.0%",
+              "46.0%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "14.29 inferences/sec",
+              "18.0%",
+              "64.7%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "10.01 inferences/sec",
+              "18.7%",
+              "64.7%"
+            ]
+          ],
           "model_schema": {
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
@@ -210,6 +396,68 @@
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "32.42 inferences/sec",
+              "69.4%",
+              "89.8%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "31.02 inferences/sec",
+              "38.8%",
+              "62.3%"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "119.16 inferences/sec",
+              "62.1%",
+              "82.8%"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "122.63 inferences/sec",
+              "69.4%",
+              "89.8%"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "128.26 inferences/sec",
+              "11.1%",
+              "20.5%"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "120.68 inferences/sec",
+              "38.8%",
+              "62.3%"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "130.34 inferences/sec",
+              "11.1%",
+              "20.5%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "19.04 inferences/sec",
+              "1.9%",
+              "5.4%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "27.12 inferences/sec",
+              "2.5%",
+              "5.5%"
+            ]
+          ],
           "model_schema": {
             "output_names": "Logits/Softmax",
             "input_names": "input_1",
@@ -257,6 +505,68 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "13.52 inferences/sec",
+              "82.0%",
+              "99.3%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "13.72 inferences/sec",
+              "18.7%",
+              "64.0%"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "11.28 inferences/sec",
+              "76.7%",
+              "99.3%"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "11.47 inferences/sec",
+              "82.0%",
+              "99.3%"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "11.68 inferences/sec",
+              "17.3%",
+              "58.0%"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "12.83 inferences/sec",
+              "18.7%",
+              "64.0%"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "11.62 inferences/sec",
+              "17.3%",
+              "58.0%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "3.58 inferences/sec",
+              "82.7%",
+              "99.3%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "7.66 inferences/sec",
+              "78.0%",
+              "98.0%"
+            ]
+          ],
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
@@ -287,6 +597,68 @@
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "20.02 inferences/sec",
+              "73.6%",
+              "92.4%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "20.05 inferences/sec",
+              "45.6%",
+              "70.1%"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "14.67 inferences/sec",
+              "74.0%",
+              "92.6%"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "14.99 inferences/sec",
+              "73.6%",
+              "92.4%"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "11.43 inferences/sec",
+              "39.6%",
+              "62.4%"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "10.18 inferences/sec",
+              "45.6%",
+              "70.1%"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "14.48 inferences/sec",
+              "39.6%",
+              "62.4%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "3.58 inferences/sec",
+              "55.3%",
+              "80.8%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "7.66 inferences/sec",
+              "54.6%",
+              "80.9%"
+            ]
+          ],
           "model_schema": {
             "output_names": "probs/Softmax",
             "input_names": "input_1",
@@ -340,6 +712,68 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "16.43 inferences/sec",
+              "71.3%",
+              "99.3%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "16.61 inferences/sec",
+              "70.0%",
+              "99.3%"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "4.12 inferences/sec",
+              "70.0%",
+              "99.3%"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "4.11 inferences/sec",
+              "71.3%",
+              "99.3%"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "4.19 inferences/sec",
+              "70.0%",
+              "99.3%"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "3.86 inferences/sec",
+              "70.0%",
+              "99.3%"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "3.42 inferences/sec",
+              "70.0%",
+              "99.3%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "1.38 inferences/sec",
+              "72.7%",
+              "98.7%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "4.01 inferences/sec",
+              "73.3%",
+              "99.3%"
+            ]
+          ],
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
@@ -370,6 +804,68 @@
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "10.67 inferences/sec",
+              "68.8%",
+              "90.8%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "N/A",
+              "N/A",
+              "N/A"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "N/A",
+              "N/A",
+              "N/A"
+            ]
+          ],
           "model_schema": {
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
@@ -406,6 +902,68 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "15.80 inferences/sec",
+              "88.0%",
+              "100.0%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "15.72 inferences/sec",
+              "86.7%",
+              "100.0%"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "15.85 inferences/sec",
+              "88.0%",
+              "100.0%"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "14.13 inferences/sec",
+              "88.0%",
+              "100.0%"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "15.42 inferences/sec",
+              "86.7%",
+              "100.0%"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "15.35 inferences/sec",
+              "86.7%",
+              "100.0%"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "15.66 inferences/sec",
+              "86.7%",
+              "100.0%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "5.50 inferences/sec",
+              "90.7%",
+              "100.0%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "7.45 inferences/sec",
+              "90.7%",
+              "100.0%"
+            ]
+          ],
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
@@ -436,6 +994,68 @@
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "perf_data": [
+            [
+              "",
+              "Inf. Speed",
+              "Top1 Acc.",
+              "Top5 Acc."
+            ],
+            [
+              "Baseline FP32 TF",
+              "26.68 inferences/sec",
+              "68.0%",
+              "90.3%"
+            ],
+            [
+              "LEIP FP32 TF",
+              "26.74 inferences/sec",
+              "67.7%",
+              "88.7%"
+            ],
+            [
+              "Baseline INT8 TVM",
+              "20.57 inferences/sec",
+              "68.4%",
+              "88.7%"
+            ],
+            [
+              "Baseline FP32 TVM",
+              "20.10 inferences/sec",
+              "68.0%",
+              "90.3%"
+            ],
+            [
+              "LEIP INT8 TVM",
+              "20.53 inferences/sec",
+              "68.1%",
+              "88.2%"
+            ],
+            [
+              "LEIP FP32 TVM",
+              "20.75 inferences/sec",
+              "67.7%",
+              "88.7%"
+            ],
+            [
+              "LEIP-POW2 INT8 TVM",
+              "15.86 inferences/sec",
+              "68.1%",
+              "88.2%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TF",
+              "5.68 inferences/sec",
+              "64.4%",
+              "87.7%"
+            ],
+            [
+              "TfLite Asymmetric INT8 TVM",
+              "7.63 inferences/sec",
+              "64.2%",
+              "87.7%"
+            ]
+          ],
           "model_schema": {
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
