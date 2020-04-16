@@ -9,7 +9,7 @@ class BoundBox:
         self.ymin = ymin
         self.xmax = xmax
         self.ymax = ymax
-        
+
         self.c       = c
         self.classes = classes
 
@@ -19,14 +19,18 @@ class BoundBox:
     def get_label(self):
         if self.label == -1:
             self.label = np.argmax(self.classes)
-        
+
         return self.label
-    
+
+    def as_list(self):
+        # <class_name> <left> <top> <right> <bottom>
+        return [self.get_label(), self.xmin, self.ymin, self.xmax, self.ymax]
+
     def get_score(self):
         if self.score == -1:
             self.score = self.classes[self.get_label()]
-            
-        return self.score      
+
+        return self.score
 
 def _interval_overlap(interval_a, interval_b):
     x1, x2 = interval_a
