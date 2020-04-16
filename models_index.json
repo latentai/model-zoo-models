@@ -26,7 +26,7 @@
     },
     {
       "id": "audio-recognition-gtc",
-      "full_name": "Audio Regognition: Training Aware",
+      "full_name": "Audio Recognition: Training Aware",
       "variants": [
         {
           "id": "gtc_baseline_30",
