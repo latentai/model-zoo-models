@@ -6,7 +6,7 @@
       "variants": [
         {
           "id": "original",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/audio-recognition/2020-01-30-15-31-41/4166508def416ac56c20445888af4942.zip",
           "model_schema": {
             "output_names": "add_2",
@@ -15,7 +15,7 @@
         },
         {
           "id": "tf-baseline",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio_recognition/2020-04-02-15-24-04/92847cc4b33bf13afff48dd1fed62268.zip",
           "model_schema": {
             "output_names": "add_2",
@@ -32,7 +32,7 @@
           "id": "gtc_baseline_30",
           "lp_accuracy": 0.77,
           "hp_accuracy": 0.87,
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio_recognition/2020-04-02-15-24-04/92847cc4b33bf13afff48dd1fed62268.zip",
           "model_schema": {
             "output_names": "dense",
@@ -48,7 +48,7 @@
       "variants": [
         {
           "id": "tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/ssd_mobilenetv1/2020-04-06-13-29-33/1c43a9afc7832b88b652538a4f6f770d.zip",
           "model_schema": {
             "output_names": "predictions/concat",
@@ -58,7 +58,7 @@
         },
         {
           "id": "keras-checkpoint",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/ssd_mobilenetv1/2020-04-06-13-30-23/6042b3e976bce1138639ab2750a10688.zip",
           "model_schema": {
             "output_names": "predictions/concat",
@@ -74,7 +74,7 @@
       "variants": [
         {
           "id": "original",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/inception/2020-02-19-15-31-41/0157539760afa517cef1c425ea1904fb.zip",
           "model_schema": {
             "output_names": "InceptionV2/Predictions/Softmax",
@@ -91,7 +91,7 @@
       "variants": [
         {
           "id": "original",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenet/2020-02-19-15-31-41/b30cacc6db345f06293dd10e83190efa.zip",
           "model_schema": {
             "output_names": "MobilenetV2/Predictions/Softmax",
@@ -108,8 +108,12 @@
       "variants": [
         {
           "id": "keras-open-images-10-classes",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-open-images-10-classes/2020-04-13-23-38-16/8996927447f725c0a897bcbf4d876a25.zip",
+          "training_dataset": {
+            "dataset_id": "open-images-10-classes",
+            "variant_id": "eval"
+          },
           "model_schema": {
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
@@ -121,8 +125,12 @@
         },
         {
           "id": "keras-imagenet",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-imagenet/2020-04-13-23-38-12/ad27ad2f39b3d73215ae55839d72eeca.zip",
+          "training_dataset": {
+            "dataset_id": "imagenet",
+            "variant_id": null
+          },
           "model_schema": {
             "output_names": "act_softmax/Softmax",
             "input_names": "input_1",
@@ -134,7 +142,7 @@
         },
         {
           "id": "keras-open-images-10-classes-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-open-images-10-classes-tf-checkpoint/2020-03-27-23-01-15/d509ea2aab78ad29ea1d5292b3e9508e.zip",
           "model_schema": {
             "output_names": "dense_3/Softmax",
@@ -147,7 +155,7 @@
         },
         {
           "id": "keras-imagenet-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-imagenet-tf-checkpoint/2020-03-27-23-02-24/4730badfbbbf5c7d91f6e6ef3c4065fe.zip",
           "model_schema": {
             "output_names": "act_softmax/Softmax",
@@ -166,8 +174,12 @@
       "variants": [
         {
           "id": "keras-open-images-10-classes",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-open-images-10-classes/2020-04-13-23-38-25/f3de5bf63a2fceafefcf7cfac689fc6d.zip",
+          "training_dataset": {
+            "dataset_id": "open-images-10-classes",
+            "variant_id": "eval"
+          },
           "model_schema": {
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
@@ -179,7 +191,7 @@
         },
         {
           "id": "keras-open-images-10-classes-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-open-images-10-classes-tf-checkpoint/2020-03-27-22-57-41/a1ad6c673b908891a7b43b1baa0fd632.zip",
           "model_schema": {
             "output_names": "dense_3/Softmax",
@@ -192,8 +204,12 @@
         },
         {
           "id": "keras-imagenet",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-imagenet/2020-04-13-23-38-21/7b91c2ab8d28181894ce3a423cb8eb1c.zip",
+          "training_dataset": {
+            "dataset_id": "imagenet",
+            "variant_id": null
+          },
           "model_schema": {
             "output_names": "Logits/Softmax",
             "input_names": "input_1",
@@ -205,7 +221,7 @@
         },
         {
           "id": "keras-imagenet-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-imagenet-tf-checkpoint/2020-03-27-22-56-52/5fa5462b679004d09b85bfe8343b3962.zip",
           "model_schema": {
             "output_names": "Logits/Softmax",
@@ -224,7 +240,7 @@
       "variants": [
         {
           "id": "original",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/2020-02-19-15-31-41/67f4c4aafaafde44236eea5bdf0fd6a3.zip",
           "model_schema": {
             "output_names": "resnet_v2_50/predictions/Softmax",
@@ -235,8 +251,12 @@
         },
         {
           "id": "keras-open-images-10-classes",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-open-images-10-classes/2020-04-13-23-38-41/04618b5b9060438668b1a878d5473ae0.zip",
+          "training_dataset": {
+            "dataset_id": "open-images-10-classes",
+            "variant_id": "eval"
+          },
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
@@ -248,7 +268,7 @@
         },
         {
           "id": "keras-open-images-10-classes-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-open-images-10-classes-tf-checkpoint/2020-03-27-22-48-23/1fbd7ab885e38c39325a8e7b536df4cf.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
@@ -261,8 +281,12 @@
         },
         {
           "id": "keras-imagenet",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-imagenet/2020-04-13-23-38-32/69598b3630011f49cbb582704cbeefac.zip",
+          "training_dataset": {
+            "dataset_id": "imagenet",
+            "variant_id": null
+          },
           "model_schema": {
             "output_names": "probs/Softmax",
             "input_names": "input_1",
@@ -274,7 +298,7 @@
         },
         {
           "id": "keras-imagenet-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-imagenet-tf-checkpoint/2020-03-27-22-51-41/6c737b648c298d0f11efdb5ce7ace12c.zip",
           "model_schema": {
             "output_names": "probs/Softmax",
@@ -293,7 +317,7 @@
       "variants": [
         {
           "id": "original",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/keras-resnet-18/2020-02-19-15-31-41/98f09bdd50ad73fc4489764ef62a7f8d.zip",
           "model_schema": {
             "output_names": "softmax_tensor",
@@ -310,8 +334,12 @@
       "variants": [
         {
           "id": "keras-open-images-10-classes",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes/2020-04-13-23-39-26/7fecd4ed9cb6ce1f48d9605728fac3be.zip",
+          "training_dataset": {
+            "dataset_id": "open-images-10-classes",
+            "variant_id": "eval"
+          },
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
@@ -323,7 +351,7 @@
         },
         {
           "id": "keras-open-images-10-classes-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes-tf-checkpoint/2020-03-29-00-33-16/6797c682eeaf3e5936804976b9ae8cc5.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
@@ -336,8 +364,12 @@
         },
         {
           "id": "keras-imagenet",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet/2020-04-13-23-39-07/90cd0632afb0fa49925398d9f6ea9880.zip",
+          "training_dataset": {
+            "dataset_id": "imagenet",
+            "variant_id": null
+          },
           "model_schema": {
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
@@ -349,7 +381,7 @@
         },
         {
           "id": "keras-imagenet-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet-tf-checkpoint/2020-03-29-00-32-06/51bdbcbdb19d9e75d2d946b02321edce.zip",
           "model_schema": {
             "output_names": "predictions/Softmax",
@@ -368,8 +400,12 @@
       "variants": [
         {
           "id": "keras-open-images-10-classes",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes/2020-04-13-23-38-08/f4984b05f49065831ef176716a14a660.zip",
+          "training_dataset": {
+            "dataset_id": "open-images-10-classes",
+            "variant_id": "eval"
+          },
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
@@ -381,7 +417,7 @@
         },
         {
           "id": "keras-open-images-10-classes-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes-tf-checkpoint/2020-03-29-00-43-43/817965f05e2265c01f01aa897ae8eff8.zip",
           "model_schema": {
             "output_names": "dense/Softmax",
@@ -394,8 +430,12 @@
         },
         {
           "id": "keras-imagenet",
-          "compressed": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet/2020-04-13-23-37-59/321a4048251230bca334403319ab9d71.zip",
+          "training_dataset": {
+            "dataset_id": "imagenet",
+            "variant_id": null
+          },
           "model_schema": {
             "output_names": "predictions/Softmax",
             "input_names": "input_1",
@@ -407,7 +447,7 @@
         },
         {
           "id": "keras-imagenet-tf-checkpoint",
-          "compressed": false,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet-tf-checkpoint/2020-03-29-00-42-04/c52332c2ffce9449bc0990107b2ecc7d.zip",
           "model_schema": {
             "output_names": "predictions/Softmax",
