@@ -2,7 +2,15 @@
 
 # Download pretrained checkpoint
 
+This command will download pretrained YOLO keras checkpoint.
+
 `./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained
+
+# Train
+
+In order to train the model you first need to download pretrained backbone.
+
+`./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained_backbone
 
 # Evaluate
 
