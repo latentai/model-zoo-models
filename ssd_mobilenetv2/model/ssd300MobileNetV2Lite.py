@@ -4,17 +4,17 @@ import sys
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path + '/../')
 
-import keras.backend as K
-from keras.layers import Conv2D,DepthwiseConv2D
-from keras.layers import BatchNormalization
-from keras.layers import Flatten,Add
-from keras.layers import Input
-from keras.layers import Activation
-from keras.layers.merge import concatenate
-from keras.layers import Reshape
-from keras.models import Model
+import tensorflow.keras.backend as K
+from tensorflow.keras.layers import Conv2D, DepthwiseConv2D
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import Flatten, Add
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import concatenate
+from tensorflow.keras.layers import Reshape
+from tensorflow.keras.models import Model
 from ssd_layers import PriorBox
-from keras.applications import MobileNetV2
+from tensorflow.keras.applications import MobileNetV2
 
 def relu6(x):
     return K.relu(x, max_value=6)

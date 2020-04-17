@@ -1,8 +1,8 @@
 #!/usr/bin/python
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-from keras.applications.imagenet_utils import preprocess_input
-from keras.preprocessing import image
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
+from tensorflow.keras.preprocessing import image
 from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np

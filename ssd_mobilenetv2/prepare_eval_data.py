@@ -12,9 +12,9 @@ from xml.etree import ElementTree
 from tqdm import tqdm
 from PIL import Image
 from model.ssd300MobileNetV2Lite import SSD
-from keras.preprocessing import image
+from tensorflow.keras.preprocessing import image
 from ssd_utils import BBoxUtility
-from keras.applications.imagenet_utils import preprocess_input
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 
 
 def restore_tf_checkpoint(conf, sess):
