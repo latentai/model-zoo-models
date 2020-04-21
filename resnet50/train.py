@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import json
 import math
 import os
 
@@ -165,4 +166,14 @@ if __name__ == '__main__':
     batch_size = args.batch_size
     output_model_path = args.output_model_path
     output_class_names_path = args.output_class_names_path
+    with open(os.path.join(os.path.dirname(os.path.abspath(output_model_path)),'model_schema.json'), 'w') as schema_f:
+        schema_f.write(json.dumps({
+            "output_names": "dense/Softmax",
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
+        }, indent=4))
+
     main()
