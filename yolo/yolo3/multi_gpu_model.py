@@ -1,6 +1,6 @@
-from keras.layers import Lambda, concatenate
-from keras.models import Model
-import tensorflow as tf
+from tensorflow.compat.v1.keras.layers import Lambda, concatenate
+from tensorflow.compat.v1.keras.models import Model
+import tensorflow.compat.v1 as tf
 
 def multi_gpu_model(model, gpus):
     if isinstance(gpus, (list, tuple)):

@@ -2,12 +2,14 @@ import argparse
 import os
 import numpy as np
 import json
-from keras.callbacks import EarlyStopping, ReduceLROnPlateau
-
-from keras.optimizers import Adam
-from keras.models import load_model
-
 import tensorflow.compat.v1 as tf
+tf.compat.v1.disable_v2_behavior()
+
+from tensorflow.compat.v1.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+
+from tensorflow.compat.v1.keras.optimizers import Adam
+from tensorflow.compat.v1.keras.models import load_model
+
 
 from yolo3.voc import parse_voc_annotation
 from yolo3.generator import BatchGenerator
@@ -18,6 +20,7 @@ from yolo3.utils import normalize, evaluate, makedirs
 from yolo3.callbacks import CustomModelCheckpoint, CustomTensorBoard
 
 
+
 config = tf.compat.v1.ConfigProto(
     gpu_options=tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.9),
     device_count={'GPU': 1}
@@ -25,6 +28,7 @@ config = tf.compat.v1.ConfigProto(
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.Session(config=config)
 tf.compat.v1.keras.backend.set_session(session)
+
 
 
 def create_training_instances(
@@ -215,19 +219,6 @@ def _main_(args):
         norm                = normalize
     )
 
-    valid_generator = BatchGenerator(
-        instances           = valid_ints,
-        anchors             = config['model']['anchors'],
-        labels              = labels,
-        downsample          = 32, # ratio between network input's size and network output's size, 32 for YOLOv3
-        max_box_per_image   = max_box_per_image,
-        batch_size          = config['train']['batch_size'],
-        min_net_size        = config['model']['min_input_size'],
-        max_net_size        = config['model']['max_input_size'],   
-        shuffle             = True, 
-        jitter              = 0.0, 
-        norm                = normalize
-    )
 
     ###############################
     #   Create the model 
@@ -263,30 +254,20 @@ def _main_(args):
     ###############################
     callbacks = create_callbacks(config['train']['saved_weights_name'], config['train']['tensorboard_dir'], infer_model)
 
+    init = tf.initialize_all_variables()
+    session.run(init)
+
     train_model.fit_generator(
-        generator        = train_generator, 
-        steps_per_epoch  = len(train_generator) * config['train']['train_times'], 
-        epochs           = config['train']['nb_epochs'] + config['train']['warmup_epochs'], 
+        generator        = train_generator,
+        steps_per_epoch  = len(train_generator) * config['train']['train_times'],
+        epochs           = config['train']['nb_epochs'] + config['train']['warmup_epochs'],
         verbose          = 2 if config['train']['debug'] else 1,
-        callbacks        = callbacks, 
+        callbacks        = callbacks,
         workers          = 4,
         max_queue_size   = 8
     )
+    print('done')
 
-    # make a GPU version of infer_model for evaluation
-    if multi_gpu > 1:
-        infer_model = load_model(config['train']['saved_weights_name'])
-
-    ###############################
-    #   Run the evaluation
-    ###############################   
-    # compute mAP for all the classes
-    average_precisions = evaluate(infer_model, valid_generator)
-
-    # print the score
-    for label, average_precision in average_precisions.items():
-        print(labels[label] + ': {:.4f}'.format(average_precision))
-    print('mAP: {:.4f}'.format(sum(average_precisions.values()) / len(average_precisions)))
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description='train and evaluate YOLO_v3 model on any dataset')

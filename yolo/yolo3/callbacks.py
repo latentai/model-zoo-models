@@ -1,6 +1,8 @@
-from keras.callbacks import TensorBoard, ModelCheckpoint
+from tensorflow.compat.v1.keras.callbacks import TensorBoard, ModelCheckpoint
 import tensorflow as tf
 import numpy as np
+
+import logging
 
 class CustomTensorBoard(TensorBoard):
     """ to log the loss after each batch
@@ -41,7 +43,7 @@ class CustomModelCheckpoint(ModelCheckpoint):
             if self.save_best_only:
                 current = logs.get(self.monitor)
                 if current is None:
-                    warnings.warn('Can save best model only with %s available, '
+                    logging.warn('Can save best model only with %s available, '
                                   'skipping.' % (self.monitor), RuntimeWarning)
                 else:
                     if self.monitor_op(current, self.best):

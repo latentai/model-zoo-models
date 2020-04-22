@@ -12,6 +12,10 @@ In order to train the model you first need to download pretrained backbone.
 
 `./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained_backbone
 
+To train the model run
+
+`./dev_docker_run python train.py --conf config_voc.json`
+
 # Evaluate
 
 `./dev_docker_run python eval.py -i dataset/VOCdevkit/VOC2007/JPEGImages/ -c config_voc.json -gtforma xyrb -detformat xyrb -gt dataset/VOCdevkit/VOC2007/Annotations/ -det detections/`
