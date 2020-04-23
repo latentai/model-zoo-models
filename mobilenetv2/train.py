@@ -102,10 +102,10 @@ def modelFitGenerator():
     reduce_lr_loss = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=7, verbose=1, epsilon=1e-4, mode='min')
     fitModel.fit_generator(
         train_generator,
-        steps_per_epoch=num_train_steps,
+        steps_per_epoch=5,
         epochs=nb_epoch,
         validation_data=validation_generator,
-        validation_steps=num_valid_steps,
+        validation_steps=4,
         callbacks=[earlyStopping, mcp_save, reduce_lr_loss]
     )
 

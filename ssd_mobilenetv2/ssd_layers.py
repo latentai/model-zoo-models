@@ -8,7 +8,6 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 tf.disable_v2_behavior()
 
-
 class Normalize(Layer):
     """Normalization layer as described in ParseNet paper.
 
@@ -31,7 +30,7 @@ class Normalize(Layer):
         Add possibility to have one scale for all features.
     """
     def __init__(self, scale, **kwargs):
-        if K.common.image_dim_ordering() == 'tf':
+        if tf.keras.backend.image_data_format() == 'channels_last':
             self.axis = 3
         else:
             self.axis = 1
@@ -49,6 +48,11 @@ class Normalize(Layer):
         output = K.l2_normalize(x, self.axis)
         output *= self.gamma
         return output
+
+    def get_config(self):
+        config = super().get_config().copy()
+        config['name'] = 'Normalize'
+        return config
 
 
 class PriorBox(Layer):
@@ -83,7 +87,7 @@ class PriorBox(Layer):
     """
     def __init__(self, img_size, min_size=None, max_size=None, aspect_ratios=None,
                  flip=True, variances=[0.1], clip=True, **kwargs):
-        if K.common.image_dim_ordering() == 'tf':
+        if tf.keras.backend.image_data_format() == 'channels_last':
             self.waxis = 2
             self.haxis = 1
         else:
@@ -93,6 +97,7 @@ class PriorBox(Layer):
         if min_size <= 0:
             raise Exception('min_size must be positive.')
         self.min_size = min_size
+        self.flip = flip
         self.max_size = max_size
         self.aspect_ratios = [1.0]
         if max_size:
@@ -109,6 +114,18 @@ class PriorBox(Layer):
         self.variances = np.array(variances)
         self.clip = True
         super(PriorBox, self).__init__(**kwargs)
+
+    def get_config(self):
+        config = super().get_config().copy()
+        config['img_size'] = self.img_size
+        config['min_size'] = self.min_size
+        config['max_size'] = self.max_size
+        config['aspect_ratios'] = self.aspect_ratios
+        config['flip'] = self.flip
+        config['variances'] = self.variances
+        config['clip'] = self.clip
+
+        return config
 
     def compute_output_shape(self, input_shape):
         num_priors_ = len(self.aspect_ratios)

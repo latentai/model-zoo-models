@@ -16,8 +16,41 @@ from tensorflow.keras.models import Model
 from ssd_layers import PriorBox
 from tensorflow.keras.applications import MobileNetV2
 
-def relu6(x):
-    return K.relu(x, max_value=6)
+import tensorflow.keras as keras
+from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
+from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
+from tensorflow.keras.models import Model
+from tensorflow.keras.optimizers import Adadelta
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+
+def get_model(num_classes):
+    input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_data_format() == 'channels_last'
+
+    # create the base pre-trained model
+    base_model = MobileNetV2(input_tensor=input_tensor, weights='imagenet', include_top=False)
+
+    # for layer in base_model.layers:
+    #     layer.trainable = False
+
+    x = base_model.output
+    x = GlobalAveragePooling2D()(x)
+    x = Dense(1024, activation='relu')(
+        x)  # we add dense layers so that the model can learn more complex functions and classify for better results.
+    x = Dense(1024, activation='relu')(x)  # dense layer 2
+    x = Dense(512, activation='relu')(x)  # dense layer 3
+    x = Dense(num_classes, activation='softmax')(x)  # final layer with softmax activation
+
+    updatedModel = Model(base_model.input, x)
+
+    return updatedModel
+
+
+# def relu6(x):
+#     return K.relu(x, max_value=6)
+
+relu6 = 'relu'
 
 def LiteConv(x,i,filter_num):
     x = Conv2D(filter_num//2, (1, 1), padding='same', use_bias=False, name=str(i)+'_pwconv1')(x)
@@ -50,7 +83,7 @@ def _make_divisible(v, divisor, min_value=None):
     return new_v
 
 def _inverted_res_block(inputs, expansion, stride, alpha, filters, block_id):
-    in_channels = inputs._keras_shape[-1]
+    in_channels = inputs.shape[-1]
     prefix = 'features.' + str(block_id) + '.conv.'
     pointwise_conv_filters = int(filters * alpha)
     pointwise_filters = _make_divisible(pointwise_conv_filters, 8)
@@ -70,7 +103,7 @@ def _inverted_res_block(inputs, expansion, stride, alpha, filters, block_id):
     return x
 
 def _isb4conv13(inputs, expansion, stride, alpha, filters, block_id):
-    in_channels = inputs._keras_shape[-1]
+    in_channels = inputs.shape[-1]
     prefix = 'features.' + str(block_id) + '.conv.'
     pointwise_conv_filters = int(filters * alpha)
     pointwise_filters = _make_divisible(pointwise_conv_filters, 8)
@@ -118,10 +151,12 @@ def SSD(input_shape, num_classes):
     mobilenetv2_input_shape=(300, 300, 3)
 
     Input0 = Input(input_shape)
-    mobilenetv2=MobileNetV2(input_shape=mobilenetv2_input_shape,include_top=False)
+    mobilenetv2 = get_model(num_classes)
+    # mobilenetv2=MobileNetV2(input_shape=mobilenetv2_input_shape,include_top=False)
     FeatureExtractor=Model(inputs=mobilenetv2.input, outputs=mobilenetv2.get_layer('block_12_add').output)
     #get_3rd_layer_output = K.function([mobilenetv2.layers[114].input, K.learning_phase()],
     #                                  [mobilenetv2.layers[147].output])
+
 
     x= FeatureExtractor(Input0)
     x,pwconv3 = _isb4conv13(x, filters=160, alpha=alpha, stride=1,expansion=6, block_id=13)
@@ -153,10 +188,7 @@ def SSD(input_shape, num_classes):
     mbox_priorbox = concatenate(
         [pwconv3_mbox_priorbox, pwconv4_mbox_priorbox, pwconv5_mbox_priorbox, pwconv6_mbox_priorbox,
          pwconv7_mbox_priorbox, pwconv8_mbox_priorbox], axis=1, name='mbox_priorbox')
-    if hasattr(mbox_loc, '_keras_shape'):
-        num_boxes = mbox_loc._keras_shape[-1] // 4
-    elif hasattr(mbox_loc, 'int_shape'):
-        num_boxes = K.int_shape(mbox_loc)[-1] // 4
+    num_boxes = K.int_shape(mbox_loc)[-1] // 4
     mbox_loc = Reshape((num_boxes, 4),name='mbox_loc_final')(mbox_loc)
     mbox_conf = Reshape((num_boxes, num_classes),name='mbox_conf_logits')(mbox_conf)
     mbox_conf = Activation('softmax',name='mbox_conf_final')(mbox_conf)
