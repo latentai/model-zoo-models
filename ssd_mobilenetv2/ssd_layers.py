@@ -1,13 +1,12 @@
 """Some special pupropse layers for SSD."""
 
-import keras.backend as K
-from keras.engine.topology import InputSpec
-from keras.engine.topology import Layer
+import tensorflow.keras.backend as K
+from tensorflow.keras.layers import InputSpec
+from tensorflow.keras.layers import Layer
 import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 tf.disable_v2_behavior()
-
 
 class Normalize(Layer):
     """Normalization layer as described in ParseNet paper.
@@ -31,7 +30,7 @@ class Normalize(Layer):
         Add possibility to have one scale for all features.
     """
     def __init__(self, scale, **kwargs):
-        if K.common.image_dim_ordering() == 'tf':
+        if tf.keras.backend.image_data_format() == 'channels_last':
             self.axis = 3
         else:
             self.axis = 1
@@ -49,6 +48,11 @@ class Normalize(Layer):
         output = K.l2_normalize(x, self.axis)
         output *= self.gamma
         return output
+
+    def get_config(self):
+        config = super().get_config().copy()
+        config['name'] = 'Normalize'
+        return config
 
 
 class PriorBox(Layer):
@@ -83,7 +87,7 @@ class PriorBox(Layer):
     """
     def __init__(self, img_size, min_size=None, max_size=None, aspect_ratios=None,
                  flip=True, variances=[0.1], clip=True, **kwargs):
-        if K.common.image_dim_ordering() == 'tf':
+        if tf.keras.backend.image_data_format() == 'channels_last':
             self.waxis = 2
             self.haxis = 1
         else:
@@ -93,6 +97,7 @@ class PriorBox(Layer):
         if min_size <= 0:
             raise Exception('min_size must be positive.')
         self.min_size = min_size
+        self.flip = flip
         self.max_size = max_size
         self.aspect_ratios = [1.0]
         if max_size:
@@ -110,6 +115,18 @@ class PriorBox(Layer):
         self.clip = True
         super(PriorBox, self).__init__(**kwargs)
 
+    def get_config(self):
+        config = super().get_config().copy()
+        config['img_size'] = self.img_size
+        config['min_size'] = self.min_size
+        config['max_size'] = self.max_size
+        config['aspect_ratios'] = self.aspect_ratios
+        config['flip'] = self.flip
+        config['variances'] = self.variances
+        config['clip'] = self.clip
+
+        return config
+
     def compute_output_shape(self, input_shape):
         num_priors_ = len(self.aspect_ratios)
         layer_width = input_shape[self.waxis]
@@ -118,10 +135,7 @@ class PriorBox(Layer):
         return (input_shape[0], num_boxes, 8)
 
     def call(self, x, mask=None):
-        if hasattr(x, '_keras_shape'):
-            input_shape = x._keras_shape
-        elif hasattr(K, 'int_shape'):
-            input_shape = K.int_shape(x)
+        input_shape = K.int_shape(x)
         layer_width = input_shape[self.waxis]
         layer_height = input_shape[self.haxis]
         img_width = self.img_size[0]
@@ -174,10 +188,7 @@ class PriorBox(Layer):
             raise Exception('Must provide one or four variances.')
         prior_boxes = np.concatenate((prior_boxes, variances), axis=1)
         prior_boxes_tensor = K.expand_dims(K.variable(prior_boxes), 0)
-        if K.backend() == 'tensorflow':
-            pattern = [tf.shape(x)[0], 1, 1]
-            prior_boxes_tensor = tf.tile(prior_boxes_tensor, pattern)
-        elif K.backend() == 'theano':
-            #TODO
-            pass
+
+        prior_boxes_tensor = tf.ones([tf.shape(x)[0], 1, 1]) * prior_boxes_tensor
+
         return prior_boxes_tensor

@@ -12,9 +12,9 @@ from xml.etree import ElementTree
 from tqdm import tqdm
 from PIL import Image
 from model.ssd300MobileNetV2Lite import SSD
-from keras.preprocessing import image
+from tensorflow.keras.preprocessing import image
 from ssd_utils import BBoxUtility
-from keras.applications.imagenet_utils import preprocess_input
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 
 
 def restore_tf_checkpoint(conf, sess):
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     input_shape = (sets['img_height'], sets['img_width'], 3)
 
     priors = pickle.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                           'priorFiles/prior_boxes_ssd300MobileNetV2.pkl'), 'rb'))
+                                           'priorFiles/prior_boxes_ssd300MobileNetV2_224_224.pkl'), 'rb'))
 
     np.set_printoptions(suppress=True)
 
