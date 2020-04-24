@@ -6,13 +6,26 @@ import json
 import cv2
 from yolo3.utils import get_yolo_boxes, makedirs
 from yolo3.bbox import draw_boxes
-from keras.models import load_model
 import numpy as np
+
+from yolo3.yolo_as_tf import load_model_tf
+
+def restore_keras_checkpoint(path):
+    try:
+        from keras.models import load_model
+        return load_model(path)
+    except:
+        import tensorflow.compat.v1 as tf
+        tf.disable_v2_behavior()
+        from tensorflow.compat.v1.keras.models import load_model
+        return load_model(path)
+
 
 def _main_(args):
     config_path  = args.conf
     input_path   = args.input
     output_path  = args.output
+    tf_checkpoint_dir = args.tf_checkpoint_dir
 
     with open(config_path) as config_buffer:
         config = json.load(config_buffer)
@@ -29,7 +42,11 @@ def _main_(args):
     #   Load the model
     ###############################
     os.environ['CUDA_VISIBLE_DEVICES'] = config['train']['gpus']
-    infer_model = load_model(config['train']['saved_weights_name'])
+    # TODO: load tf checkpoint here if one provided with input arguments
+    if tf_checkpoint_dir is not None:
+        infer_model = load_model_tf(tf_checkpoint_dir)
+    else:
+        infer_model = restore_keras_checkpoint(config['train']['saved_weights_name'])
 
     ###############################
     #   Predict bounding boxes 
@@ -53,7 +70,7 @@ def _main_(args):
                 images = []
             if cv2.waitKey(1) == 27: 
                 break  # esc to quit
-        cv2.destroyAllWindows()        
+        cv2.destroyAllWindows()
     elif input_path[-4:] == '.mp4': # do detection on a video  
         video_out = output_path + input_path.split('/')[-1]
         video_reader = cv2.VideoCapture(input_path)
@@ -125,7 +142,12 @@ if __name__ == '__main__':
     argparser = argparse.ArgumentParser(description='Predict with a trained yolo model')
     argparser.add_argument('-c', '--conf', help='path to configuration file')
     argparser.add_argument('-i', '--input', help='path to an image, a directory of images, a video, or webcam')
-    argparser.add_argument('-o', '--output', default='output/', help='path to output directory')   
+    argparser.add_argument('-o', '--output', default='output/', help='path to output directory')
+    argparser.add_argument('-t', '--tf_checkpoint_dir', help='path to tensorflow checkpoint directory')
 
     args = argparser.parse_args()
+
+    print('Input arguments values:')
+    print(args)
+    print('-' * 20)
     _main_(args)
