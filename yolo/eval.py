@@ -8,10 +8,14 @@ from keras.models import load_model
 from utils.detections.eval import evaluate
 from utils.detections.eval import parser
 
+from demo import restore_keras_checkpoint
+from yolo3.yolo_as_tf import load_model_tf
+
 def prepare_detections(args):
     config_path  = args.conf
     input_path   = args.input
     det_folder = args.detFolder
+    tf_checkpoint_dir = args.tf_checkpoint_dir
 
     with open(config_path) as config_buffer:
         config = json.load(config_buffer)
@@ -26,7 +30,10 @@ def prepare_detections(args):
     #   Load the model
     ###############################
     os.environ['CUDA_VISIBLE_DEVICES'] = config['train']['gpus']
-    infer_model = load_model(config['train']['saved_weights_name'])
+    if tf_checkpoint_dir is not None:
+        infer_model = load_model_tf(tf_checkpoint_dir)
+    else:
+        infer_model = restore_keras_checkpoint(config['train']['saved_weights_name'])
 
     ###############################
     #   Predict bounding boxes
@@ -74,6 +81,7 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--conf', help='Path to configuration file.')
     parser.add_argument('-i', '--input', help='Path to a directory with images.')
     parser.add_argument('-u', '--use_cache', default=True, help='Whether to user previously generated detetions or not.')
+    parser.add_argument('-tf', '--tf_checkpoint_dir', help='path to tensorflow checkpoint directory')
 
     args = parser.parse_args()
     args.detFolder = os.path.abspath(args.detFolder)
