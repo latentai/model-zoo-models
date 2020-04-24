@@ -53,6 +53,7 @@
         },
         {
           "id": "keras_pretrained_backbone",
+          "show_in_frontend": false,
           "compressed": false,
           "weights_url": "http://model-zoo-data.latentai.io.s3.amazonaws.com/model-weights/yolo/2020-04-21-12-12-17/62186a8066b28c8af75bdcf3be019cda.zip"
         }
