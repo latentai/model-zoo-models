@@ -3,6 +3,7 @@
     {
       "id": "audio-recognition",
       "full_name": "Audio Recognition",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition",
       "variants": [
         {
           "id": "tf-baseline",
@@ -18,6 +19,7 @@
     {
       "id": "audio-recognition-gtc",
       "full_name": "Audio Recognition: Training Aware",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition_gtc",
       "variants": [
         {
           "id": "gtc_baseline_30",
@@ -36,9 +38,11 @@
     {
       "id": "yolo",
       "full_name": "You Look Only Once Object Detection",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/yolo",
       "variants": [
         {
           "id": "keras_pretrained",
+          "show_in_frontend": false,
           "compressed": false,
           "weights_url": "http://model-zoo-data.latentai.io.s3.amazonaws.com/model-weights/yolo/2020-04-10-11-47-03/c73e22164d298dce0c5001ff501272a7.zip",
           "model_schema": {
@@ -46,16 +50,23 @@
             "input_names": "input_1",
             "input_shapes": "1, 224, 224, 3"
           }
+        },
+        {
+          "id": "keras_pretrained_backbone",
+          "show_in_frontend": false,
+          "compressed": false,
+          "weights_url": "http://model-zoo-data.latentai.io.s3.amazonaws.com/model-weights/yolo/2020-04-21-12-12-17/62186a8066b28c8af75bdcf3be019cda.zip"
         }
       ]
     },
     {
       "id": "ssd_mobilenetv1",
       "full_name": "SSD MobilenetV1",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/ssd_mobilenetv1",
       "variants": [
         {
           "id": "keras-checkpoint",
-          "show_in_frontend": true,
+          "show_in_frontend": false,
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/ssd_mobilenetv1/2020-04-06-13-30-23/6042b3e976bce1138639ab2750a10688.zip",
           "model_schema": {
             "output_names": "predictions/concat",
@@ -68,6 +79,7 @@
     {
       "id": "mobilenetv1",
       "full_name": "Mobilenet V1",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/mobilenetv1",
       "variants": [
         {
           "id": "keras-open-images-10-classes",
@@ -232,6 +244,7 @@
     {
       "id": "mobilenetv2",
       "full_name": "Mobilenet V2",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/mobilenetv2",
       "variants": [
         {
           "id": "keras-open-images-10-classes",
@@ -396,6 +409,7 @@
     {
       "id": "resnetv2-50",
       "full_name": "Resnetv2-50",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/resnet50",
       "variants": [
         {
           "id": "keras-open-images-10-classes",
@@ -560,6 +574,7 @@
     {
       "id": "vgg16",
       "full_name": "VGG16",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/vgg16",
       "variants": [
         {
           "id": "keras-open-images-10-classes",
@@ -724,6 +739,7 @@
     {
       "id": "inceptionv3",
       "full_name": "Inception V3",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/inceptionv3",
       "variants": [
         {
           "id": "keras-open-images-10-classes",

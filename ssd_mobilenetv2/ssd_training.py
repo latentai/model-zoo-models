@@ -27,8 +27,6 @@ class MultiboxLoss(object):
         self.num_classes = num_classes
         self.alpha = alpha
         self.neg_pos_ratio = neg_pos_ratio
-        if background_label_id != 0:
-            raise Exception('Only 0 as background label id is supported')
         self.background_label_id = background_label_id
         self.negatives_for_hard = negatives_for_hard
 
@@ -118,7 +116,9 @@ class MultiboxLoss(object):
         _, indices = tf.nn.top_k(max_confs * (1 - y_true[:, :, -8]),
                                  k=num_neg_batch)
         batch_idx = tf.expand_dims(tf.range(0, batch_size), 1)
-        batch_idx = tf.tile(batch_idx, (1, num_neg_batch))
+        # batch_idx = tf.tile(batch_idx, (1, num_neg_batch))
+        batch_idx = tf.ones((tf.shape(batch_idx)[0], num_neg_batch), dtype=tf.dtypes.int32) * batch_idx
+        # batch_idx = tf.tile(batch_idx, (1, num_neg_batch))
         full_indices = (tf.reshape(batch_idx, [-1]) * tf.to_int32(num_boxes) +
                         tf.reshape(indices, [-1]))
         # full_indices = tf.concat(2, [tf.expand_dims(batch_idx, 2),

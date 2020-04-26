@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import json
 import math
 import os
 
@@ -102,10 +103,10 @@ def modelFitGenerator():
     reduce_lr_loss = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=7, verbose=1, epsilon=1e-4, mode='min')
     fitModel.fit_generator(
         train_generator,
-        steps_per_epoch=num_train_steps,
+        steps_per_epoch=5,
         epochs=nb_epoch,
         validation_data=validation_generator,
-        validation_steps=num_valid_steps,
+        validation_steps=4,
         callbacks=[earlyStopping, mcp_save, reduce_lr_loss]
     )
 
@@ -169,4 +170,15 @@ if __name__ == '__main__':
     batch_size = args.batch_size
     output_model_path = args.output_model_path
     output_class_names_path = args.output_class_names_path
+
+    with open(os.path.join(os.path.dirname(os.path.abspath(output_model_path)),'model_schema.json'), 'w') as schema_f:
+        schema_f.write(json.dumps({
+            "output_names": "dense_3/Softmax",
+            "input_names": "input_1",
+            "preprocessor": "float32",
+            "input_shapes": "1,224,224,3",
+            "task": "classifier",
+            "dataset": "custom"
+        }, indent=4))
+
     main()
