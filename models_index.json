@@ -89,6 +89,7 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "metrics_json": "mobilenetv1/metrics_open_images.json",
           "perf_data": [
             [
               "",
@@ -168,6 +169,7 @@
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "metrics_json": null,
           "perf_data": [
             [
               "",
@@ -254,6 +256,7 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "metrics_json": "mobilenetv2/metrics_open_images.json",
           "perf_data": [
             [
               "",
@@ -327,12 +330,13 @@
         },
         {
           "id": "keras-imagenet",
-          "show_in_frontend": false,
+          "show_in_frontend": true,
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-imagenet/2020-04-13-23-38-21/7b91c2ab8d28181894ce3a423cb8eb1c.zip",
           "training_dataset": {
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "metrics_json": "mobilenetv2/metrics_imagenet.json",
           "perf_data": [
             [
               "",
@@ -419,6 +423,7 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "metrics_json": "resnet50/metrics_open_images.json",
           "perf_data": [
             [
               "",
@@ -498,6 +503,7 @@
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "metrics_json": "resnet50/metrics_imagenet.json",
           "perf_data": [
             [
               "",
@@ -584,6 +590,7 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "metrics_json": "vgg16/metrics_open_images.json",
           "perf_data": [
             [
               "",
@@ -663,6 +670,7 @@
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "metrics_json": "vgg16/metrics_imagenet.json",
           "perf_data": [
             [
               "",
@@ -749,6 +757,7 @@
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
           },
+          "metrics_json": "inceptionv3/metrics_open_images.json",
           "perf_data": [
             [
               "",
@@ -828,6 +837,7 @@
             "dataset_id": "imagenet",
             "variant_id": null
           },
+          "metrics_json": "inceptionv3/metrics_imagenet.json",
           "perf_data": [
             [
               "",
