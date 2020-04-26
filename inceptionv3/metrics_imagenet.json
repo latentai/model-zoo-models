@@ -1,0 +1,162 @@
+{
+    "commands_run": [
+        "# Preparation",
+        "leip zoo download --model_id inceptionv3 --variant_id keras-imagenet",
+        "rm -rf inceptionv3-imagenet",
+        "mkdir inceptionv3-imagenet",
+        "mkdir inceptionv3-imagenet/baselineFp32Results",
+        "# CMD#10 Baseline FP32 TF",
+        "leip evaluate --output_path inceptionv3-imagenet/baselineFp32Results --framework tf2 --input_path workspace/models/inceptionv3/keras-imagenet --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt",
+        "# LEIP Compress ASYMMETRIC",
+        "leip compress --input_path workspace/models/inceptionv3/keras-imagenet --quantizer ASYMMETRIC --bits 8 --output_path inceptionv3-imagenet/checkpointCompressed/",
+        "# LEIP Compress POWER_OF_TWO (POW2)",
+        "leip compress --input_path workspace/models/inceptionv3/keras-imagenet --quantizer POWER_OF_TWO --bits 8 --output_path inceptionv3-imagenet/checkpointCompressedPow2/",
+        "# CMD#11 LEIP FP32 TF",
+        "leip evaluate --output_path inceptionv3-imagenet/checkpointCompressed/ --framework tf2 --input_path inceptionv3-imagenet/checkpointCompressed/model_save/ --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt",
+        "# CMD#12 Baseline INT8 TVM",
+        "mkdir inceptionv3-imagenet/compiled_tvm_int8",
+        "leip compile --input_path workspace/models/inceptionv3/keras-imagenet --output_path inceptionv3-imagenet/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
+        "leip evaluate --output_path inceptionv3-imagenet/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path inceptionv3-imagenet/compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt",
+        "# CMD#13 Baseline FP32 TVM",
+        "mkdir inceptionv3-imagenet/compiled_tvm_fp32",
+        "leip compile --input_path workspace/models/inceptionv3/keras-imagenet --output_path inceptionv3-imagenet/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
+        "leip evaluate --output_path inceptionv3-imagenet/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path inceptionv3-imagenet/compiled_tvm_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt",
+        "# CMD#14 LEIP INT8 TVM",
+        "mkdir inceptionv3-imagenet/leip_compiled_tvm_int8",
+        "leip compile --input_path inceptionv3-imagenet/checkpointCompressed/model_save/ --output_path inceptionv3-imagenet/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
+        "leip evaluate --output_path inceptionv3-imagenet/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path inceptionv3-imagenet/leip_compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt",
+        "# CMD#15 LEIP FP32 TVM",
+        "mkdir inceptionv3-imagenet/leip_compiled_tvm_fp32",
+        "leip compile --input_path inceptionv3-imagenet/checkpointCompressed/model_save/ --output_path inceptionv3-imagenet/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
+        "leip evaluate --output_path inceptionv3-imagenet/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path inceptionv3-imagenet/leip_compiled_tvm_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt",
+        "# CMD#16 LEIP-POW2 INT8 TVM",
+        "mkdir inceptionv3-imagenet/leip_compiled_tvm_int8_pow2",
+        "leip compile --input_path inceptionv3-imagenet/checkpointCompressedPow2/model_save/ --output_path inceptionv3-imagenet/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8",
+        "leip evaluate --output_path inceptionv3-imagenet/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path inceptionv3-imagenet/leip_compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt",
+        "# CMD#17 TfLite Asymmetric INT8 TF",
+        "mkdir inceptionv3-imagenet/tfliteOutput",
+        "leip convert --input_path workspace/models/inceptionv3/keras-imagenet --framework tflite --output_path inceptionv3-imagenet/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared/data/sample-models/resources/images/imagenet_images/preprocessed/ILSVRC2012_val_00000001.JPEG",
+        "leip evaluate --output_path inceptionv3-imagenet/tfliteOutput --framework tflite --input_types=uint8 --input_path inceptionv3-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt --preprocessor ''",
+        "# CMD#18 TfLite Asymmetric INT8 TVM",
+        "leip compile --input_path inceptionv3-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --output_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --input_types=uint8",
+        "leip evaluate --output_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt --preprocessor ''",
+        "# CMD#19 TfLite Asymmetric FP32 TF",
+        "leip convert --input_path workspace/models/inceptionv3/keras-imagenet --framework tflite --output_path inceptionv3-imagenet/tfliteOutput32 --data_type float32 --policy TfLite --rep_dataset /shared/data/sample-models/resources/images/imagenet_images/preprocessed/ILSVRC2012_val_00000001.JPEG",
+        "leip evaluate --output_path inceptionv3-imagenet/tfliteOutput32 --framework tflite --input_types=float32 --input_path inceptionv3-imagenet/tfliteOutput32/model_save/inference_model.tflite --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt",
+        "# CMD#20 TfLite Asymmetric FP32 TVM",
+        "leip compile --input_path inceptionv3-imagenet/tfliteOutput32/model_save/inference_model.tflite --output_path inceptionv3-imagenet/tfliteOutput32/model_save/fp32 --input_types=float32",
+        "leip evaluate --output_path inceptionv3-imagenet/tfliteOutput32/model_save/fp32 --framework tvm --input_types=float32 --input_path inceptionv3-imagenet/tfliteOutput32/model_save/fp32 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt"
+    ],
+    "file_sizes": [
+        [
+            "Baseline FP32",
+            "91.8MiB"
+        ],
+        [
+            "LEIP TVM INT8",
+            "modelParams: 22.8MiB, quantParams:27.7KiB"
+        ],
+        [
+            "LEIP TVM FP32",
+            "90.9MiB"
+        ],
+        [
+            "LEIP TVM INT8 POW2",
+            "modelParams: 22.8MiB, quantParams:27.7KiB"
+        ],
+        [
+            "LEIP+Tflite INT8",
+            "22.8MiB"
+        ],
+        [
+            "LEIP+Tflite FP32",
+            "90.9MiB"
+        ]
+    ],
+    "performance_metrics": [
+        [
+            "CMD#",
+            "",
+            "Inf. Speed",
+            "Top1 Acc.",
+            "Top5 Acc."
+        ],
+        [
+            "CMD#10",
+            "Baseline FP32 TF",
+            "29.15 inferences/sec",
+            "68.0%",
+            "90.3%"
+        ],
+        [
+            "CMD#11",
+            "LEIP FP32 TF",
+            "31.07 inferences/sec",
+            "67.7%",
+            "88.7%"
+        ],
+        [
+            "CMD#12",
+            "Baseline INT8 TVM",
+            "14.11 inferences/sec",
+            "68.4%",
+            "88.7%"
+        ],
+        [
+            "CMD#13",
+            "Baseline FP32 TVM",
+            "17.49 inferences/sec",
+            "68.0%",
+            "90.3%"
+        ],
+        [
+            "CMD#14",
+            "LEIP INT8 TVM",
+            "20.41 inferences/sec",
+            "68.1%",
+            "88.2%"
+        ],
+        [
+            "CMD#15",
+            "LEIP FP32 TVM",
+            "17.04 inferences/sec",
+            "67.7%",
+            "88.7%"
+        ],
+        [
+            "CMD#16",
+            "LEIP-POW2 INT8 TVM",
+            "20.01 inferences/sec",
+            "68.1%",
+            "88.2%"
+        ],
+        [
+            "CMD#17",
+            "TfLite Asymmetric INT8 TF",
+            "5.80 inferences/sec",
+            "64.4%",
+            "87.7%"
+        ],
+        [
+            "CMD#18",
+            "TfLite Asymmetric INT8 TVM",
+            "13.72 inferences/sec",
+            "64.2%",
+            "87.7%"
+        ],
+        [
+            "CMD#19",
+            "TfLite Asymmetric FP32 TF",
+            "17.53 inferences/sec",
+            "68.0%",
+            "90.3%"
+        ],
+        [
+            "CMD#20",
+            "TfLite Asymmetric FP32 TVM",
+            "21.61 inferences/sec",
+            "68.0%",
+            "90.3%"
+        ]
+    ]
+}
