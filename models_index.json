@@ -3,6 +3,7 @@
     {
       "id": "audio-recognition",
       "full_name": "Audio Recognition",
+      "description": "",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition",
       "variants": [
         {
@@ -19,6 +20,7 @@
     {
       "id": "audio-recognition-gtc",
       "full_name": "Audio Recognition: Training Aware",
+      "description": "",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition_gtc",
       "variants": [
         {
@@ -38,6 +40,7 @@
     {
       "id": "yolo",
       "full_name": "You Look Only Once Object Detection",
+      "description": "YOLO (You Only Look Once), is a deep neural network architecture for object detection. YOLO differentiates itself from other common neural network architectures for object detection tasks in that it performs inference usign a single forward pass through a single neural network.",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/yolo",
       "variants": [
         {
@@ -62,6 +65,7 @@
     {
       "id": "ssd_mobilenetv1",
       "full_name": "SSD MobilenetV1",
+      "description": "",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/ssd_mobilenetv1",
       "variants": [
         {
@@ -79,6 +83,7 @@
     {
       "id": "mobilenetv1",
       "full_name": "Mobilenet V1",
+      "description": "",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/mobilenetv1",
       "variants": [
         {
@@ -244,6 +249,7 @@
     {
       "id": "mobilenetv2",
       "full_name": "Mobilenet V2",
+      "description": "",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/mobilenetv2",
       "variants": [
         {
@@ -409,6 +415,7 @@
     {
       "id": "resnetv2-50",
       "full_name": "Resnetv2-50",
+      "description": "",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/resnet50",
       "variants": [
         {
@@ -574,6 +581,7 @@
     {
       "id": "vgg16",
       "full_name": "VGG16",
+      "description": "",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/vgg16",
       "variants": [
         {
@@ -739,6 +747,7 @@
     {
       "id": "inceptionv3",
       "full_name": "Inception V3",
+      "description": "",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/inceptionv3",
       "variants": [
         {
