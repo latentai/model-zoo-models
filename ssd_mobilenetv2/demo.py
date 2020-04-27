@@ -1,8 +1,8 @@
 #!/usr/bin/python
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-from keras.applications.imagenet_utils import preprocess_input
-from keras.preprocessing import image
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
+from tensorflow.keras.preprocessing import image
 from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
@@ -69,7 +69,8 @@ if __name__ == '__main__':
         inputs = preprocess_input(np.array(inputs))
         dir_path = os.path.dirname(os.path.realpath(__file__))
 
-        priors = pickle.load(open(os.path.join(dir_path, 'priorFiles/prior_boxes_ssd300MobileNetV2.pkl'), 'rb'))
+
+        priors = pickle.load(open(os.path.join(dir_path, 'priorFiles/prior_boxes_ssd300MobileNetV2_224_224.pkl'), 'rb'))
 
         bbox_util = BBoxUtility(21, priors)
 

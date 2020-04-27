@@ -3,8 +3,8 @@ tf_model_path: 'saved_models/tf/'
 compressed_model_path: 'saved_models/compressed/'
 input_node: 'input_1:0'
 output_node: 'predictions/concat:0'
-img_height: 300
-img_width: 300
+img_height: 224
+img_width: 224
 batch_size: 2
 epochs: 1
 learning_rate: 0.0003

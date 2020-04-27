@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
+from tensorflow.keras.models import load_model
 
 import os
 import sys
@@ -10,9 +11,11 @@ sys.path.append(dir_path + '/../../')
 sys.path.append(dir_path)
 sys.path.append(dir_path.replace('ssd_kerasV2', ''))
 sys.path.append('.')
+from tensorflow.keras.models import Model
 
-import keras
-from keras.applications.imagenet_utils import preprocess_input
+import tensorflow.keras as keras
+from tensorflow.keras import backend as K
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 import matplotlib.pyplot as plt
 
 import numpy as np
@@ -22,7 +25,7 @@ import yaml
 from random import shuffle
 from PIL import Image
 
-from model.ssd300MobileNetV2Lite import SSD
+from model.ssd300MobileNetV2Lite import SSD, relu6
 from ssd_training import MultiboxLoss
 from ssd_utils import BBoxUtility
 
@@ -218,7 +221,7 @@ if __name__ == '__main__':
     input_shape = (sets['img_height'], sets['img_width'], 3)
     batch_size = sets['batch_size']
 
-    priors = pickle.load(open(os.path.join(dir_path, 'priorFiles/prior_boxes_ssd300MobileNetV2.pkl'), 'rb'))
+    priors = pickle.load(open(os.path.join(dir_path, 'priorFiles/prior_boxes_ssd300MobileNetV2_224_224.pkl'), 'rb'))
     bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
     gt = pickle.load(open(os.path.join(dir_path, 'voc_2007.pkl'), 'rb'))
@@ -256,35 +259,49 @@ if __name__ == '__main__':
             return base_lr * decay ** (epoch)
 
 
-        callbacks = [keras.callbacks.ModelCheckpoint(os.path.join(sets['tf_model_path'], 'weights.{epoch:02d}-{val_loss:.2f}.hdf5'),
+        callbacks = [keras.callbacks.ModelCheckpoint(os.path.join(sets['tf_model_path'],
+                                                                  'weights.{epoch:02d}-{loss:.2f}.hdf5'),
                                                      verbose=1, save_weights_only=True),
                      # keras.callbacks.LearningRateScheduler(schedule)
                      ]
 
         base_lr = sets['learning_rate']
         optim = keras.optimizers.Adam(lr=base_lr)
-        model.compile(optimizer=optim, loss=MultiboxLoss(NUM_CLASSES, neg_pos_ratio=2.0).compute_loss)
-        # import pdb
-        # pdb.set_trace()
-        # graph = tf.compat.v1.get_default_graph()
-        # [n.name for n in graph.as_graph_def().node]
-        #
+        model.compile(optimizer='adam', loss='mse')
+        print(model.summary())
+        print('model.output.name: {}'.format(model.output.name))
+        # model.compile(optimizer=optim, loss=MultiboxLoss(NUM_CLASSES, neg_pos_ratio=2.0).compute_loss)
+
+
+        # leip compile --input_path /ssd_mobilenet_v2/saved_models/tf/ --input_shapes "1, 224, 224, 3" --output_path /ssd_mobilenet_v2/compiled_tvm_int8/bin --input_types=float32 --data_type=int8 --output_names predictions/concat
+
         # graph.get_tensor_by_name()
 
-        nb_epoch = sets['epochs']
-        history = model.fit_generator(gen.generate(True), gen.train_batches,
-                                      nb_epoch, verbose=1,
-                                      callbacks=callbacks,
-                                      validation_data=gen.generate(False),
-                                      nb_val_samples=gen.val_batches,
-                                      nb_worker=1)
-        saver = tf.train.Saver()
-        saver.save(sess, os.path.join(sets['tf_model_path'], 'model'))
-        tf.summary.FileWriter(os.path.join(sets['tf_model_path'], 'model'), sess.graph)
+        # nb_epoch = sets['epochs']
+        # history = model.fit_generator(gen.generate(True), 1,
+        #                               1, verbose=1,
+        #                               callbacks=callbacks,
+        #                               validation_data=gen.generate(False),
+        #                               nb_val_samples=1,
+        #                               nb_worker=1)
+        # import pdb
+        batch = 10
+        X = np.random.random((batch, 224, 224, 3))
+        y = np.random.randint(2, size=(batch, 1014, 33))
+        model.fit(X, y)
+        model.save(os.path.join(sets['tf_model_path'], 'trained.h5'), save_format='h5')
 
-    print('\n\nTraining completed')
+        json_config = model.to_json()
+        with open(os.path.join(sets['tf_model_path'], 'model_config.json'), 'w') as json_file:
+            json_file.write(json_config)
 
+        # saver = tf.train.Saver(filename=os.path.join(sets['tf_model_path'], 'model'))
+        # saver.save(sess, os.path.join(sets['tf_model_path'], 'model'))
+        # tf.summary.FileWriter(os.path.join(sets['tf_model_path'], 'model'), sess.graph)
 
+    # echo '{"dataset": "custom","input_names": "input_1","input_shapes": "1,224,224,3","output_names": "predictions/concat","preprocessor": "float32","task": "detector"}'>./saved_models/tf/model_schema.json
+    # python train.py --path_to_settings=settings/local.yaml
+    # leip compile --input_path /model-zoo-models/ssd_mobilenetv2/saved_models/tf/ --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_int8/bin --input_types=float32 --data_type=int8 --output_names predictions/concat
 
 
 
