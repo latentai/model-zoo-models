@@ -10,12 +10,14 @@ from utils.detections.eval import parser
 
 from demo import restore_keras_checkpoint
 from yolo3.yolo_as_tf import load_model_tf
+from yolo3.x86model import Model as X86Model
 
 def prepare_detections(args):
     config_path  = args.conf
     input_path   = args.input
     det_folder = args.detFolder
     tf_checkpoint_dir = args.tf_checkpoint_dir
+    binary_dir = args.binary_dir
 
     with open(config_path) as config_buffer:
         config = json.load(config_buffer)
@@ -32,6 +34,9 @@ def prepare_detections(args):
     os.environ['CUDA_VISIBLE_DEVICES'] = config['train']['gpus']
     if tf_checkpoint_dir is not None:
         infer_model = load_model_tf(tf_checkpoint_dir)
+    elif binary_dir is not None:
+        infer_model = X86Model()
+        infer_model.load(binary_dir)
     else:
         infer_model = restore_keras_checkpoint(config['train']['saved_weights_name'])
 
@@ -82,6 +87,7 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--input', help='Path to a directory with images.')
     parser.add_argument('-u', '--use_cache', default=True, help='Whether to user previously generated detetions or not.')
     parser.add_argument('-tf', '--tf_checkpoint_dir', help='path to tensorflow checkpoint directory')
+    parser.add_argument('-b', '--binary_dir', help='path to compiled checkpoint directory')
 
     args = parser.parse_args()
     args.detFolder = os.path.abspath(args.detFolder)

@@ -64,6 +64,12 @@ class Model:
         print('Input type\shape:', x.dtype, x.shape)
 
         self._model.set_input(self._input_name, tvm.nd.array(x))
+
+        # The actuall inference?
+        ftimer = self._model.module.time_evaluator("run", self._ctx, number=1, repeat=1)
+        prof_res = np.array(ftimer().results) * 1000  # convert to millisecond
+        print("Mean inference time (std dev): %.2f ms (%.2f ms)" % (np.mean(prof_res), np.std(prof_res)))
+
         output = [self._model.get_output(i).asnumpy() for i in range(3)]
 
         print('outputs sum:', [np.sum(x) for x in output])
@@ -85,7 +91,8 @@ class Model:
         self._loaded_graph = open(os.path.join(base, "modelDescription.json")).read()
         self._loaded_lib = tvm.runtime.load_module(os.path.join(base, "modelLibrary.so"))
         self._loaded_params = bytearray(open(os.path.join(base, "modelParams.params"), "rb").read())
-        self._ctx = tvm.cpu(0)
+        #self._ctx = tvm.cpu(0)
+        self._ctx = tvm.gpu(1)
         #
         # Get rid of the leip key
         #
