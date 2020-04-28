@@ -9,6 +9,7 @@ from yolo3.bbox import draw_boxes
 import numpy as np
 
 from yolo3.yolo_as_tf import load_model_tf
+from yolo3.x86model import Model as X86Model
 
 def restore_keras_checkpoint(path):
     try:
@@ -26,6 +27,7 @@ def _main_(args):
     input_path   = args.input
     output_path  = args.output
     tf_checkpoint_dir = args.tf_checkpoint_dir
+    binary_dir = args.binary_dir
 
     with open(config_path) as config_buffer:
         config = json.load(config_buffer)
@@ -44,8 +46,14 @@ def _main_(args):
     os.environ['CUDA_VISIBLE_DEVICES'] = config['train']['gpus']
     # TODO: load tf checkpoint here if one provided with input arguments
     if tf_checkpoint_dir is not None:
+        print('Loading tensorflow checkpoint.')
         infer_model = load_model_tf(tf_checkpoint_dir)
+    elif binary_dir is not None:
+        print('Loading binary model.')
+        infer_model = X86Model()
+        infer_model.load(binary_dir)
     else:
+        print('Loading keras checkpoint.')
         infer_model = restore_keras_checkpoint(config['train']['saved_weights_name'])
 
     ###############################
@@ -144,6 +152,7 @@ if __name__ == '__main__':
     argparser.add_argument('-i', '--input', help='path to an image, a directory of images, a video, or webcam')
     argparser.add_argument('-o', '--output', default='output/', help='path to output directory')
     argparser.add_argument('-t', '--tf_checkpoint_dir', help='path to tensorflow checkpoint directory')
+    argparser.add_argument('-b', '--binary_dir', help='path to compiled checkpoint directory')
 
     args = argparser.parse_args()
 
