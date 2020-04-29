@@ -91,8 +91,7 @@ class Model:
         self._loaded_graph = open(os.path.join(base, "modelDescription.json")).read()
         self._loaded_lib = tvm.runtime.load_module(os.path.join(base, "modelLibrary.so"))
         self._loaded_params = bytearray(open(os.path.join(base, "modelParams.params"), "rb").read())
-        #self._ctx = tvm.cpu(0)
-        self._ctx = tvm.gpu(1)
+        self._ctx = tvm.cpu(0)
         #
         # Get rid of the leip key
         #
