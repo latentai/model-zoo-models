@@ -9,7 +9,9 @@ import sys
 import os
 import glob
 import shutil
-from prepare_eval_data import create_files_for_evaluation
+
+from x86_compile_ssd import build
+from x86_prepare_eval_data import X86_Model
 
 # Validate formats
 def ValidateFormats(argFormat, argName, errors):
@@ -234,12 +236,12 @@ parser.add_argument(
     action='store_false',
     help='no plot is shown during execution')
 parser.add_argument('--path_to_settings', help='Path to dataset', required=True)
-parser.add_argument('--model_checkpoints', help='Model checkpoints')
 parser.add_argument('--n_images', help='Model checkpoints', default=100)
 
 args = parser.parse_args()
 
-create_files_for_evaluation(args)
+x86_model = X86_Model(args)
+x86_model.create_model_prediction()
 iouThreshold = args.iouThreshold
 
 # Arguments validation

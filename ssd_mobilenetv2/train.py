@@ -267,29 +267,30 @@ if __name__ == '__main__':
 
         base_lr = sets['learning_rate']
         optim = keras.optimizers.Adam(lr=base_lr)
-        model.compile(optimizer='adam', loss='mse')
         print(model.summary())
         print('model.output.name: {}'.format(model.output.name))
-        # model.compile(optimizer=optim, loss=MultiboxLoss(NUM_CLASSES, neg_pos_ratio=2.0).compute_loss)
+        model.compile(optimizer=optim, loss=MultiboxLoss(NUM_CLASSES, neg_pos_ratio=2.0).compute_loss)
 
 
         # leip compile --input_path /ssd_mobilenet_v2/saved_models/tf/ --input_shapes "1, 224, 224, 3" --output_path /ssd_mobilenet_v2/compiled_tvm_int8/bin --input_types=float32 --data_type=int8 --output_names predictions/concat
 
         # graph.get_tensor_by_name()
+        train_steps = int(len(train_keys) / batch_size)
+        val_steps = int(len(val_keys) / batch_size)
 
-        # nb_epoch = sets['epochs']
-        # history = model.fit_generator(gen.generate(True), 1,
-        #                               1, verbose=1,
-        #                               callbacks=callbacks,
-        #                               validation_data=gen.generate(False),
-        #                               nb_val_samples=1,
-        #                               nb_worker=1)
+        nb_epoch = sets['epochs']
+        history = model.fit_generator(gen.generate(True), epochs=nb_epoch,
+                                      steps_per_epoch=int((train_steps / 15)), verbose=1,
+                                      callbacks=callbacks,
+                                      validation_data=gen.generate(False),
+                                      validation_steps=int((val_steps / 5)),
+                                      workers=1)
         # import pdb
-        batch = 10
-        X = np.random.random((batch, 224, 224, 3))
-        y = np.random.randint(2, size=(batch, 1014, 33))
-        model.fit(X, y)
-        model.save(os.path.join(sets['tf_model_path'], 'trained.h5'), save_format='h5')
+        # batch = 10
+        # X = np.random.random((batch, 224, 224, 3))
+        # y = np.random.randint(2, size=(batch, 1014, 33))
+        # model.fit(X, y)
+        model.save(os.path.join(sets['tf_model_path'], 'saved_model.h5'), save_format='h5')
 
         json_config = model.to_json()
         with open(os.path.join(sets['tf_model_path'], 'model_config.json'), 'w') as json_file:
@@ -301,7 +302,19 @@ if __name__ == '__main__':
 
     # echo '{"dataset": "custom","input_names": "input_1","input_shapes": "1,224,224,3","output_names": "predictions/concat","preprocessor": "float32","task": "detector"}'>./saved_models/tf/model_schema.json
     # python train.py --path_to_settings=settings/local.yaml
+    # cp /model-zoo-models/ssd_mobilenetv2/ssd_layers.py /usr/local/lib/python3.6/dist-packages/latentai_sdk-1.3.1.dev1-py3.6.egg/leip/compress/quantizer/
+    # cp /model-zoo-models/ssd_mobilenetv2/ssd_training.py /usr/local/lib/python3.6/dist-packages/latentai_sdk-1.3.1.dev1-py3.6.egg/leip/compress/quantizer/
+    #
+
+
+    # COMPILE
+    # nano /usr/local/lib/python3.6/dist-packages/latentai_sdk-1.3.1.dev1-py3.6.egg/leip/compress/quantizer/Importers.py
+    # from ssd_layers import PriorBox
+    # from ssd_training import MultiboxLoss
+    # model = tf.keras.models.load_model(self.h5_file, custom_objects={'PriorBox': PriorBox, 'compute_loss': MultiboxLoss(21, neg_pos_ratio=2.0).compute_loss})
     # leip compile --input_path /model-zoo-models/ssd_mobilenetv2/saved_models/tf/ --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_int8/bin --input_types=float32 --data_type=int8 --output_names predictions/concat
+    #
 
-
-
+    # EVAL
+    # python eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml --model_checkpoints saved_models/tf
+    # python eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml --model_checkpoints saved_models/tf

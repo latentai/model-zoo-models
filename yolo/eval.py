@@ -7,15 +7,19 @@ from keras.models import load_model
 
 from utils.detections.eval import evaluate
 from utils.detections.eval import parser
+from utils.detections.voc_subset_10_percent import voc_subset
 
 from demo import restore_keras_checkpoint
 from yolo3.yolo_as_tf import load_model_tf
+from yolo3.x86model import Model as X86Model
 
 def prepare_detections(args):
     config_path  = args.conf
     input_path   = args.input
     det_folder = args.detFolder
     tf_checkpoint_dir = args.tf_checkpoint_dir
+    binary_dir = args.binary_dir
+    use_subset = args.use_subset
 
     with open(config_path) as config_buffer:
         config = json.load(config_buffer)
@@ -32,6 +36,9 @@ def prepare_detections(args):
     os.environ['CUDA_VISIBLE_DEVICES'] = config['train']['gpus']
     if tf_checkpoint_dir is not None:
         infer_model = load_model_tf(tf_checkpoint_dir)
+    elif binary_dir is not None:
+        infer_model = X86Model()
+        infer_model.load(binary_dir)
     else:
         infer_model = restore_keras_checkpoint(config['train']['saved_weights_name'])
 
@@ -47,6 +54,17 @@ def prepare_detections(args):
         image_paths += [input_path]
 
     image_paths = [inp_file for inp_file in image_paths if (inp_file[-4:] in ['.jpg', '.png', 'JPEG'])]
+
+    if use_subset:
+        voc = [x.split('.')[0] for x in voc_subset]
+        image_paths = [
+            x
+            for x
+            in image_paths
+            if os.path.split(x)[1].split('.')[0] in voc
+        ]
+
+    print(f'Number of images to do detections on: {len(image_paths)}')
 
     if not os.path.exists(det_folder):
         os.mkdir(det_folder)
@@ -82,6 +100,8 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--input', help='Path to a directory with images.')
     parser.add_argument('-u', '--use_cache', default=True, help='Whether to user previously generated detetions or not.')
     parser.add_argument('-tf', '--tf_checkpoint_dir', help='path to tensorflow checkpoint directory')
+    parser.add_argument('-b', '--binary_dir', help='path to compiled checkpoint directory')
+    parser.add_argument('-s', '--use_subset', default=False, help='True\False: whether to user small VOC subset (10%) or not.')
 
     args = parser.parse_args()
     args.detFolder = os.path.abspath(args.detFolder)
