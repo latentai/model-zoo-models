@@ -16,7 +16,7 @@ learning_rate: 0.0001
 ### Train the model
 
 ```
-./dev_docker_run python python train.py --path_to_settings settings/local.yaml
+./dev_docker_run python train.py --path_to_settings settings/local.yaml
 ```
 
 ### Evaluate the model
