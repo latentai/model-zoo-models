@@ -34,10 +34,10 @@ FLAGS = None
 
 def main(_):
     # Set the verbosity based on flags (default is INFO, so we see all messages)
-    tf.compat.v1.logging.set_verbosity(FLAGS.verbosity)
+    tf.logging.set_verbosity(FLAGS.verbosity)
 
     # Start a new TensorFlow session.
-    sess = tf.compat.v1.InteractiveSession()
+    sess = tf.InteractiveSession()
 
     summaries_dir = os.path.join(FLAGS.train_dir, 'summaries')
 
@@ -75,7 +75,7 @@ def main(_):
             '--how_many_training_steps and --learning_rate must be equal length '
             'lists, but are %d and %d long instead' % (len(training_steps_list),
                                                        len(learning_rates_list)))
-    input_placeholder = tf.compat.v1.placeholder(
+    input_placeholder = tf.placeholder(
         tf.float32, [None, fingerprint_size], name='fingerprint_input')
     if FLAGS.quantize:
         fingerprint_min, fingerprint_max = input_data.get_features_range(
@@ -85,7 +85,7 @@ def main(_):
     else:
         fingerprint_input = input_placeholder
 
-    logits, dropout_prob = models.create_model(
+    logits = models.create_model(
         fingerprint_input,
         model_settings,
         FLAGS.model_architecture,
@@ -93,27 +93,27 @@ def main(_):
     )
 
     # Define loss and optimizer
-    ground_truth_input = tf.compat.v1.placeholder(
+    ground_truth_input = tf.placeholder(
         tf.int64, [None], name='groundtruth_input')
 
     # Optionally we can add runtime checks to spot when NaNs or other symptoms of
     # numerical errors start occurring during training.
     control_dependencies = []
     if FLAGS.check_nans:
-        checks = tf.compat.v1.add_check_numerics_ops()
+        checks = tf.add_check_numerics_ops()
         control_dependencies = [checks]
 
     # Create the back propagation and training evaluation machinery in the graph.
-    with tf.compat.v1.name_scope('cross_entropy'):
-        cross_entropy_mean = tf.compat.v1.losses.sparse_softmax_cross_entropy(
+    with tf.name_scope('cross_entropy'):
+        cross_entropy_mean = tf.losses.sparse_softmax_cross_entropy(
             labels=ground_truth_input, logits=logits)
     if FLAGS.quantize:
         tf.contrib.quantize.create_training_graph(quant_delay=0)
-    with tf.compat.v1.name_scope('train'), tf.control_dependencies(
+    with tf.name_scope('train'), tf.control_dependencies(
             control_dependencies):
-        learning_rate_input = tf.compat.v1.placeholder(
+        learning_rate_input = tf.placeholder(
             tf.float32, [], name='learning_rate_input')
-        train_step = tf.compat.v1.train.GradientDescentOptimizer(
+        train_step = tf.train.GradientDescentOptimizer(
             learning_rate_input).minimize(cross_entropy_mean)
     predicted_indices = tf.argmax(input=logits, axis=1)
     correct_prediction = tf.equal(predicted_indices, ground_truth_input)
@@ -122,33 +122,33 @@ def main(_):
                                                 num_classes=label_count)
     evaluation_step = tf.reduce_mean(input_tensor=tf.cast(correct_prediction,
                                                           tf.float32))
-    with tf.compat.v1.get_default_graph().name_scope('eval'):
-        tf.compat.v1.summary.scalar('cross_entropy', cross_entropy_mean)
-        tf.compat.v1.summary.scalar('accuracy', evaluation_step)
+    with tf.get_default_graph().name_scope('eval'):
+        tf.summary.scalar('cross_entropy', cross_entropy_mean)
+        tf.summary.scalar('accuracy', evaluation_step)
 
-    global_step = tf.compat.v1.train.get_or_create_global_step()
-    increment_global_step = tf.compat.v1.assign(global_step, tf.math.add(global_step, 1))
+    global_step = tf.train.get_or_create_global_step()
+    increment_global_step = tf.assign(global_step, tf.math.add(global_step, 1))
 
     if not FLAGS.is_test:
-        saver = tf.compat.v1.train.Saver(tf.compat.v1.global_variables())
+        saver = tf.train.Saver(tf.global_variables())
 
-        merged_summaries = tf.compat.v1.summary.merge_all(scope='eval')
-        train_writer = tf.compat.v1.summary.FileWriter(summaries_dir + '/train',
+        merged_summaries = tf.summary.merge_all(scope='eval')
+        train_writer = tf.summary.FileWriter(summaries_dir + '/train',
                                                        sess.graph)
-        validation_writer = tf.compat.v1.summary.FileWriter(
+        validation_writer = tf.summary.FileWriter(
             summaries_dir + '/validation')
 
-    tf.compat.v1.global_variables_initializer().run()
+    tf.global_variables_initializer().run()
 
     start_step = 1
 
     if FLAGS.start_checkpoint:
         models.load_variables_from_checkpoint(sess, FLAGS.start_checkpoint)
         start_step = global_step.eval(session=sess)
-        tf.compat.v1.logging.info(
+        tf.logging.info(
             'Checkpoint: {}'.format(FLAGS.start_checkpoint))
 
-    tf.compat.v1.logging.info('Training from step: {}'.format(start_step))
+    tf.logging.info('Training from step: {}'.format(start_step))
 
     if not FLAGS.is_test:
         # Save graph.pbtxt.
@@ -163,7 +163,7 @@ def main(_):
             f.write('\n'.join(audio_processor.words_list))
 
     # Training loop.
-    tf.compat.v1.logging.info('Is test flag:\n %s' % (FLAGS.is_test))
+    tf.logging.info('Is test flag:\n %s' % (FLAGS.is_test))
 
     if not FLAGS.is_test:
         training_steps_max = np.sum(training_steps_list)
@@ -191,11 +191,10 @@ def main(_):
                 feed_dict={
                     fingerprint_input: train_fingerprints,
                     ground_truth_input: train_ground_truth,
-                    learning_rate_input: learning_rate_value,
-                    dropout_prob: 0.5
+                    learning_rate_input: learning_rate_value
                 })
             train_writer.add_summary(train_summary, training_step)
-            tf.compat.v1.logging.info(
+            tf.logging.info(
                 'Step #%d: rate %f, accuracy %.1f%%, cross entropy %f' %
                 (training_step, learning_rate_value, train_accuracy * 100,
                  cross_entropy_value))
@@ -214,8 +213,7 @@ def main(_):
                         [merged_summaries, evaluation_step, confusion_matrix],
                         feed_dict={
                             fingerprint_input: validation_fingerprints,
-                            ground_truth_input: validation_ground_truth,
-                            dropout_prob: 1.0
+                            ground_truth_input: validation_ground_truth
                         })
                     validation_writer.add_summary(
                         validation_summary, training_step)
@@ -225,9 +223,9 @@ def main(_):
                         total_conf_matrix = conf_matrix
                     else:
                         total_conf_matrix += conf_matrix
-                tf.compat.v1.logging.info(
+                tf.logging.info(
                     'Confusion Matrix:\n %s' % (total_conf_matrix))
-                tf.compat.v1.logging.info('Step %d: Validation accuracy = %.1f%% (N=%d)' %
+                tf.logging.info('Step %d: Validation accuracy = %.1f%% (N=%d)' %
                                           (training_step, total_accuracy * 100, set_size))
 
             # Save the Model checkpoint periodically.
@@ -235,12 +233,12 @@ def main(_):
                     training_step == training_steps_max):
                 checkpoint_path = os.path.join(FLAGS.train_dir,
                                                FLAGS.model_architecture + '.ckpt')
-                tf.compat.v1.logging.info('Saving to "%s-%d"', checkpoint_path,
+                tf.logging.info('Saving to "%s-%d"', checkpoint_path,
                                           training_step)
                 saver.save(sess, checkpoint_path, global_step=training_step)
 
     set_size = audio_processor.set_size('testing')
-    tf.compat.v1.logging.info('set_size=%d', set_size)
+    tf.logging.info('set_size=%d', set_size)
     total_accuracy = 0
     total_conf_matrix = None
     for i in range(0, set_size, FLAGS.batch_size):
@@ -250,8 +248,7 @@ def main(_):
             [evaluation_step, confusion_matrix],
             feed_dict={
                 fingerprint_input: test_fingerprints,
-                ground_truth_input: test_ground_truth,
-                dropout_prob: 1.0
+                ground_truth_input: test_ground_truth
             })
         batch_size = min(FLAGS.batch_size, set_size - i)
         total_accuracy += (test_accuracy * batch_size) / set_size
@@ -259,8 +256,8 @@ def main(_):
             total_conf_matrix = conf_matrix
         else:
             total_conf_matrix += conf_matrix
-    tf.compat.v1.logging.info('Confusion Matrix:\n %s' % (total_conf_matrix))
-    tf.compat.v1.logging.info('Final test accuracy = %.1f%% (N=%d)' %
+    tf.logging.info('Confusion Matrix:\n %s' % (total_conf_matrix))
+    tf.logging.info('Final test accuracy = %.1f%% (N=%d)' %
                               (total_accuracy * 100, set_size))
 
 
@@ -424,22 +421,22 @@ if __name__ == '__main__':
         """
         value = value.upper()
         if value == 'INFO':
-            return tf.compat.v1.logging.INFO
+            return tf.logging.INFO
         elif value == 'DEBUG':
-            return tf.compat.v1.logging.DEBUG
+            return tf.logging.DEBUG
         elif value == 'ERROR':
-            return tf.compat.v1.logging.ERROR
+            return tf.logging.ERROR
         elif value == 'FATAL':
-            return tf.compat.v1.logging.FATAL
+            return tf.logging.FATAL
         elif value == 'WARN':
-            return tf.compat.v1.logging.WARN
+            return tf.logging.WARN
         else:
             raise argparse.ArgumentTypeError('Not an expected value')
     parser.add_argument(
         '--verbosity',
         type=verbosity_arg,
-        default=tf.compat.v1.logging.INFO,
+        default=tf.logging.INFO,
         help='Log verbosity. Can be "INFO", "DEBUG", "ERROR", "FATAL", or "WARN"')
 
     FLAGS, unparsed = parser.parse_known_args()
-    tf.compat.v1.app.run(main=main, argv=[sys.argv[0]] + unparsed)
+    tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)

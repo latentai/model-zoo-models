@@ -1,6 +1,6 @@
 dataset_dir: 'VOC/VOCdevkit'
-tf_model_path: 'saved_models/tf/'
-compressed_model_path: 'saved_models/compressed/'
+tf_model_path: 'saved_models/tf'
+compressed_model_path: 'saved_models/compressed_asymmetric/model_save/'
 input_node: 'input_1:0'
 output_node: 'predictions/concat:0'
 img_height: 224

@@ -35,7 +35,7 @@ dev-leip-run leip run --input_path checkpoint/ --class_names class_names.txt --f
 
 # Run multi-evaluate on open images 10 classes model
 dev-leip-run leip-evaluate-variants --model_id mobilenetv1 --model_variant keras-open-images-10-classes --dataset_id open-images-10-classes --dataset_variant eval --input_checkpoint workspace/models/mobilenetv1/keras-open-images-10-classes --dataset_index_file workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names_file workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt       --output_folder mobilenetv1-oi
-# Run multi-evaluate on imagenet model [crashes TVM error]
+# Run multi-evaluate on imagenet model [crashes with TVM error]
 dev-leip-run leip-evaluate-variants --model_id mobilenetv1 --model_variant keras-imagenet --input_checkpoint workspace/models/mobilenetv1/keras-imagenet --dataset_index_file /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names_file workspace/models/mobilenetv1/keras-imagenet/class_names.txt      --start_cmd_number 10 --output_folder mobilenetv1-imagenet
 
 
@@ -93,51 +93,3 @@ leip evaluate --output_path mobilenetv1-oi/tfliteOutput --framework tflite --inp
 leip compile --input_path mobilenetv1-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --input_types=uint8
 leip evaluate --output_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom --preprocessor ''
 
-
-Imagenet Commands
-# Preparation
-leip zoo download --model_id mobilenetv1 --variant_id keras-imagenet
-rm -rf mobilenetv1-imagenet
-mkdir mobilenetv1-imagenet
-mkdir mobilenetv1-imagenet/baselineFp32Results
-# CMD#10 Baseline FP32 TF
-leip evaluate --output_path mobilenetv1-imagenet/baselineFp32Results --framework tf2 --input_path workspace/models/mobilenetv1/keras-imagenet --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/mobilenetv1/keras-imagenet/class_names.txt
-# LEIP Compress ASYMMETRIC
-leip compress --input_path workspace/models/mobilenetv1/keras-imagenet --quantizer ASYMMETRIC --bits 8 --output_path mobilenetv1-imagenet/checkpointCompressed/
-# LEIP Compress POWER_OF_TWO (POW2)
-leip compress --input_path workspace/models/mobilenetv1/keras-imagenet --quantizer POWER_OF_TWO --bits 8 --output_path mobilenetv1-imagenet/checkpointCompressedPow2/
-# CMD#11 LEIP FP32 TF
-leip evaluate --output_path mobilenetv1-imagenet/checkpointCompressed/ --framework tf2 --input_path mobilenetv1-imagenet/checkpointCompressed/model_save/ --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/mobilenetv1/keras-imagenet/class_names.txt
-# CMD#12 Baseline INT8 TVM
-rm -rf mobilenetv1-imagenet/compiled_tvm_int8
-mkdir mobilenetv1-imagenet/compiled_tvm_int8
-leip compile --input_path workspace/models/mobilenetv1/keras-imagenet --output_path mobilenetv1-imagenet/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path mobilenetv1-imagenet/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path mobilenetv1-imagenet/compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/mobilenetv1/keras-imagenet/class_names.txt
-# CMD#13 Baseline FP32 TVM
-rm -rf mobilenetv1-imagenet/compiled_tvm_fp32
-mkdir mobilenetv1-imagenet/compiled_tvm_fp32
-leip compile --input_path workspace/models/mobilenetv1/keras-imagenet --output_path mobilenetv1-imagenet/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path mobilenetv1-imagenet/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path mobilenetv1-imagenet/compiled_tvm_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/mobilenetv1/keras-imagenet/class_names.txt
-# CMD#14 LEIP INT8 TVM
-rm -rf mobilenetv1-imagenet/leip_compiled_tvm_int8
-mkdir mobilenetv1-imagenet/leip_compiled_tvm_int8
-leip compile --input_path mobilenetv1-imagenet/checkpointCompressed/model_save/ --output_path mobilenetv1-imagenet/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path mobilenetv1-imagenet/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path mobilenetv1-imagenet/leip_compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/mobilenetv1/keras-imagenet/class_names.txt
-# CMD#15 LEIP FP32 TVM
-rm -rf mobilenetv1-imagenet/leip_compiled_tvm_fp32
-mkdir mobilenetv1-imagenet/leip_compiled_tvm_fp32
-leip compile --input_path mobilenetv1-imagenet/checkpointCompressed/model_save/ --output_path mobilenetv1-imagenet/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path mobilenetv1-imagenet/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path mobilenetv1-imagenet/leip_compiled_tvm_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/mobilenetv1/keras-imagenet/class_names.txt
-# CMD#16 LEIP-POW2 INT8 TVM
-rm -rf mobilenetv1-imagenet/leip_compiled_tvm_int8_pow2
-mkdir mobilenetv1-imagenet/leip_compiled_tvm_int8_pow2
-leip compile --input_path mobilenetv1-imagenet/checkpointCompressedPow2/model_save/ --output_path mobilenetv1-imagenet/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path mobilenetv1-imagenet/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path mobilenetv1-imagenet/leip_compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/mobilenetv1/keras-imagenet/class_names.txt
-# CMD#17 TfLite Asymmetric INT8 TF
-rm -rf mobilenetv1-imagenet/tfliteOutput
-mkdir mobilenetv1-imagenet/tfliteOutput
-leip convert --input_path workspace/models/mobilenetv1/keras-imagenet --framework tflite --output_path mobilenetv1-imagenet/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared/data/sample-models/resources/images/imagenet_images/preprocessed/ILSVRC2012_val_00000001.JPEG
-leip evaluate --output_path mobilenetv1-imagenet/tfliteOutput --framework tflite --input_types=uint8 --input_path mobilenetv1-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/mobilenetv1/keras-imagenet/class_names.txt --preprocessor ''
-# CMD#18 TfLite Asymmetric INT8 TVM
-leip compile --input_path mobilenetv1-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --output_path mobilenetv1-imagenet/tfliteOutput/model_save/binuint8 --input_types=uint8
-leip evaluate --output_path mobilenetv1-imagenet/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path mobilenetv1-imagenet/tfliteOutput/model_save/binuint8 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/mobilenetv1/keras-imagenet/class_names.txt --preprocessor ''

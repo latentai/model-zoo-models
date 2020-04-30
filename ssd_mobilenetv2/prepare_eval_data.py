@@ -14,34 +14,40 @@ from PIL import Image
 from model.ssd300MobileNetV2Lite import SSD
 from tensorflow.keras.preprocessing import image
 from ssd_utils import BBoxUtility
+from ssd_layers import PriorBox
+from ssd_training import MultiboxLoss
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 
 
-def restore_tf_checkpoint(conf, sess):
-    print('tf version: {}'.format(tf.__version__))
-    # predictions_target
-    sess.run(tf.compat.v1.initialize_all_variables())
-    tf_meta_path = glob('{}/*.meta'.format(conf['tf_model_path']))[0]
-    saver = tf.compat.v1.train.import_meta_graph(tf_meta_path)
-    saver.restore(sess, tf.compat.v1.train.latest_checkpoint(conf['tf_model_path']))
-    graph = tf.compat.v1.get_default_graph()
+def restore_tf_checkpoint(conf, sess, checkpoint=None):
+    if not checkpoint:
+        print('tf version: {}'.format(tf.__version__))
+        sess.run(tf.compat.v1.initialize_all_variables())
+        model = tf.keras.models.load_model(conf['tf_model_path'] + '/saved_model.h5',
+                                   custom_objects={
+                                       'PriorBox': PriorBox,
+                                       'compute_loss': MultiboxLoss(21, neg_pos_ratio=2.0).compute_loss
+                                   })
+        return model
+    else:
+        # predictions_target
+        sess.run(tf.compat.v1.initialize_all_variables())
+        tf_meta_path = glob('{}/*.meta'.format(checkpoint))[0]
+        saver = tf.compat.v1.train.import_meta_graph(tf_meta_path)
+        saver.restore(sess, tf.compat.v1.train.latest_checkpoint(checkpoint))
+        graph = tf.compat.v1.get_default_graph()
 
-    input_placeholder = graph.get_tensor_by_name(conf['input_node'])
-    output_placeholder = graph.get_tensor_by_name(conf['output_node'])
+        input_placeholder = graph.get_tensor_by_name(conf['input_node'])
+        output_placeholder = graph.get_tensor_by_name(conf['output_node'])
 
-    return {
-        'sess': sess,
-        'in': input_placeholder,
-        'out': output_placeholder
-    }
+        return {
+            'sess': sess,
+            'in': input_placeholder,
+            'out': output_placeholder
+        }
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--path_to_settings', help='Path to dataset', required=True)
-    parser.add_argument('--model_checkpoints', help='Model checkpoints', required=True)
-    parser.add_argument('--n_images', help='Model checkpoints', default=500)
-
+def create_files_for_evaluation(args, n_images=200):
     NUM_CLASSES = 21
     THRESHOLD = 0.6
     CLASSES = ['Aeroplane', 'Bicycle', 'Bird', 'Boat', 'Bottle',
@@ -49,7 +55,6 @@ if __name__ == '__main__':
                'Dog', 'Horse', 'Motorbike', 'Person', 'Pottedplant',
                'Sheep', 'Sofa', 'Train', 'Tvmonitor']
 
-    args = parser.parse_args()
 
     with open(args.path_to_settings, 'r') as fp:
         sets = yaml.safe_load(fp)
@@ -71,13 +76,13 @@ if __name__ == '__main__':
     result_images = []
     annotation_files = []
 
-    print('Prepare : {} files for evaluation. '.format(args.n_images))
+    print('Prepare : {} files for evaluation. '.format(n_images))
 
     with open(os.path.join(sets['dataset_dir'], 'VOC2007/ImageSets/Main/test.txt'), 'r') as annot_f:
-        for annotation in tqdm(list(annot_f)[:args.n_images]):
+        for annotation in tqdm(list(annot_f)[:n_images]):
             try:
                 img_path = os.path.join(sets['dataset_dir'], 'VOC2007/JPEGImages/') + annotation.split(' ')[0].strip() + '.jpg'
-                img = image.load_img(img_path, target_size=(300, 300))
+                img = image.load_img(img_path, target_size=(input_shape[0], input_shape[1]))
                 img = image.img_to_array(img)
                 result_images.append(img_path)
                 images.append(img)
@@ -87,16 +92,20 @@ if __name__ == '__main__':
                 print('Error while opening file.', e)
 
     with tf.compat.v1.Session(config=config) as s:
-        tf_inference = restore_tf_checkpoint(sets, s)
+        tf_inference = restore_tf_checkpoint(sets, s, args.model_checkpoints)
         inputs = preprocess_input(np.array(inputs))
         img_per_batch = 5
         results = []
         start_index = 0
+        print('Start computing batches')
 
         for end_index in tqdm(range(img_per_batch, inputs.shape[0] + 1, img_per_batch)):
-            preds = tf_inference['sess'].run(fetches=tf_inference['out'], feed_dict={
-                tf_inference['in']: inputs[start_index:end_index, :]
-            })
+            if not args.model_checkpoints:
+                preds = tf_inference.predict(inputs[start_index:end_index, :])
+            else:
+                preds = tf_inference['sess'].run(fetches=tf_inference['out'], feed_dict={
+                    tf_inference['in']: inputs[start_index:end_index, :]
+                })
             results.extend(bbox_util.detection_out(preds))
             start_index = end_index
 
@@ -197,6 +206,12 @@ if __name__ == '__main__':
         assert len(ground_images) == len(predicted_images)
 
 
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--path_to_settings', help='Path to dataset')
+    parser.add_argument('--pretrained_weights', help='Model pretrained weights')
 
+    NUM_CLASSES = 21
+    args = parser.parse_args()
 
-
+    create_files_for_evaluation(args)
