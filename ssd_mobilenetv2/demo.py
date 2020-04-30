@@ -11,8 +11,8 @@ import yaml
 import pickle
 import os
 import argparse
-
-
+from ssd_layers import PriorBox
+from ssd_training import MultiboxLoss
 from ssd_utils import BBoxUtility
 
 voc_classes = ['Aeroplane', 'Bicycle', 'Bird', 'Boat', 'Bottle',
@@ -22,22 +22,31 @@ voc_classes = ['Aeroplane', 'Bicycle', 'Bird', 'Boat', 'Bottle',
 
 
 def restore_tf_checkpoint(conf, sess):
-    print('tf version: {}'.format(tf.__version__))
-    # predictions_target
+
     sess.run(tf.compat.v1.initialize_all_variables())
-    tf_meta_path = glob('{}/*.meta'.format(conf['tf_model_path']))[0]
-    saver = tf.compat.v1.train.import_meta_graph(tf_meta_path)
-    saver.restore(sess, tf.compat.v1.train.latest_checkpoint(conf['tf_model_path']))
-    graph = tf.compat.v1.get_default_graph()
+    model = tf.keras.models.load_model(conf['tf_model_path'] + '/trained.h5',
+                               custom_objects={
+                                   'PriorBox': PriorBox,
+                                   'compute_loss': MultiboxLoss(21, neg_pos_ratio=2.0).compute_loss
+                               })
 
-    input_placeholder = graph.get_tensor_by_name(conf['input_node'])
-    output_placeholder = graph.get_tensor_by_name(conf['output_node'])
-
-    return {
-        'sess': sess,
-        'in': input_placeholder,
-        'out': output_placeholder
-    }
+    # print('tf version: {}'.format(tf.__version__))
+    # # predictions_target
+    # sess.run(tf.compat.v1.initialize_all_variables())
+    # tf_meta_path = glob('{}/*.meta'.format(conf['tf_model_path']))[0]
+    # saver = tf.compat.v1.train.import_meta_graph(tf_meta_path)
+    # saver.restore(sess, tf.compat.v1.train.latest_checkpoint(conf['tf_model_path']))
+    # graph = tf.compat.v1.get_default_graph()
+    #
+    # input_placeholder = graph.get_tensor_by_name(conf['input_node'])
+    # output_placeholder = graph.get_tensor_by_name(conf['output_node'])
+    #
+    # return {
+    #     'sess': sess,
+    #     'in': input_placeholder,
+    #     'out': output_placeholder
+    # }
+    return model
 
 
 if __name__ == '__main__':
@@ -74,7 +83,7 @@ if __name__ == '__main__':
 
         bbox_util = BBoxUtility(21, priors)
 
-        preds = tf_inference['sess'].run(fetches=tf_inference['out'], feed_dict={tf_inference['in']: inputs})
+        preds = tf_inference.predict(inputs)
         results = bbox_util.detection_out(preds)
 
 

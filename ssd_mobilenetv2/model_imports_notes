@@ -1,0 +1,11 @@
+#### NOTE
+
+Before compilation/compression following steps should be done:
+ - cp /model-zoo-models/ssd_mobilenetv2/ssd_layers.py /usr/local/lib/python3.6/dist-packages/latentai_sdk-1.3.1.dev1-py3.6.egg/leip/compress/quantizer/
+ - cp /model-zoo-models/ssd_mobilenetv2/ssd_training.py /usr/local/lib/python3.6/dist-packages/latentai_sdk-1.3.1.dev1-py3.6.egg/leip/compress/quantizer/
+ - Update following file /usr/local/lib/python3.6/dist-packages/latentai_sdk-1.3.1.dev1-py3.6.egg/leip/compress/quantizer/Importers.py with next changes:
+   - Add imports
+     from ssd_layers import PriorBox
+     from ssd_training import MultiboxLoss
+   - Update ImportKeras::import_graph with
+     model = tf.keras.models.load_model(self.h5_file) --> model = tf.keras.models.load_model(self.h5_file, custom_objects={'PriorBox': PriorBox, 'compute_loss': MultiboxLoss(21, neg_pos_ratio=2.0).compute_loss})

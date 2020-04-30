@@ -16,14 +16,13 @@ learning_rate: 0.0001
 ### Train the model
 
 ```
-./dev_docker_run python train.py --path_to_settings=settings/local.yaml  --pretrained_weights=weights/MobileNetV2SSD300Lite_p14-p77.hdf5
+./dev_docker_run python python train.py --path_to_settings settings/local.yaml
 ```
 
 ### Evaluate the model
 
 ```
-1. ./dev_docker_run python prepare_eval_data.py --path_to_settings settings/local.yaml --model_checkpoints  saved_models/tf/
-2. ./dev_docker_run python eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot
+./dev_docker_run python eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml
 ```
 
 ### Showcase on single example
@@ -31,14 +30,26 @@ learning_rate: 0.0001
 ./dev_docker_run python demo.py --path_to_settings settings/local.yaml  --path_to_model saved_models/compressed/ --path_to_demo_img imgs/000030.jpg
 ```
 
+
 ### Compress
 ```    
-dev-leip-run leip compress --input_path saved_models/tf/ --output_path saved_models/compressed_tf/ --quantizer asymmetric
+./dev_docker_run leip compress --input_path saved_models/tf/ --output_path saved_models/compressed_asymmetric/ --quantizer asymmetric
 ```
 
 ### Evaluate compressed model
 
 ```
-1. ./dev_docker_run python prepate_eval_data.py --path_to_settings settings/local.yaml --model_checkpoints saved_models/compressed_tf/
-2. ./dev_docker_run eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot
+./dev_docker_run python eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml --model_checkpoints saved_models/compressed_asymmetric/model_save/
+```
+
+### Compile
+
+```
+./dev_docker_run leip compile --input_path /model-zoo-models/ssd_mobilenetv2/saved_models/tf/ --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_int8/bin --input_types=float32 --data_type=int8 --output_names predictions/concat
+```
+
+### Evaluate compiled model
+
+```
+./dev_docker_run python x86_eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml
 ```
