@@ -13,11 +13,11 @@
 
 (Set --epochs and --batch_size to 1 for a quick training run.)
 
-./dev_docker_run ./train.py --dataset_path datasets/open-images-10-classes/train/train/  --eval_dataset_path datasets/open-images-10-classes/eval/eval/ --epochs 100
+./dev_docker_run ./train.py --dataset_path datasets/open-images-10-classes/train/  --eval_dataset_path datasets/open-images-10-classes/eval/ --epochs 100
 
 # Evaluate a trained model
 
-./dev_docker_run ./eval.py --dataset_path datasets/open-images-10-classes/eval/eval/ --input_model_path trained_model.h5
+./dev_docker_run ./eval.py --dataset_path datasets/open-images-10-classes/eval/ --input_model_path trained_model.h5
 
 # Demo
 
@@ -26,7 +26,7 @@ This runs inference on a single image.
 
 
 # Run multi-evaluate on open images 10 classes model
-dev-leip-run leip-evaluate-variants --model_id vgg16 --model_variant keras-open-images-10-classes --dataset_id open-images-10-classes --dataset_variant eval --input_checkpoint workspace/models/vgg16/keras-open-images-10-classes --dataset_index_file workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names_file workspace/models/vgg16/keras-open-images-10-classes/class_names.txt       --output_folder vgg16-oi
+dev-leip-run leip-evaluate-variants --model_id vgg16 --model_variant keras-open-images-10-classes --dataset_id open-images-10-classes --dataset_variant eval --input_checkpoint workspace/models/vgg16/keras-open-images-10-classes --dataset_index_file workspace/datasets/open-images-10-classes/eval/index.txt --class_names_file workspace/models/vgg16/keras-open-images-10-classes/class_names.txt       --output_folder vgg16-oi
 # Run multi-evaluate on imagenet model
 dev-leip-run leip-evaluate-variants --model_id vgg16 --model_variant keras-imagenet  --input_checkpoint workspace/models/vgg16/keras-imagenet --dataset_index_file /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names_file workspace/models/vgg16/keras-imagenet/class_names.txt       --start_cmd_number 10 --output_folder vgg16-imagenet
 
@@ -45,46 +45,46 @@ rm -rf vgg16-oi
 mkdir vgg16-oi
 mkdir vgg16-oi/baselineFp32Results
 # CMD#1 Baseline FP32 TF
-leip evaluate --output_path vgg16-oi/baselineFp32Results --framework tf2 --input_path workspace/models/vgg16/keras-open-images-10-classes --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path vgg16-oi/baselineFp32Results --framework tf2 --input_path workspace/models/vgg16/keras-open-images-10-classes --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # LEIP Compress ASYMMETRIC
 leip compress --input_path workspace/models/vgg16/keras-open-images-10-classes --quantizer ASYMMETRIC --bits 8 --output_path vgg16-oi/checkpointCompressed/
 # LEIP Compress POWER_OF_TWO (POW2)
 leip compress --input_path workspace/models/vgg16/keras-open-images-10-classes --quantizer POWER_OF_TWO --bits 8 --output_path vgg16-oi/checkpointCompressedPow2/
 # CMD#2 LEIP FP32 TF
-leip evaluate --output_path vgg16-oi/checkpointCompressed/ --framework tf2 --input_path vgg16-oi/checkpointCompressed/model_save/ --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path vgg16-oi/checkpointCompressed/ --framework tf2 --input_path vgg16-oi/checkpointCompressed/model_save/ --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#3 Baseline INT8 TVM
 rm -rf vgg16-oi/compiled_tvm_int8
 mkdir vgg16-oi/compiled_tvm_int8
 leip compile --input_path workspace/models/vgg16/keras-open-images-10-classes --output_path vgg16-oi/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path vgg16-oi/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path vgg16-oi/compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path vgg16-oi/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path vgg16-oi/compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#4 Baseline FP32 TVM
 rm -rf vgg16-oi/compiled_tvm_fp32
 mkdir vgg16-oi/compiled_tvm_fp32
 leip compile --input_path workspace/models/vgg16/keras-open-images-10-classes --output_path vgg16-oi/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path vgg16-oi/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path vgg16-oi/compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path vgg16-oi/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path vgg16-oi/compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#5 LEIP INT8 TVM
 rm -rf vgg16-oi/leip_compiled_tvm_int8
 mkdir vgg16-oi/leip_compiled_tvm_int8
 leip compile --input_path vgg16-oi/checkpointCompressed/model_save/ --output_path vgg16-oi/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path vgg16-oi/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path vgg16-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path vgg16-oi/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path vgg16-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#6 LEIP FP32 TVM
 rm -rf vgg16-oi/leip_compiled_tvm_fp32
 mkdir vgg16-oi/leip_compiled_tvm_fp32
 leip compile --input_path vgg16-oi/checkpointCompressed/model_save/ --output_path vgg16-oi/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path vgg16-oi/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path vgg16-oi/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path vgg16-oi/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path vgg16-oi/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#7 LEIP-POW2 INT8 TVM
 rm -rf vgg16-oi/leip_compiled_tvm_int8_pow2
 mkdir vgg16-oi/leip_compiled_tvm_int8_pow2
 leip compile --input_path vgg16-oi/checkpointCompressedPow2/model_save/ --output_path vgg16-oi/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path vgg16-oi/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path vgg16-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path vgg16-oi/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path vgg16-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#8 TfLite Asymmetric INT8 TF
 rm -rf vgg16-oi/tfliteOutput
 mkdir vgg16-oi/tfliteOutput
-leip convert --input_path workspace/models/vgg16/keras-open-images-10-classes --framework tflite --output_path vgg16-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/eval/Apple/06e47f3aa0036947.jpg
-leip evaluate --output_path vgg16-oi/tfliteOutput --framework tflite --input_types=uint8 --input_path vgg16-oi/tfliteOutput/model_save/inference_model.cast.tflite --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom --preprocessor ''
+leip convert --input_path workspace/models/vgg16/keras-open-images-10-classes --framework tflite --output_path vgg16-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg
+leip evaluate --output_path vgg16-oi/tfliteOutput --framework tflite --input_types=uint8 --input_path vgg16-oi/tfliteOutput/model_save/inference_model.cast.tflite --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom --preprocessor ''
 # CMD#9 TfLite Asymmetric INT8 TVM
 leip compile --input_path vgg16-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path vgg16-oi/tfliteOutput/model_save/binuint8 --input_types=uint8
-leip evaluate --output_path vgg16-oi/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path vgg16-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom --preprocessor ''
+leip evaluate --output_path vgg16-oi/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path vgg16-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/vgg16/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom --preprocessor ''
 
 
 Imagenet Commands

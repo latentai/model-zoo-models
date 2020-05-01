@@ -308,11 +308,11 @@
       "variants": [
         {
           "id": "train",
-          "data_url": "https://model-zoo-data.latentai.io/datasets/open-images-10-classes/train/2020-03-27-02-33-59/673a37020d5dc96474c345e0a72b4fab.zip"
+          "data_url": "https://model-zoo-data.latentai.io/datasets/open-images-10-classes/train/2020-05-01-19-15-57/c8499f9a0606cb5dc225bf7578b51279.zip"
         },
         {
           "id": "eval",
-          "data_url": "https://model-zoo-data.latentai.io/datasets/open-images-10-classes/eval/2020-03-27-02-41-29/d1b1911511a7a99202d9c3c6f485d09a.zip"
+          "data_url": "https://model-zoo-data.latentai.io/datasets/open-images-10-classes/eval/2020-05-01-19-11-29/360a64f2fa62ae5ab8913186c8623ca7.zip"
         }
       ]
     },
