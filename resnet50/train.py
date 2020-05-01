@@ -59,7 +59,7 @@ def modelFitGenerator():
         batch_size=batch_size,
         class_mode='categorical', shuffle=True,
         interpolation='lanczos',
-        preproecssor=preprocess_imagenet_caffe
+        preprocessing_function=preprocess_imagenet_caffe
     )
 
     validation_generator = test_datagen.flow_from_directory(
@@ -68,7 +68,7 @@ def modelFitGenerator():
         batch_size=batch_size,
         class_mode='categorical', shuffle=True,
         interpolation='lanczos',
-        preproecssor=preprocess_imagenet_caffe
+        preprocessing_function=preprocess_imagenet_caffe
     )
 
     num_train_samples = len(train_generator.classes)
