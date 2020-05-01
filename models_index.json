@@ -50,7 +50,7 @@
           "show_in_frontend": false,
           "compressed": false,
           "metrics_json": null,
-          "weights_url": "http://model-zoo-data.latentai.io.s3.amazonaws.com/model-weights/yolo/2020-04-10-11-47-03/c73e22164d298dce0c5001ff501272a7.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/model-weights/yolo/keras-pretrained/2020-05-01-22-06-25/dbb0dbdd8a08b93023053fb553d6ba70.zip",
           "model_schema": {
             "output_names": "conv_105/BiasAdd",
             "input_names": "input_1",
