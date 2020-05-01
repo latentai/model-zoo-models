@@ -25,7 +25,7 @@
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition_gtc",
       "variants": [
         {
-          "id": "gtc_baseline_30",
+          "id": "gtc-baseline-30",
           "lp_accuracy": 0.77,
           "hp_accuracy": 0.87,
           "show_in_frontend": true,
