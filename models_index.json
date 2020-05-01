@@ -9,6 +9,7 @@
         {
           "id": "tf-baseline",
           "show_in_frontend": true,
+          "metrics_json": null,
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio_recognition/2020-04-02-15-24-04/92847cc4b33bf13afff48dd1fed62268.zip",
           "model_schema": {
             "output_names": "add_2",
@@ -28,6 +29,7 @@
           "lp_accuracy": 0.77,
           "hp_accuracy": 0.87,
           "show_in_frontend": true,
+          "metrics_json": null,
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio_recognition/2020-04-02-15-24-04/92847cc4b33bf13afff48dd1fed62268.zip",
           "model_schema": {
             "output_names": "dense",
@@ -47,6 +49,7 @@
           "id": "keras_pretrained",
           "show_in_frontend": false,
           "compressed": false,
+          "metrics_json": null,
           "weights_url": "http://model-zoo-data.latentai.io.s3.amazonaws.com/model-weights/yolo/2020-04-10-11-47-03/c73e22164d298dce0c5001ff501272a7.zip",
           "model_schema": {
             "output_names": "conv_105/BiasAdd",
@@ -57,6 +60,7 @@
         {
           "id": "keras_pretrained_backbone",
           "show_in_frontend": false,
+          "metrics_json": null,
           "compressed": false,
           "weights_url": "http://model-zoo-data.latentai.io.s3.amazonaws.com/model-weights/yolo/2020-04-21-12-12-17/62186a8066b28c8af75bdcf3be019cda.zip"
         }
@@ -71,6 +75,7 @@
         {
           "id": "keras-checkpoint",
           "show_in_frontend": false,
+          "metrics_json": null,
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/ssd_mobilenetv1/2020-04-06-13-30-23/6042b3e976bce1138639ab2750a10688.zip",
           "model_schema": {
             "output_names": "predictions/concat",
