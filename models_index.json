@@ -183,7 +183,7 @@
         {
           "id": "keras-open-images-10-classes",
           "show_in_frontend": true,
-          "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-open-images-10-classes/2020-04-13-23-38-41/04618b5b9060438668b1a878d5473ae0.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-open-images-10-classes/2020-05-01-22-45-06/f1df15768ffe7119fef675425871f7e8.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
             "variant_id": "eval"
@@ -192,7 +192,7 @@
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
-            "preprocessor": "float32",
+            "preprocessor": "imagenet_caffe",
             "input_shapes": "1,224,224,3",
             "task": "classifier",
             "dataset": "custom"
