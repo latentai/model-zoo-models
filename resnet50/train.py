@@ -11,9 +11,13 @@ from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adadelta
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from keras.applications.imagenet_utils import preprocess_input
 
 from model_definition import image_size
 
+
+def preprocess_imagenet_caffe(img):
+    return preprocess_input(img, mode='caffe')
 
 def get_model(num_classes):
     input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_data_format() == 'channels_last'
@@ -45,9 +49,13 @@ def modelFitGenerator():
         rotation_range=90,
         horizontal_flip=True,
         vertical_flip=True,
-        zoom_range=0.4)
+        zoom_range=0.4,
+        preprocessing_function=preprocess_imagenet_caffe
+    )
 
-    test_datagen = ImageDataGenerator()
+    test_datagen = ImageDataGenerator(
+        preprocessing_function=preprocess_imagenet_caffe
+    )
 
     train_generator = train_datagen.flow_from_directory(
         train_data_dir,
@@ -170,7 +178,7 @@ if __name__ == '__main__':
         schema_f.write(json.dumps({
             "output_names": "dense/Softmax",
             "input_names": "input_1",
-            "preprocessor": "float32",
+            "preprocessor": "imagenet_caffe",
             "input_shapes": "1,224,224,3",
             "task": "classifier",
             "dataset": "custom"
