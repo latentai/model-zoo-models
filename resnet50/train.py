@@ -49,17 +49,20 @@ def modelFitGenerator():
         rotation_range=90,
         horizontal_flip=True,
         vertical_flip=True,
-        zoom_range=0.4)
+        zoom_range=0.4,
+        preprocessing_function=preprocess_imagenet_caffe
+    )
 
-    test_datagen = ImageDataGenerator()
+    test_datagen = ImageDataGenerator(
+        preprocessing_function=preprocess_imagenet_caffe
+    )
 
     train_generator = train_datagen.flow_from_directory(
         train_data_dir,
         target_size=image_size,
         batch_size=batch_size,
         class_mode='categorical', shuffle=True,
-        interpolation='lanczos',
-        preprocessing_function=preprocess_imagenet_caffe
+        interpolation='lanczos'
     )
 
     validation_generator = test_datagen.flow_from_directory(
@@ -67,8 +70,7 @@ def modelFitGenerator():
         target_size=image_size,
         batch_size=batch_size,
         class_mode='categorical', shuffle=True,
-        interpolation='lanczos',
-        preprocessing_function=preprocess_imagenet_caffe
+        interpolation='lanczos'
     )
 
     num_train_samples = len(train_generator.classes)
