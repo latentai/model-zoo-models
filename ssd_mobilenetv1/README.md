@@ -45,19 +45,19 @@ Cat:
 
 ## Compress tensorflow checkpoint
 
-`rm -rf checkpoint_compressed_asym && dev-leip-run leip compress --input_path checkpoint/ --quantizer ASYMMETRIC --bits 8 --output_path checkpoint_compressed_asym/`
+`rm -rf checkpoint_compressed_asym && leip compress --input_path checkpoint/ --quantizer ASYMMETRIC --bits 8 --output_path checkpoint_compressed_asym/`
 
-`rm -rf checkpoint_compressed_pow2/ && dev-leip-run leip compress --input_path checkpoint/ --quantizer POWER_OF_TWO --bits 8 --output_path checkpoint_compressed_pow2/`
+`rm -rf checkpoint_compressed_pow2/ && leip compress --input_path checkpoint/ --quantizer POWER_OF_TWO --bits 8 --output_path checkpoint_compressed_pow2/`
 
 ## Compile tensorflow checkpoint into int8
 
-`rm -rf compiled_tvm_int8 && mkdir compiled_tvm_int8 && dev-leip-run leip compile --input_path checkpoint/ --input_shapes "1, 300, 300, 3" --output_path compiled_tvm_int8/bin --input_types=uint8 --data_type=int8`
+`rm -rf compiled_tvm_int8 && mkdir compiled_tvm_int8 && leip compile --input_path checkpoint/ --input_shapes "1, 300, 300, 3" --output_path compiled_tvm_int8/bin --input_types=uint8 --data_type=int8`
 
-`rm -rf compiled_tvm_int8 && mkdir compiled_tvm_int8 && dev-leip-run leip compile --input_path checkpoint/ --input_shapes "1, 300, 300, 3" --output_path compiled_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names input_1 --output_names predictions/concat`
+`rm -rf compiled_tvm_int8 && mkdir compiled_tvm_int8 && leip compile --input_path checkpoint/ --input_shapes "1, 300, 300, 3" --output_path compiled_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names input_1 --output_names predictions/concat`
 
 ## Compile tensorflow checkpoint into fp32
 
-`rm -rf compiled_tvm_fp32 && mkdir compiled_tvm_fp32 && dev-leip-run leip compile --input_path checkpoint/ --input_shapes "1, 300, 300, 3" --output_path compiled_tvm_fp32/bin --input_types=float32 --data_type=float32`
+`rm -rf compiled_tvm_fp32 && mkdir compiled_tvm_fp32 && leip compile --input_path checkpoint/ --input_shapes "1, 300, 300, 3" --output_path compiled_tvm_fp32/bin --input_types=float32 --data_type=float32`
 
-`rm -rf compiled_tvm_fp32 && mkdir compiled_tvm_fp32 && dev-leip-run leip compile --input_path checkpoint/ --input_shapes "1, 300, 300, 3" --output_path compiled_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names input_1 --output_names predictions/concat`
+`rm -rf compiled_tvm_fp32 && mkdir compiled_tvm_fp32 && leip compile --input_path checkpoint/ --input_shapes "1, 300, 300, 3" --output_path compiled_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names input_1 --output_names predictions/concat`
 

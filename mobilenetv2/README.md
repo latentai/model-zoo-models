@@ -1,4 +1,11 @@
-# MobileNetV2
+# Getting Started with MobilenetV2
+
+Start by cloning this repo:
+* git clone https://github.com/latentai/model-zoo-models.git
+* cd mobilenetv2
+
+The following commands should "just work":
+
 
 # Download pretrained model on Open Images 10 Classes
 ./dev_docker_run leip zoo download --model_id mobilenetv2 --variant_id keras-open-images-10-classes
@@ -9,38 +16,25 @@
 # Download dataset for Transfer Learning training
 
 ./dev_docker_run leip zoo download --dataset_id open-images-10-classes --variant_id train
+
 ./dev_docker_run leip zoo download --dataset_id open-images-10-classes --variant_id eval
 
 # Train
 
 (Set --epochs and --batch_size to 1 for a quick training run.)
 
-./dev_docker_run ./train.py --dataset_path datasets/open-images-10-classes/train/  --eval_dataset_path datasets/open-images-10-classes/eval/ --epochs 150
+./dev_docker_run ./train.py --dataset_path workspace/datasets/open-images-10-classes/train/  --eval_dataset_path workspace/datasets/open-images-10-classes/eval/ --epochs 150
 
 # Evaluate a trained model
 
-./dev_docker_run ./eval.py --dataset_path datasets/open-images-10-classes/eval/ --input_model_path trained_model.h5
+./dev_docker_run ./eval.py --dataset_path workspace/datasets/open-images-10-classes/eval/ --input_model_path trained_model/model.h5
 
 # Demo
 
 This runs inference on a single image.
-./dev_docker_run ./demo.py --input_model_path trained_model.h5 --image_file test_images/dog.jpg
+./dev_docker_run ./demo.py --input_model_path trained_model/model.h5 --image_file test_images/dog.jpg
 
-# Run multi-evaluate on open images 10 classes model
-dev-leip-run leip-evaluate-variants --model_id mobilenetv2 --model_variant keras-open-images-10-classes --dataset_id open-images-10-classes --dataset_variant eval --input_checkpoint workspace/models/mobilenetv2/keras-open-images-10-classes --dataset_index_file workspace/datasets/open-images-10-classes/eval/index.txt --class_names_file workspace/models/mobilenetv2/keras-open-images-10-classes/class_names.txt       --output_folder mobilenetv2-oi
-# Run multi-evaluate on imagenet model
-dev-leip-run leip-evaluate-variants --model_id mobilenetv2 --model_variant keras-imagenet --input_checkpoint workspace/models/mobilenetv2/keras-imagenet --dataset_index_file /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names_file workspace/models/mobilenetv2/keras-imagenet/class_names.txt      --start_cmd_number 10 --output_folder mobilenetv2-imagenet
-
-
-# Run a converted checkpoint on a single image within LEIP SDK
-
-Assuming your checkpoint is in "checkpoint/" after converting with ./convert_keras_model_to_checkpoint.py :
-
-dev-leip-run leip run -in checkpoint/ --class_names class_names.txt --framework tf --preprocessor imagenet_caffe --test_path test_images/dog.jpg
-
-# Evaluate baseline model within LEIP SDK
-
-dev-leip-run leip evaluate -fw tf -in checkpoint/ --test_path=datasets/open-images-10-classes/eval/index.txt --class_names=class_names.txt --task=classifier --dataset=custom  --preprocessor imagenet_caffe
+# LEIP SDK Post-Training-Quantization Commands on Pretrained Models
 
 Open Image 10 Classes Commands
 # Preparation

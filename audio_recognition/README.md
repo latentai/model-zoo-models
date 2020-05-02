@@ -42,28 +42,28 @@ This command will output the prediction of word "cat".
 
 ***Asymetric***
 
-`rm -rf checkpoint_compressed_asym && dev-leip-run leip compress --input_path train_data/ --quantizer ASYMMETRIC --bits 8 --output_path checkpoint_compressed_asym/`
+`rm -rf checkpoint_compressed_asym && leip compress --input_path train_data/ --quantizer ASYMMETRIC --bits 8 --output_path checkpoint_compressed_asym/`
 
 `./dev_docker_run python eval.py --checkpoint checkpoint_compressed_asym/model_save/new_model --data_dir datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words backward,bed,bird,cat,dog,down,eight,five,follow,forward,four,go,happy,house,learn,left,marvin,nine,no,off,on,one,right,seven,sheila,six,stop,three,tree,two,up,visual,wow,yes,zero`
 
 ***Power of two***
 
-`rm -rf checkpoint_compressed_pow2/ && dev-leip-run leip compress --input_path train_data/ --quantizer POWER_OF_TWO --bits 8 --output_path checkpoint_compressed_pow2/`
+`rm -rf checkpoint_compressed_pow2/ && leip compress --input_path train_data/ --quantizer POWER_OF_TWO --bits 8 --output_path checkpoint_compressed_pow2/`
 
 `./dev_docker_run python eval.py --checkpoint checkpoint_compressed_pow2/model_save/new_nodel --data_dir datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words backward,bed,bird,cat,dog,down,eight,five,follow,forward,four,go,happy,house,learn,left,marvin,nine,no,off,on,one,right,seven,sheila,six,stop,three,tree,two,up,visual,wow,yes,zero`
 
 ## Compile checkpoints into int8
 
-`rm -rf compiled_tf_tvm_int8 && mkdir compiled_tf_tvm_int8 && dev-leip-run leip compile --input_path train_data/ --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_tf_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names fingerprint_input,dropout_prob --output_names add_2`
+`rm -rf compiled_tf_tvm_int8 && mkdir compiled_tf_tvm_int8 && leip compile --input_path train_data/ --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_tf_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names fingerprint_input,dropout_prob --output_names add_2`
 
-`rm -rf compiled_asym_tvm_int8 && mkdir compiled_asym_tf_tvm_int8 && dev-leip-run leip compile --input_path checkpoint_compressed_asym/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_asym_tf_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names fingerprint_input,dropout_prob --output_names add_2`
+`rm -rf compiled_asym_tvm_int8 && mkdir compiled_asym_tf_tvm_int8 && leip compile --input_path checkpoint_compressed_asym/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_asym_tf_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names fingerprint_input,dropout_prob --output_names add_2`
 
-`rm -rf compiled_pow2_tvm_int8 && mkdir compiled_pow2_tf_tvm_int8 && dev-leip-run leip compile --input_path checkpoint_compressed_pow2/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_pow2_tf_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names fingerprint_input,dropout_prob --output_names add_2`
+`rm -rf compiled_pow2_tvm_int8 && mkdir compiled_pow2_tf_tvm_int8 && leip compile --input_path checkpoint_compressed_pow2/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_pow2_tf_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names fingerprint_input,dropout_prob --output_names add_2`
 
 ## Compile tensorflow checkpoint into fp32
 
-`rm -rf compiled_tf_tvm_fp32 && mkdir compiled_tf_tvm_fp32 && dev-leip-run leip compile --input_path train_data/ --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_tf_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names fingerprint_input,dropout_prob --output_names add_2`
+`rm -rf compiled_tf_tvm_fp32 && mkdir compiled_tf_tvm_fp32 && leip compile --input_path train_data/ --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_tf_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names fingerprint_input,dropout_prob --output_names add_2`
 
-`rm -rf compiled_asym_tvm_fp32 && mkdir compiled_asym_tvm_fp32 && dev-leip-run leip compile --input_path checkpoint_compressed_asym/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_asym_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names fingerprint_input,dropout_prob --output_names add_2`
+`rm -rf compiled_asym_tvm_fp32 && mkdir compiled_asym_tvm_fp32 && leip compile --input_path checkpoint_compressed_asym/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_asym_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names fingerprint_input,dropout_prob --output_names add_2`
 
-`rm -rf compiled_pow2_tvm_fp32 && mkdir compiled_pow2_tvm_fp32 && dev-leip-run leip compile --input_path checkpoint_compressed_pow2/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_pow2_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names fingerprint_input,dropout_prob --output_names add_2`
+`rm -rf compiled_pow2_tvm_fp32 && mkdir compiled_pow2_tvm_fp32 && leip compile --input_path checkpoint_compressed_pow2/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_pow2_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names fingerprint_input,dropout_prob --output_names add_2`
