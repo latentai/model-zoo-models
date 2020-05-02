@@ -139,16 +139,9 @@ if __name__ == '__main__':
     parser.add_argument(
         '--output_model_path',
         type=str,
-        default='trained_model/trained_model.h5',
+        default='trained_model',
         required=False,
         help='Where to save the trained model.'
-    )
-    parser.add_argument(
-        '--output_class_names_path',
-        type=str,
-        default='trained_model/class_names.txt',
-        required=False,
-        help='Where to save the class names used by the trained model.'
     )
     parser.add_argument(
         '--epochs',
@@ -169,11 +162,11 @@ if __name__ == '__main__':
     nb_epoch = args.epochs
     batch_size = args.batch_size
     output_model_path = args.output_model_path
-    output_class_names_path = args.output_class_names_path
+    output_class_names_path = os.path.join(output_model_path, 'class_names.txt')
 
-    os.makedirs(os.path.dirname(os.path.abspath(output_model_path)), exist_ok=True)
+    os.makedirs(output_model_path, exist_ok=True)
 
-    with open(os.path.join(os.path.dirname(os.path.abspath(output_model_path)),'model_schema.json'), 'w') as schema_f:
+    with open(os.path.join(output_model_path,'model_schema.json'), 'w') as schema_f:
         schema_f.write(json.dumps({
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
