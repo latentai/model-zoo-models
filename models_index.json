@@ -116,7 +116,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-imagenet/2020-04-13-23-38-12/ad27ad2f39b3d73215ae55839d72eeca.zip",
           "training_dataset": {
             "dataset_id": "imagenet",
-            "variant_id": null
+            "variant_id": "train"
           },
           "metrics_json": null,
           "model_schema": {
@@ -160,7 +160,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-imagenet/2020-04-13-23-38-21/7b91c2ab8d28181894ce3a423cb8eb1c.zip",
           "training_dataset": {
             "dataset_id": "imagenet",
-            "variant_id": null
+            "variant_id": "train"
           },
           "metrics_json": "mobilenetv2/metrics/imagenet.json",
           "model_schema": {
@@ -204,7 +204,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-imagenet/2020-04-13-23-38-32/69598b3630011f49cbb582704cbeefac.zip",
           "training_dataset": {
             "dataset_id": "imagenet",
-            "variant_id": null
+            "variant_id": "train"
           },
           "metrics_json": "resnet50/metrics/imagenet.json",
           "model_schema": {
@@ -248,7 +248,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet/2020-04-13-23-39-07/90cd0632afb0fa49925398d9f6ea9880.zip",
           "training_dataset": {
             "dataset_id": "imagenet",
-            "variant_id": null
+            "variant_id": "train"
           },
           "metrics_json": "vgg16/metrics/imagenet.json",
           "model_schema": {
@@ -292,7 +292,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet/2020-04-13-23-37-59/321a4048251230bca334403319ab9d71.zip",
           "training_dataset": {
             "dataset_id": "imagenet",
-            "variant_id": null
+            "variant_id": "train"
           },
           "metrics_json": "inceptionv3/metrics/imagenet.json",
           "model_schema": {
@@ -339,6 +339,16 @@
         {
           "id": "v0.02",
           "data_url": "https://model-zoo-data.latentai.io/datasets/google-speech-commands/v0.02/2020-04-30-23-19-34/0d5603d8360cab2cb56626a7837f3a05.zip"
+        }
+      ]
+    },
+    {
+      "id": "imagenet",
+      "full_name": "Imagenet",
+      "variants": [
+        {
+          "id": "train",
+          "data_url": null
         }
       ]
     }
