@@ -1,52 +1,50 @@
 {
     "commands_run": [
         "# Preparation",
-        "leip zoo download --model_id resnetv2-50 --variant_id keras-open-images-10-classes",
-        "leip zoo download --dataset_id open-images-10-classes --variant_id eval",
-        "rm -rf resnet50-oi",
-        "mkdir resnet50-oi",
-        "mkdir resnet50-oi/baselineFp32Results",
+        "rm -rf resnet50-oi-retrained",
+        "mkdir resnet50-oi-retrained",
+        "mkdir resnet50-oi-retrained/baselineFp32Results",
         "# CMD#1 Baseline FP32 TF",
-        "leip evaluate --output_path resnet50-oi/baselineFp32Results --framework tf2 --input_path workspace/models/resnetv2-50/keras-open-images-10-classes --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
+        "leip evaluate --output_path resnet50-oi-retrained/baselineFp32Results --framework tf2 --input_path resnet50 --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
         "# LEIP Compress ASYMMETRIC",
-        "leip compress --input_path workspace/models/resnetv2-50/keras-open-images-10-classes --quantizer ASYMMETRIC --bits 8 --output_path resnet50-oi/checkpointCompressed/",
+        "leip compress --input_path resnet50 --quantizer ASYMMETRIC --bits 8 --output_path resnet50-oi-retrained/checkpointCompressed/",
         "# LEIP Compress POWER_OF_TWO (POW2)",
-        "leip compress --input_path workspace/models/resnetv2-50/keras-open-images-10-classes --quantizer POWER_OF_TWO --bits 8 --output_path resnet50-oi/checkpointCompressedPow2/",
+        "leip compress --input_path resnet50 --quantizer POWER_OF_TWO --bits 8 --output_path resnet50-oi-retrained/checkpointCompressedPow2/",
         "# CMD#2 LEIP FP32 TF",
-        "leip evaluate --output_path resnet50-oi/checkpointCompressed/ --framework tf2 --input_path resnet50-oi/checkpointCompressed/model_save/ --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
+        "leip evaluate --output_path resnet50-oi-retrained/checkpointCompressed/ --framework tf2 --input_path resnet50-oi-retrained/checkpointCompressed/model_save/ --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
         "# CMD#3 Baseline INT8 TVM",
-        "mkdir resnet50-oi/compiled_tvm_int8",
-        "leip compile --input_path workspace/models/resnetv2-50/keras-open-images-10-classes --output_path resnet50-oi/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path resnet50-oi/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path resnet50-oi/compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
+        "mkdir resnet50-oi-retrained/compiled_tvm_int8",
+        "leip compile --input_path resnet50 --output_path resnet50-oi-retrained/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
+        "leip evaluate --output_path resnet50-oi-retrained/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path resnet50-oi-retrained/compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
         "# CMD#4 Baseline FP32 TVM",
-        "mkdir resnet50-oi/compiled_tvm_fp32",
-        "leip compile --input_path workspace/models/resnetv2-50/keras-open-images-10-classes --output_path resnet50-oi/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
-        "leip evaluate --output_path resnet50-oi/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path resnet50-oi/compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
+        "mkdir resnet50-oi-retrained/compiled_tvm_fp32",
+        "leip compile --input_path resnet50 --output_path resnet50-oi-retrained/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
+        "leip evaluate --output_path resnet50-oi-retrained/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path resnet50-oi-retrained/compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
         "# CMD#5 LEIP INT8 TVM",
-        "mkdir resnet50-oi/leip_compiled_tvm_int8",
-        "leip compile --input_path resnet50-oi/checkpointCompressed/model_save/ --output_path resnet50-oi/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path resnet50-oi/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path resnet50-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
+        "mkdir resnet50-oi-retrained/leip_compiled_tvm_int8",
+        "leip compile --input_path resnet50-oi-retrained/checkpointCompressed/model_save/ --output_path resnet50-oi-retrained/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
+        "leip evaluate --output_path resnet50-oi-retrained/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path resnet50-oi-retrained/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
         "# CMD#6 LEIP FP32 TVM",
-        "mkdir resnet50-oi/leip_compiled_tvm_fp32",
-        "leip compile --input_path resnet50-oi/checkpointCompressed/model_save/ --output_path resnet50-oi/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
-        "leip evaluate --output_path resnet50-oi/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path resnet50-oi/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
+        "mkdir resnet50-oi-retrained/leip_compiled_tvm_fp32",
+        "leip compile --input_path resnet50-oi-retrained/checkpointCompressed/model_save/ --output_path resnet50-oi-retrained/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
+        "leip evaluate --output_path resnet50-oi-retrained/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path resnet50-oi-retrained/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
         "# CMD#7 LEIP-POW2 INT8 TVM",
-        "mkdir resnet50-oi/leip_compiled_tvm_int8_pow2",
-        "leip compile --input_path resnet50-oi/checkpointCompressedPow2/model_save/ --output_path resnet50-oi/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path resnet50-oi/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path resnet50-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
+        "mkdir resnet50-oi-retrained/leip_compiled_tvm_int8_pow2",
+        "leip compile --input_path resnet50-oi-retrained/checkpointCompressedPow2/model_save/ --output_path resnet50-oi-retrained/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8",
+        "leip evaluate --output_path resnet50-oi-retrained/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path resnet50-oi-retrained/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
         "# CMD#8 TfLite Asymmetric INT8 TF",
-        "mkdir resnet50-oi/tfliteOutput",
-        "leip convert --input_path workspace/models/resnetv2-50/keras-open-images-10-classes --framework tflite --output_path resnet50-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg",
-        "leip evaluate --output_path resnet50-oi/tfliteOutput --framework tflite --input_types=uint8 --input_path resnet50-oi/tfliteOutput/model_save/inference_model.cast.tflite --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt --preprocessor ''",
+        "mkdir resnet50-oi-retrained/tfliteOutput",
+        "leip convert --input_path resnet50 --framework tflite --output_path resnet50-oi-retrained/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/eval/Apple/06e47f3aa0036947.jpg",
+        "leip evaluate --output_path resnet50-oi-retrained/tfliteOutput --framework tflite --input_types=uint8 --input_path resnet50-oi-retrained/tfliteOutput/model_save/inference_model.cast.tflite --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt --preprocessor ''",
         "# CMD#9 TfLite Asymmetric INT8 TVM",
-        "leip compile --input_path resnet50-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path resnet50-oi/tfliteOutput/model_save/binuint8 --input_types=uint8",
-        "leip evaluate --output_path resnet50-oi/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path resnet50-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt --preprocessor ''",
+        "leip compile --input_path resnet50-oi-retrained/tfliteOutput/model_save/inference_model.cast.tflite --output_path resnet50-oi-retrained/tfliteOutput/model_save/binuint8 --input_types=uint8",
+        "leip evaluate --output_path resnet50-oi-retrained/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path resnet50-oi-retrained/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt --preprocessor ''",
         "# CMD#10 TfLite Asymmetric FP32 TF",
-        "leip convert --input_path workspace/models/resnetv2-50/keras-open-images-10-classes --framework tflite --output_path resnet50-oi/tfliteOutput32 --data_type float32 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg",
-        "leip evaluate --output_path resnet50-oi/tfliteOutput32 --framework tflite --input_types=float32 --input_path resnet50-oi/tfliteOutput32/model_save/inference_model.tflite --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
+        "leip convert --input_path resnet50 --framework tflite --output_path resnet50-oi-retrained/tfliteOutput32 --data_type float32 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/eval/Apple/06e47f3aa0036947.jpg",
+        "leip evaluate --output_path resnet50-oi-retrained/tfliteOutput32 --framework tflite --input_types=float32 --input_path resnet50-oi-retrained/tfliteOutput32/model_save/inference_model.tflite --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt",
         "# CMD#11 TfLite Asymmetric FP32 TVM",
-        "leip compile --input_path resnet50-oi/tfliteOutput32/model_save/inference_model.tflite --output_path resnet50-oi/tfliteOutput32/model_save/fp32 --input_types=float32",
-        "leip evaluate --output_path resnet50-oi/tfliteOutput32/model_save/fp32 --framework tvm --input_types=float32 --input_path resnet50-oi/tfliteOutput32/model_save/fp32 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt"
+        "leip compile --input_path resnet50-oi-retrained/tfliteOutput32/model_save/inference_model.tflite --output_path resnet50-oi-retrained/tfliteOutput32/model_save/fp32 --input_types=float32",
+        "leip evaluate --output_path resnet50-oi-retrained/tfliteOutput32/model_save/fp32 --framework tvm --input_types=float32 --input_path resnet50-oi-retrained/tfliteOutput32/model_save/fp32 --test_path workspace/datasets/open-images-10-classes/eval/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt"
     ],
     "file_sizes": [
         [
@@ -85,79 +83,79 @@
         [
             "CMD#1",
             "Baseline FP32 TF",
-            "13.77 inferences/sec",
-            "82.0%",
-            "99.3%"
+            "12.25 inferences/sec",
+            "80.7%",
+            "98.7%"
         ],
         [
             "CMD#2",
             "LEIP FP32 TF",
-            "13.69 inferences/sec",
-            "18.7%",
-            "64.0%"
+            "12.00 inferences/sec",
+            "72.0%",
+            "97.3%"
         ],
         [
             "CMD#3",
             "Baseline INT8 TVM",
-            "6.02 inferences/sec",
-            "76.7%",
-            "99.3%"
+            "5.48 inferences/sec",
+            "86.7%",
+            "98.7%"
         ],
         [
             "CMD#4",
             "Baseline FP32 TVM",
-            "8.65 inferences/sec",
-            "82.0%",
-            "99.3%"
+            "8.30 inferences/sec",
+            "80.7%",
+            "98.7%"
         ],
         [
             "CMD#5",
             "LEIP INT8 TVM",
-            "5.88 inferences/sec",
-            "17.3%",
-            "58.0%"
+            "6.92 inferences/sec",
+            "60.7%",
+            "98.0%"
         ],
         [
             "CMD#6",
             "LEIP FP32 TVM",
-            "11.30 inferences/sec",
-            "18.7%",
-            "64.0%"
+            "4.17 inferences/sec",
+            "72.0%",
+            "97.3%"
         ],
         [
             "CMD#7",
             "LEIP-POW2 INT8 TVM",
-            "11.10 inferences/sec",
-            "17.3%",
-            "58.0%"
+            "4.50 inferences/sec",
+            "60.7%",
+            "98.0%"
         ],
         [
             "CMD#8",
             "TfLite Asymmetric INT8 TF",
-            "3.56 inferences/sec",
-            "82.7%",
-            "99.3%"
+            "2.66 inferences/sec",
+            "70.7%",
+            "97.3%"
         ],
         [
             "CMD#9",
             "TfLite Asymmetric INT8 TVM",
-            "5.63 inferences/sec",
-            "78.0%",
-            "98.0%"
+            "4.15 inferences/sec",
+            "72.7%",
+            "97.3%"
         ],
         [
             "CMD#10",
             "TfLite Asymmetric FP32 TF",
-            "8.80 inferences/sec",
-            "82.0%",
-            "99.3%"
+            "7.23 inferences/sec",
+            "80.7%",
+            "98.7%"
         ],
         [
             "CMD#11",
             "TfLite Asymmetric FP32 TVM",
-            "6.62 inferences/sec",
-            "82.0%",
-            "99.3%"
+            "4.42 inferences/sec",
+            "80.7%",
+            "98.7%"
         ]
     ]
 }
