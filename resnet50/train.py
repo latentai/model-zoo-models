@@ -180,4 +180,6 @@ if __name__ == '__main__':
             "dataset": "custom"
         }, indent=4))
 
+    output_model_path = os.path.join(output_model_path, 'model.h5')
+
     main()
