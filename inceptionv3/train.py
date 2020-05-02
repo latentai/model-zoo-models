@@ -135,14 +135,14 @@ if __name__ == '__main__':
     parser.add_argument(
         '--output_model_path',
         type=str,
-        default='trained_model.h5',
+        default='trained_model/model.h5',
         required=False,
         help='Where to save the trained model.'
     )
     parser.add_argument(
         '--output_class_names_path',
         type=str,
-        default='class_names.txt',
+        default='trained_model/class_names.txt',
         required=False,
         help='Where to save the class names used by the trained model.'
     )
@@ -166,6 +166,8 @@ if __name__ == '__main__':
     batch_size = args.batch_size
     output_model_path = args.output_model_path
     output_class_names_path = args.output_class_names_path
+
+    os.makedirs(os.path.dirname(os.path.abspath(output_model_path)), exist_ok=True)
 
     with open(os.path.join(os.path.dirname(os.path.abspath(output_model_path)),'model_schema.json'), 'w') as schema_f:
         schema_f.write(json.dumps({
