@@ -4,6 +4,7 @@
       "id": "audio-recognition",
       "full_name": "Audio Recognition",
       "description": "",
+      "model_type": "Audio Recognition",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition",
       "variants": [
         {
@@ -22,6 +23,7 @@
       "id": "audio-recognition-gtc",
       "full_name": "Audio Recognition: Training Aware",
       "description": "",
+      "model_type": "Audio Recognition",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition_gtc",
       "variants": [
         {
@@ -43,6 +45,7 @@
       "id": "yolo",
       "full_name": "You Look Only Once Object Detection",
       "description": "YOLO (You Only Look Once), is a deep neural network architecture for object detection. YOLO differentiates itself from other common neural network architectures for object detection tasks in that it performs inference usign a single forward pass through a single neural network.",
+      "model_type": "Object Recognition",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/yolo",
       "variants": [
         {
@@ -70,7 +73,8 @@
     {
       "id": "ssd_mobilenetv1",
       "full_name": "SSD MobilenetV1",
-      "description": "",
+      "description": "SSD MobilenetV1 is an object recognition model that implements depth-wise convolutions within the network in an effort to reduce latency on mobile devices.",
+      "model_type": "Object Recognition",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/ssd_mobilenetv1",
       "variants": [
         {
@@ -89,7 +93,8 @@
     {
       "id": "mobilenetv1",
       "full_name": "Mobilenet V1",
-      "description": "",
+      "description": "Mobilenet V1 is an image classification model that implements depth-wise convolutions within the network in an effort to reduce latency on mobile devices.",
+      "model_type": "Image Classification",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/mobilenetv1",
       "variants": [
         {
@@ -133,7 +138,8 @@
     {
       "id": "mobilenetv2",
       "full_name": "Mobilenet V2",
-      "description": "",
+      "description": "Mobilenet V2 is an image classification model that implements depth-wise convolutions within the network in an effort to optimize latency on mobile devices. MobilenetV2 is architecturally similar to V1, but has been further optimized to reduce latency on mobile devices.",
+      "model_type": "Image Classification",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/mobilenetv2",
       "variants": [
         {
@@ -177,7 +183,8 @@
     {
       "id": "resnetv2-50",
       "full_name": "Resnetv2-50",
-      "description": "",
+      "description": "Resnetv2-50 is a convolutional neural network used for image classification that is 50 layers deep. ResNet is a residual neural network known for it's ability to learn skip functions during training, allowing it to effectively skip layers during the training process resulting in a simplflied neural network that uses fewer layers.",
+      "model_type": "Image Classification",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/resnet50",
       "variants": [
         {
@@ -221,7 +228,8 @@
     {
       "id": "vgg16",
       "full_name": "VGG16",
-      "description": "",
+      "description": "VGG16 is a convolution neural network with 16 layers that acheives high performance on image classifcation tasks.",
+      "model_type": "Image Classification",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/vgg16",
       "variants": [
         {
@@ -265,7 +273,8 @@
     {
       "id": "inceptionv3",
       "full_name": "Inception V3",
-      "description": "",
+      "description": "Inception V3 is a convolutional neural network developed by Google to perform image classificaiton tasks.",
+      "model_type": "Image Classification",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/inceptionv3",
       "variants": [
         {
