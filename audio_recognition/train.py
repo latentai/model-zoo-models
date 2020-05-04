@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-r"""Simple speech recognition to spot a limited number of keywords.
+"""Simple speech recognition to spot a limited number of keywords.
 
 This code is based on the tutorial from tensorflow:
 https://www.tensorflow.org/tutorials/audio_recognition.
@@ -55,7 +55,10 @@ def main(_):
         FLAGS.testing_percentage, model_settings, summaries_dir)
 
     with open('class_names.txt', 'w') as fp:
-        fp.writelines('\n'.join(FLAGS.wanted_words.split(',')))
+        class_names = FLAGS.wanted_words.split(',')
+        class_names.insert(0, 'silence')
+        class_names.insert(1, 'background')
+        fp.writelines('\n'.join(class_names))
 
     fingerprint_size = model_settings['fingerprint_size']
     label_count = model_settings['label_count']

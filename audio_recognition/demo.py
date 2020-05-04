@@ -29,10 +29,10 @@ FLAGS = None
 
 def main(_):
     # Set the verbosity based on flags (default is INFO, so we see all messages)
-    tf.compat.v1.logging.set_verbosity(FLAGS.verbosity)
+    tf.logging.set_verbosity(FLAGS.verbosity)
 
     # Start a new TensorFlow session.
-    sess = tf.compat.v1.InteractiveSession()
+    sess = tf.InteractiveSession()
 
     summaries_dir = os.path.join(FLAGS.train_dir, 'summaries')
 
@@ -68,7 +68,7 @@ def main(_):
             '--how_many_training_steps and --learning_rate must be equal length '
             'lists, but are %d and %d long instead' % (len(training_steps_list),
                                                        len(learning_rates_list)))
-    input_placeholder = tf.compat.v1.placeholder(
+    input_placeholder = tf.placeholder(
         tf.float32, [None, fingerprint_size], name='fingerprint_input')
     if FLAGS.quantize:
         fingerprint_min, fingerprint_max = input_data.get_features_range(
@@ -80,7 +80,7 @@ def main(_):
 
     print('fingerprint input:', fingerprint_input)
 
-    logits, dropout_prob = models.create_model(
+    logits = models.create_model(
         fingerprint_input,
         model_settings,
         FLAGS.model_architecture,
@@ -88,12 +88,12 @@ def main(_):
     )
 
     # Define loss and optimizer
-    ground_truth_input = tf.compat.v1.placeholder(
+    ground_truth_input = tf.placeholder(
         tf.int64, [None], name='groundtruth_input')
 
     # Create the back propagation and training evaluation machinery in the graph.
-    with tf.compat.v1.name_scope('cross_entropy'):
-        cross_entropy_mean = tf.compat.v1.losses.sparse_softmax_cross_entropy(
+    with tf.name_scope('cross_entropy'):
+        cross_entropy_mean = tf.losses.sparse_softmax_cross_entropy(
             labels=ground_truth_input, logits=logits)
     if FLAGS.quantize:
         tf.contrib.quantize.create_training_graph(quant_delay=0)
@@ -101,23 +101,23 @@ def main(_):
     correct_prediction = tf.equal(predicted_indices, ground_truth_input)
     evaluation_step = tf.reduce_mean(input_tensor=tf.cast(correct_prediction,
                                                           tf.float32))
-    with tf.compat.v1.get_default_graph().name_scope('eval'):
-        tf.compat.v1.summary.scalar('cross_entropy', cross_entropy_mean)
-        tf.compat.v1.summary.scalar('accuracy', evaluation_step)
+    with tf.get_default_graph().name_scope('eval'):
+        tf.summary.scalar('cross_entropy', cross_entropy_mean)
+        tf.summary.scalar('accuracy', evaluation_step)
 
-    global_step = tf.compat.v1.train.get_or_create_global_step()
+    global_step = tf.train.get_or_create_global_step()
 
-    tf.compat.v1.global_variables_initializer().run()
+    tf.global_variables_initializer().run()
 
     start_step = 1
 
     if FLAGS.checkpoint:
         models.load_variables_from_checkpoint(sess, FLAGS.checkpoint)
         start_step = global_step.eval(session=sess)
-        tf.compat.v1.logging.info(
+        tf.logging.info(
             'Checkpoint: {}'.format(FLAGS.checkpoint))
 
-    tf.compat.v1.logging.info('Recovering checkpoint from step: {}'.format(start_step))
+    tf.logging.info('Recovering checkpoint from step: {}'.format(start_step))
 
 
     input_features = audio_processor.get_features_for_wav(wav_file, model_settings, sess)
@@ -130,8 +130,7 @@ def main(_):
     y_pred = sess.run(
                 predicted_indices,
                 feed_dict={
-                    fingerprint_input: input_features,
-                    dropout_prob: 1.0
+                    fingerprint_input: input_features
                 })
 
     print('Predict:', y_pred)
@@ -272,22 +271,22 @@ if __name__ == '__main__':
         """
         value = value.upper()
         if value == 'INFO':
-            return tf.compat.v1.logging.INFO
+            return tf.logging.INFO
         elif value == 'DEBUG':
-            return tf.compat.v1.logging.DEBUG
+            return tf.logging.DEBUG
         elif value == 'ERROR':
-            return tf.compat.v1.logging.ERROR
+            return tf.logging.ERROR
         elif value == 'FATAL':
-            return tf.compat.v1.logging.FATAL
+            return tf.logging.FATAL
         elif value == 'WARN':
-            return tf.compat.v1.logging.WARN
+            return tf.logging.WARN
         else:
             raise argparse.ArgumentTypeError('Not an expected value')
     parser.add_argument(
         '--verbosity',
         type=verbosity_arg,
-        default=tf.compat.v1.logging.INFO,
+        default=tf.logging.INFO,
         help='Log verbosity. Can be "INFO", "DEBUG", "ERROR", "FATAL", or "WARN"')
 
     FLAGS, unparsed = parser.parse_known_args()
-    tf.compat.v1.app.run(main=main, argv=[sys.argv[0]] + unparsed)
+    tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
