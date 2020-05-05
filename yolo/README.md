@@ -4,13 +4,13 @@
 
 This command will download pretrained YOLO keras checkpoint.
 
-`./dev_docker_run leip zoo download --model_id yolo --variant_id keras-pretrained
+`./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained`
 
 # Train
 
 In order to train the model you first need to download pretrained backbone.
 
-`./dev_docker_run leip zoo download --model_id yolo --variant_id keras-pretrained-backbone
+`./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained_backbone`
 
 To train the model run
 
@@ -35,6 +35,18 @@ Once you compress the model you will have tensorflow checkpoint as a result. You
 `./dev_docker_run python eval.py -i dataset/VOCdevkit/VOC2007/JPEGImages/ -c config_voc_train.json -gtforma xyrb -detformat xyrb -gt dataset/VOCdevkit/VOC2007/Annotations/ -det detections/ --tf_checkpoint_dir h5/checkpoint`
 
 where `h5/checkpoint` is the path to the directory with tensorflow checkpoint.
+
+## Evaluate compiled checkpoint
+
+It is possibele to evaluate compiled checkpoint if they were compile from x86 platform with fp32 and int8 precision.
+
+For fp32 evaluation will look like:
+
+`python eval.py -i dataset/VOCdevkit/VOC2007/JPEGImages/ -c config_voc_train.json -gtforma xyrb -detformat xyrb -gt dataset/VOCdevkit/VOC2007/Annotations/ -det detections/ --binary_dir h5/tf_compiled_tvm_fp32/bin/`
+
+ For int8 the command will be:
+
+ `python eval.py -i dataset/VOCdevkit/VOC2007/JPEGImages/ -c config_voc_train.json -gtforma xyrb -detformat xyrb -gt dataset/VOCdevkit/VOC2007/Annotations/ -det detections/ --binary_dir h5/tf_compiled_tvm_int8/bin/ --dequantize True`
 
 # Demo
 
