@@ -193,8 +193,10 @@ def create_conv_model(fingerprint_input, model_settings, is_training):
     TensorFlow node outputting logits results, and optionally a dropout
     placeholder.
   """
+  dropout_prob = 0 
   if is_training:
     dropout_prob = 0.5
+  
   input_frequency_size = model_settings['fingerprint_width']
   input_time_size = model_settings['spectrogram_length']
   fingerprint_4d = tf.reshape(fingerprint_input,
