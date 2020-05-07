@@ -44,38 +44,38 @@ rm -rf mobilenetv1-oi
 mkdir mobilenetv1-oi
 mkdir mobilenetv1-oi/baselineFp32Results
 # CMD#1 Baseline FP32 TF
-leip evaluate --output_path mobilenetv1-oi/baselineFp32Results --framework tf2 --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path mobilenetv1-oi/baselineFp32Results --framework tf --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # LEIP Compress ASYMMETRIC
 leip compress --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --quantizer ASYMMETRIC --bits 8 --output_path mobilenetv1-oi/checkpointCompressed/
 # LEIP Compress POWER_OF_TWO (POW2)
 leip compress --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --quantizer POWER_OF_TWO --bits 8 --output_path mobilenetv1-oi/checkpointCompressedPow2/
 # CMD#2 LEIP FP32 TF
-leip evaluate --output_path mobilenetv1-oi/checkpointCompressed/ --framework tf2 --input_path mobilenetv1-oi/checkpointCompressed/model_save/ --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path mobilenetv1-oi/checkpointCompressed/ --framework tf --input_path mobilenetv1-oi/checkpointCompressed/model_save/ --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#3 Baseline INT8 TVM
 rm -rf mobilenetv1-oi/compiled_tvm_int8
 mkdir mobilenetv1-oi/compiled_tvm_int8
 leip compile --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --output_path mobilenetv1-oi/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path mobilenetv1-oi/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path mobilenetv1-oi/compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path mobilenetv1-oi/compiled_tvm_int8/ --framework lre --input_types=uint8 --input_path mobilenetv1-oi/compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#4 Baseline FP32 TVM
 rm -rf mobilenetv1-oi/compiled_tvm_fp32
 mkdir mobilenetv1-oi/compiled_tvm_fp32
 leip compile --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --output_path mobilenetv1-oi/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path mobilenetv1-oi/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path mobilenetv1-oi/compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path mobilenetv1-oi/compiled_tvm_fp32/ --framework lre --input_types=float32 --input_path mobilenetv1-oi/compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#5 LEIP INT8 TVM
 rm -rf mobilenetv1-oi/leip_compiled_tvm_int8
 mkdir mobilenetv1-oi/leip_compiled_tvm_int8
 leip compile --input_path mobilenetv1-oi/checkpointCompressed/model_save/ --output_path mobilenetv1-oi/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path mobilenetv1-oi/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path mobilenetv1-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path mobilenetv1-oi/leip_compiled_tvm_int8 --framework lre --input_types=uint8 --input_path mobilenetv1-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#6 LEIP FP32 TVM
 rm -rf mobilenetv1-oi/leip_compiled_tvm_fp32
 mkdir mobilenetv1-oi/leip_compiled_tvm_fp32
 leip compile --input_path mobilenetv1-oi/checkpointCompressed/model_save/ --output_path mobilenetv1-oi/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path mobilenetv1-oi/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path mobilenetv1-oi/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path mobilenetv1-oi/leip_compiled_tvm_fp32 --framework lre --input_types=float32 --input_path mobilenetv1-oi/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#7 LEIP-POW2 INT8 TVM
 rm -rf mobilenetv1-oi/leip_compiled_tvm_int8_pow2
 mkdir mobilenetv1-oi/leip_compiled_tvm_int8_pow2
 leip compile --input_path mobilenetv1-oi/checkpointCompressedPow2/model_save/ --output_path mobilenetv1-oi/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path mobilenetv1-oi/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path mobilenetv1-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
+leip evaluate --output_path mobilenetv1-oi/leip_compiled_tvm_int8_pow2 --framework lre --input_types=uint8 --input_path mobilenetv1-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom
 # CMD#8 TfLite Asymmetric INT8 TF
 rm -rf mobilenetv1-oi/tfliteOutput
 mkdir mobilenetv1-oi/tfliteOutput
@@ -83,5 +83,5 @@ leip convert --input_path workspace/models/mobilenetv1/keras-open-images-10-clas
 leip evaluate --output_path mobilenetv1-oi/tfliteOutput --framework tflite --input_types=uint8 --input_path mobilenetv1-oi/tfliteOutput/model_save/inference_model.cast.tflite --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom --preprocessor ''
 # CMD#9 TfLite Asymmetric INT8 TVM
 leip compile --input_path mobilenetv1-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --input_types=uint8
-leip evaluate --output_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom --preprocessor ''
+leip evaluate --output_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --task=classifier --dataset=custom --preprocessor ''
 
