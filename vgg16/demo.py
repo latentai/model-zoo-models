@@ -17,14 +17,14 @@ parser.add_argument(
 parser.add_argument(
     '--input_model_path',
     type=str,
-    default='trained_model.h5',
+    default='trained_model/trained_model.h5',
     required=False,
     help='Where to load the trained model.'
 )
 parser.add_argument(
     '--input_class_names_path',
     type=str,
-    default='class_names.txt',
+    default='trained_model/class_names.txt',
     required=False,
     help='Where to load the class names used by the trained model.'
 )

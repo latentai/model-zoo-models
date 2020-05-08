@@ -4,13 +4,13 @@
 
 This command will download pretrained YOLO keras checkpoint.
 
-`./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained
+`./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained`
 
 # Train
 
 In order to train the model you first need to download pretrained backbone.
 
-`./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained_backbone
+`./dev_docker_run leip zoo download --model_id yolo --variant_id keras_pretrained_backbone`
 
 To train the model run
 
@@ -36,6 +36,18 @@ Once you compress the model you will have tensorflow checkpoint as a result. You
 
 where `h5/checkpoint` is the path to the directory with tensorflow checkpoint.
 
+## Evaluate compiled checkpoint
+
+It is possibele to evaluate compiled checkpoint if they were compile from x86 platform with fp32 and int8 precision.
+
+For fp32 evaluation will look like:
+
+`python eval.py -i dataset/VOCdevkit/VOC2007/JPEGImages/ -c config_voc_train.json -gtforma xyrb -detformat xyrb -gt dataset/VOCdevkit/VOC2007/Annotations/ -det detections/ --binary_dir h5/tf_compiled_tvm_fp32/bin/`
+
+ For int8 the command will be:
+
+ `python eval.py -i dataset/VOCdevkit/VOC2007/JPEGImages/ -c config_voc_train.json -gtforma xyrb -detformat xyrb -gt dataset/VOCdevkit/VOC2007/Annotations/ -det detections/ --binary_dir h5/tf_compiled_tvm_int8/bin/ --dequantize True`
+
 # Demo
 
 Once you download (or train) the model you can run demo script. By default this scrip will create `output` directory and put all predictions there.
@@ -54,24 +66,24 @@ You can use `config_voc_demo.json` to use pretrained model or `config_voc_train.
 
 ***Asymetric***
 
-`rm -rf tf_compressed_asym && dev-leip-run leip compress --input_path checkpoint/ --quantizer ASYMMETRIC --bits 8 --output_path tf_compressed_asym/`
+`rm -rf tf_compressed_asym && leip compress --input_path checkpoint/ --quantizer ASYMMETRIC --bits 8 --output_path tf_compressed_asym/`
 
 ***Power of two***
 
-`rm -rf tf_compressed_pow2/ && dev-leip-run leip compress --input_path checkpoint/ --quantizer POWER_OF_TWO --bits 8 --output_path tf_compressed_pow2/`
+`rm -rf tf_compressed_pow2/ && leip compress --input_path checkpoint/ --quantizer POWER_OF_TWO --bits 8 --output_path tf_compressed_pow2/`
 
 ## Compile checkpoints into int8
 
-`rm -rf tf_compiled_tvm_int8 && mkdir tf_compiled_tvm_int8 && dev-leip-run leip compile --input_path checkpoint/ --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
+`rm -rf tf_compiled_tvm_int8 && mkdir tf_compiled_tvm_int8 && leip compile --input_path checkpoint/ --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
 
-`rm -rf tf_compiled_tvm_int8_asym && mkdir tf_compiled_tvm_int8_asym && dev-leip-run leip compile --input_path tf_compressed_asym/model_save/ --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_int8_asym/bin --input_types=uint8 --data_type=int8 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
+`rm -rf tf_compiled_tvm_int8_asym && mkdir tf_compiled_tvm_int8_asym && leip compile --input_path tf_compressed_asym/model_save/ --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_int8_asym/bin --input_types=uint8 --data_type=int8 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
 
-`rm -rf tf_compiled_tvm_int8_pow2 && mkdir tf_compiled_tvm_int8_pow2 && dev-leip-run leip compile --input_path tf_compressed_pow2/model_save/ --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
+`rm -rf tf_compiled_tvm_int8_pow2 && mkdir tf_compiled_tvm_int8_pow2 && leip compile --input_path tf_compressed_pow2/model_save/ --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
 
 ## Compile tensorflow checkpoint into fp32
 
-`rm -rf tf_compiled_tvm_fp32 && mkdir tf_compiled_tvm_fp32 && dev-leip-run leip compile --input_path checkpoint/ --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
+`rm -rf tf_compiled_tvm_fp32 && mkdir tf_compiled_tvm_fp32 && leip compile --input_path checkpoint/ --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
 
-`rm -rf tf_compiled_tvm_fp32_asym && mkdir tf_compiled_tvm_fp32_asym && dev-leip-run leip compile --input_path tf_compressed_asym/model_save --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_fp32_asym/bin --input_types=float32 --data_type=float32 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
+`rm -rf tf_compiled_tvm_fp32_asym && mkdir tf_compiled_tvm_fp32_asym && leip compile --input_path tf_compressed_asym/model_save --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_fp32_asym/bin --input_types=float32 --data_type=float32 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
 
-`rm -rf tf_compiled_tvm_fp32_pow2 && mkdir tf_compiled_tvm_fp32_pow2 && dev-leip-run leip compile --input_path tf_compressed_pow2/model_save --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_fp32_pow2/bin --input_types=float32 --data_type=float32 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`
+`rm -rf tf_compiled_tvm_fp32_pow2 && mkdir tf_compiled_tvm_fp32_pow2 && leip compile --input_path tf_compressed_pow2/model_save --input_shapes "1, 416, 416, 3" --output_path tf_compiled_tvm_fp32_pow2/bin --input_types=float32 --data_type=float32 --input_names input_1 --output_names conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd`

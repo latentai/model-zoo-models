@@ -1,3 +1,11 @@
+# Getting Started with Audio Recognition
+
+Start by cloning this repo:
+* git clone https://github.com/latentai/model-zoo-models.git
+* cd audio_recognition
+
+The following commands should "just work":
+
 # Download dataset
 
 ./dev_docker_run leip zoo download --dataset_id google-speech-commands --variant_id v0.02

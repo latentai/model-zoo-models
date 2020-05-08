@@ -8,7 +8,7 @@ This sample of code shows how to train the model with LEIP framework.
 
 # Download pretrained checkpoints
 
-`./dev_docker_run leip zoo download --model_id audio-recognition-gtc --variant_id gtc_baseline_30`
+`./dev_docker_run leip zoo download --model_id audio-recognition-gtc --variant_id gtc-baseline-30`
 
 Downloaded checkpoint will have two directories: `int_model_10000` and `training_10000`
 

@@ -11,9 +11,13 @@ from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adadelta
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from keras.applications.imagenet_utils import preprocess_input
 
 from model_definition import image_size
 
+
+def preprocess_imagenet_caffe(img):
+    return preprocess_input(img, mode='caffe')
 
 def get_model(num_classes):
     input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_data_format() == 'channels_last'
@@ -45,9 +49,13 @@ def modelFitGenerator():
         rotation_range=90,
         horizontal_flip=True,
         vertical_flip=True,
-        zoom_range=0.4)
+        zoom_range=0.4,
+        preprocessing_function=preprocess_imagenet_caffe
+    )
 
-    test_datagen = ImageDataGenerator()
+    test_datagen = ImageDataGenerator(
+        preprocessing_function=preprocess_imagenet_caffe
+    )
 
     train_generator = train_datagen.flow_from_directory(
         train_data_dir,
@@ -135,16 +143,9 @@ if __name__ == '__main__':
     parser.add_argument(
         '--output_model_path',
         type=str,
-        default='trained_model.h5',
+        default='trained_model',
         required=False,
         help='Where to save the trained model.'
-    )
-    parser.add_argument(
-        '--output_class_names_path',
-        type=str,
-        default='class_names.txt',
-        required=False,
-        help='Where to save the class names used by the trained model.'
     )
     parser.add_argument(
         '--epochs',
@@ -165,15 +166,20 @@ if __name__ == '__main__':
     nb_epoch = args.epochs
     batch_size = args.batch_size
     output_model_path = args.output_model_path
-    output_class_names_path = args.output_class_names_path
-    with open(os.path.join(os.path.dirname(os.path.abspath(output_model_path)),'model_schema.json'), 'w') as schema_f:
+    output_class_names_path = os.path.join(output_model_path, 'class_names.txt')
+
+    os.makedirs(output_model_path, exist_ok=True)
+
+    with open(os.path.join(output_model_path,'model_schema.json'), 'w') as schema_f:
         schema_f.write(json.dumps({
             "output_names": "dense/Softmax",
             "input_names": "input_1",
-            "preprocessor": "float32",
+            "preprocessor": "imagenet_caffe",
             "input_shapes": "1,224,224,3",
             "task": "classifier",
             "dataset": "custom"
         }, indent=4))
+
+    output_model_path = os.path.join(output_model_path, 'model.h5')
 
     main()

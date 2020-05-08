@@ -44,12 +44,15 @@ class Model:
     The model which imitates keras's model behavior.
     The model can be used to do predictions and evaluations in YOLO ecosystem.
     """
-    def __init__(self):
+    def __init__(self, **kwargs):
         self._loaded_graph = None
         self._loaded_lib = None
         self._loaded_params = None
 
+        self._dequantize = False
         self._input_name = 'input_1'
+        if 'dequantize' in kwargs.keys():
+            self._dequantize = kwargs['dequantize']
 
     def predict_on_batch(self, x):
         """
@@ -100,7 +103,12 @@ class Model:
             del graphjson['leip']
             self._loaded_graph = json.dumps(graphjson)
 
+        if self._dequantize:
+            from leip.cast.Cast import Cast
+            from leip import Constants
+            self._loaded_params_quant = bytearray(open(os.path.join(base, "quantParams.params"), "rb").read())
+            castObject = Cast(self._loaded_params, 'ASYMMETRIC', 8, Constants.DATA_INT8)
+            self._loaded_params = castObject.dequantize(self._loaded_params_quant)
+
         self._model = graph_runtime.create(self._loaded_graph, self._loaded_lib, self._ctx)
         self._model.load_params(self._loaded_params)
-
-
