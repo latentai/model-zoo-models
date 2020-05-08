@@ -33,8 +33,8 @@ Once this repo is cloned locally, you can use the following commands to explore 
 This runs inference on a single image.
 ./dev_docker_run ./demo.py --input_model_path trained_model/model.h5 --image_file test_images/dog.jpg
 
-## LEIP SDK Post-Training-Quantization Commands on Pretrained Models
-Open Image 10 Classes Dataset
+# LEIP SDK Post-Training-Quantization Commands on Pretrained Models
+## Open Image 10 Classes Dataset
 |       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
 |-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
 |Original FP32      |                   88.15|                 15.39|              88.0|               100|
@@ -81,7 +81,7 @@ leip compile --input_path inceptionv3-oi/tfliteOutput/model_save/inference_model
 leip evaluate --output_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt --preprocessor ''
 ```
 
-Imagenet Dataset
+## Imagenet Dataset
 |       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
 |-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
 |Original FP32      |                   96.26|                 23.43|              68.0|              90.3|
