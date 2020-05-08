@@ -78,7 +78,8 @@ leip convert --input_path workspace/models/inceptionv3/keras-open-images-10-clas
 ### LRE Int16
 ```bash
 leip compile --input_path inceptionv3-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --input_types=uint8
-leip evaluate --output_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt --preprocessor ''```
+leip evaluate --output_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt --preprocessor ''
+```
 
 Imagenet Dataset
 |       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
@@ -123,4 +124,5 @@ leip convert --input_path workspace/models/inceptionv3/keras-imagenet --framewor
 ### LRE Int16
 ```bash
 leip compile --input_path inceptionv3-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --output_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --input_types=uint8
-leip evaluate --output_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt --preprocessor ''```
+leip evaluate --output_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt --preprocessor ''
+```
