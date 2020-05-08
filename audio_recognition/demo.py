@@ -34,8 +34,6 @@ def main(_):
     # Start a new TensorFlow session.
     sess = tf.InteractiveSession()
 
-    summaries_dir = os.path.join(FLAGS.train_dir, 'summaries')
-
     # Begin by making sure we have the training data we need. If you already have
     # training data of your own, use `--data_url= ` on the command line to avoid
     # downloading.
@@ -47,7 +45,7 @@ def main(_):
         FLAGS.data_url, FLAGS.data_dir,
         FLAGS.silence_percentage, FLAGS.unknown_percentage,
         FLAGS.wanted_words.split(','), FLAGS.validation_percentage,
-        FLAGS.testing_percentage, model_settings, summaries_dir)
+        FLAGS.testing_percentage, model_settings, None)
 
     wav_file = FLAGS.wav
 
@@ -84,7 +82,7 @@ def main(_):
         fingerprint_input,
         model_settings,
         FLAGS.model_architecture,
-        is_training=True,
+        is_training=False,
     )
 
     # Define loss and optimizer
