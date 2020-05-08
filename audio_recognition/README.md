@@ -17,62 +17,72 @@ Once this repo is cloned locally, you can use the following commands to explore 
 
 Set --how_many_training_steps 1,1 for a fast training run.
 
-`./dev_docker_run python train.py --how_many_training_steps 10000,10000 --eval_step_interval 2000 --data_dir datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words backward,bed,bird,cat,dog,down,eight,five,follow,forward,four,go,happy,house,learn,left,marvin,nine,no,off,on,one,right,seven,sheila,six,stop,three,tree,two,up,visual,wow,yes,zero`
+`./dev_docker_run python train.py --how_many_training_steps 20000,15000 --eval_step_interval 2000 --data_dir workspace/datasets/google-speech-commands//train --train_dir train_data --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree`
 
-Once model trained `train_data` directory will be created. It will contain tensorflow summaries and checkpoint of trained model.
+Once model trained `train_data` directory will be created. It will contain checkpoint of trained model.
 
 # Evaluate the model
 
 In order to evaluate the model on test set run following command:
 (Adjust the file name passed to --checkpoint if needed)
 
-`./dev_docker_run python eval.py --checkpoint train_data/conv.ckpt-20000 --data_dir datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words backward,bed,bird,cat,dog,down,eight,five,follow,forward,four,go,happy,house,learn,left,marvin,nine,no,off,on,one,right,seven,sheila,six,stop,three,tree,two,up,visual,wow,yes,zero`
+`./dev_docker_run python eval.py --checkpoint train_data/conv.ckpt-35000 --data_dir workspace/datasets/google-speech-commands/eval --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree --is_test True`
 
 # Demo
 
 To make a prediction on wav file run following command:
 (Adjust the file name passed to --checkpoint if needed)
 
-`./dev_docker_run python demo.py --checkpoint train_data/conv.ckpt-20000 --data_dir datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words backward,bed,bird,cat,dog,down,eight,five,follow,forward,four,go,happy,house,learn,left,marvin,nine,no,off,on,one,right,seven,sheila,six,stop,three,tree,two,up,visual,wow,yes,zero --wav datasets/google-speech-commands/v0.02/speech_commands/cat/030ec18b_nohash_1.wav`
+`./dev_docker_run python demo.py --checkpoint train_data/conv.ckpt-35000 --data_dir workspace/datasets/google-speech-commands/eval --wanted_words up,down,left,right,one,two,three,four,five,six,seven,eight,nine,zero,go,stop,cat,dog,bird,bed,wow,sheila,happy,house,marvin,yes,no,off,on,tree --wav workspace/datasets/google-speech-commands/eval/cat/0c540988_nohash_0.wav`
 
 This command will output the prediction of word "cat".
 
-# Download pretrained checkpoint
+# LEIP SDK Post-Training-Quantization Commands on Pretrained Models
 
-`./dev_docker_run leip zoo download --model_id audio-recognition --variant_id tf-baseline`
+## Preparation
 
-# Evaluate pretrained checkpoint
+`leip zoo download --model_id audio-recognition --variant_id tf-baseline`  
+`leip zoo download --dataset_id google-speech-commands --variant_id eval`  
+`rm -rf audio-recognition && mkdir -p audio-recognition/baselineFp32Results`  
 
-`./dev_docker_run python eval.py --checkpoint models/audio-recognition/tf-baseline/pretrained_tf_checkpoint/conv.ckpt-35000 --data_dir datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words backward,bed,bird,cat,dog,down,eight,five,follow,forward,four,go,happy,house,learn,left,marvin,nine,no,off,on,one,right,seven,sheila,six,stop,three,tree,two,up,visual,wow,yes,zero`
-
-# LEIP part
-
-## Compress tensorflow checkpoint
-
-***Asymetric***
-
-`rm -rf checkpoint_compressed_asym && leip compress --input_path train_data/ --quantizer ASYMMETRIC --bits 8 --output_path checkpoint_compressed_asym/`
-
-`./dev_docker_run python eval.py --checkpoint checkpoint_compressed_asym/model_save/new_model --data_dir datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words backward,bed,bird,cat,dog,down,eight,five,follow,forward,four,go,happy,house,learn,left,marvin,nine,no,off,on,one,right,seven,sheila,six,stop,three,tree,two,up,visual,wow,yes,zero`
-
-***Power of two***
-
-`rm -rf checkpoint_compressed_pow2/ && leip compress --input_path train_data/ --quantizer POWER_OF_TWO --bits 8 --output_path checkpoint_compressed_pow2/`
-
-`./dev_docker_run python eval.py --checkpoint checkpoint_compressed_pow2/model_save/new_nodel --data_dir datasets/google-speech-commands/v0.02/speech_commands/ --train_dir train_data --wanted_words backward,bed,bird,cat,dog,down,eight,five,follow,forward,four,go,happy,house,learn,left,marvin,nine,no,off,on,one,right,seven,sheila,six,stop,three,tree,two,up,visual,wow,yes,zero`
-
-## Compile checkpoints into int8
-
-`rm -rf compiled_tf_tvm_int8 && mkdir compiled_tf_tvm_int8 && leip compile --input_path train_data/ --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_tf_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names fingerprint_input,dropout_prob --output_names add_2`
-
-`rm -rf compiled_asym_tvm_int8 && mkdir compiled_asym_tf_tvm_int8 && leip compile --input_path checkpoint_compressed_asym/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_asym_tf_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names fingerprint_input,dropout_prob --output_names add_2`
-
-`rm -rf compiled_pow2_tvm_int8 && mkdir compiled_pow2_tf_tvm_int8 && leip compile --input_path checkpoint_compressed_pow2/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_pow2_tf_tvm_int8/bin --input_types=uint8 --data_type=int8 --input_names fingerprint_input,dropout_prob --output_names add_2`
-
-## Compile tensorflow checkpoint into fp32
-
-`rm -rf compiled_tf_tvm_fp32 && mkdir compiled_tf_tvm_fp32 && leip compile --input_path train_data/ --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_tf_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names fingerprint_input,dropout_prob --output_names add_2`
-
-`rm -rf compiled_asym_tvm_fp32 && mkdir compiled_asym_tvm_fp32 && leip compile --input_path checkpoint_compressed_asym/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_asym_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names fingerprint_input,dropout_prob --output_names add_2`
-
-`rm -rf compiled_pow2_tvm_fp32 && mkdir compiled_pow2_tvm_fp32 && leip compile --input_path checkpoint_compressed_pow2/model_save --input_shapes "1, 224, 224, 3"-"1,1" --output_path compiled_pow2_tvm_fp32/bin --input_types=float32 --data_type=float32 --input_names fingerprint_input,dropout_prob --output_names add_2`
+# CMD#1 Baseline FP32 TF
+`leip evaluate --output_path audio-recognition/baselineFp32Results --framework tf --input_path workspace/models/audio-recognition/tf-baseline --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`
+# LEIP Compress ASYMMETRIC
+`leip compress --input_path workspace/models/audio-recognition/tf-baseline --quantizer ASYMMETRIC --bits 8 --output_path audio-recognition/checkpointCompressed/`
+# LEIP Compress POWER_OF_TWO (POW2)
+`leip compress --input_path workspace/models/audio-recognition/tf-baseline --quantizer POWER_OF_TWO --bits 8 --output_path audio-recognition/checkpointCompressedPow2/`
+# CMD#2 LEIP FP32 TF
+`leip evaluate --output_path audio-recognition/checkpointCompressed/ --framework tf --input_path audio-recognition/checkpointCompressed/model_save/ --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`
+# CMD#3 Baseline INT8 TVM
+`rm -rf audio-recognition/compiled_tvm_int8`   
+`mkdir audio-recognition/compiled_tvm_int8`  
+`leip compile --input_path workspace/models/audio-recognition/tf-baseline --output_path audio-recognition/compiled_tvm_int8/bin --input_types=float32 --data_type=int8`  
+`leip evaluate --output_path audio-recognition/compiled_tvm_int8/ --framework lre --input_types=float32 --input_path audio-recognition/compiled_tvm_int8/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
+# CMD#4 Baseline FP32 TVM
+`rm -rf audio-recognition/compiled_tvm_fp32`   
+`mkdir audio-recognition/compiled_tvm_fp32`  
+`leip compile --input_path workspace/models/audio-recognition/tf-baseline --output_path audio-recognition/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32`  
+`leip evaluate --output_path audio-recognition/compiled_tvm_fp32/ --framework lre --input_types=float32 --input_path audio-recognition/compiled_tvm_fp32/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
+# CMD#5 LEIP INT8 TVM
+`rm -rf audio-recognition/leip_compiled_tvm_int8`  
+`mkdir audio-recognition/leip_compiled_tvm_int8`  
+`leip compile --input_path audio-recognition/checkpointCompressed/model_save/ --output_path audio-recognition/leip_compiled_tvm_int8/bin --input_types=float32 --data_type=int8`  
+`leip evaluate --output_path audio-recognition/leip_compiled_tvm_int8 --framework lre --input_types=float32 --input_path audio-recognition/leip_compiled_tvm_int8/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
+# CMD#6 LEIP FP32 TVM
+`rm -rf audio-recognition/leip_compiled_tvm_fp32`  
+`mkdir audio-recognition/leip_compiled_tvm_fp32`  
+`leip compile --input_path audio-recognition/checkpointCompressed/model_save/ --output_path audio-recognition/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32`  
+`leip evaluate --output_path audio-recognition/leip_compiled_tvm_fp32 --framework lre --input_types=float32 --input_path audio-recognition/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
+# CMD#7 LEIP-POW2 INT8 TVM
+`rm -rf audio-recognition/leip_compiled_tvm_int8_pow2`  
+`mkdir audio-recognition/leip_compiled_tvm_int8_pow2`  
+`leip compile --input_path audio-recognition/checkpointCompressedPow2/model_save/ --output_path audio-recognition/leip_compiled_tvm_int8_pow2/bin --input_types=float32 --data_type=int8`  
+`leip evaluate --output_path audio-recognition/leip_compiled_tvm_int8_pow2 --framework lre --input_types=float32 --input_path audio-recognition/leip_compiled_tvm_int8/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
+# CMD#8 TfLite Asymmetric INT8 TF
+`rm -rf audio-recognition/tfliteOutput`   
+`mkdir audio-recognition/tfliteOutput`   
+`leip convert --input_path workspace/models/audio-recognition/tf-baseline --framework tflite --output_path audio-recognition/tfliteOutput --data_type uint8 --policy TfLite --rep_dataset workspace/datasets/google-speech-commands/eval/cat/0c540988_nohash_0.wav`   
+`leip evaluate --output_path audio-recognition/tfliteOutput --framework tflite --input_types=uint8 --input_path audio-recognition/tfliteOutput/model_save/inference_model.cast.tflite --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt  --task=classifier --dataset=custom --preprocessor=speechcommand_uint8`
+# CMD#9 TfLite Asymmetric INT8 TVM
+`leip compile --input_path audio-recognition/tfliteOutput/model_save/inference_model.cast.tflite --output_path audio-recognition/tfliteOutput/model_save/binuint8 --input_types=uint8`   
+`leip evaluate --output_path audio-recognition/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path audio-recognition/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt  --task=classifier --dataset=custom --preprocessor=speechcommand_uint8`  
