@@ -308,6 +308,7 @@ class AudioProcessor(object):
     # We need an arbitrary file to load as the input for the silence samples.
     # It's multiplied by zero later, so the content doesn't matter.
     silence_wav_path = self.data_index['training'][0]['file']
+
     for set_index in ['validation', 'testing', 'training']:
       set_size = len(self.data_index[set_index])
       silence_size = int(math.ceil(set_size * silence_percentage / 100))
@@ -320,6 +321,7 @@ class AudioProcessor(object):
       random.shuffle(unknown_index[set_index])
       unknown_size = int(math.ceil(set_size * unknown_percentage / 100))
       self.data_index[set_index].extend(unknown_index[set_index][:unknown_size])
+
     # Make sure the ordering is random.
     for set_index in ['validation', 'testing', 'training']:
       random.shuffle(self.data_index[set_index])
@@ -493,10 +495,11 @@ class AudioProcessor(object):
 
       # Merge all the summaries and write them out to /tmp/retrain_logs (by
       # default)
-      self.merged_summaries_ = tf.summary.merge_all(scope='data')
       if summaries_dir:
-        self.summary_writer_ = tf.summary.FileWriter(
-            summaries_dir + '/data', tf.get_default_graph())
+        self.merged_summaries_ = tf.summary.merge_all(scope='data')
+        if summaries_dir:
+          self.summary_writer_ = tf.summary.FileWriter(
+              summaries_dir + '/data', tf.get_default_graph())
 
   def set_size(self, mode):
     """Calculates the number of samples in the dataset partition.
@@ -604,11 +607,14 @@ class AudioProcessor(object):
       else:
         input_dict[self.foreground_volume_placeholder_] = 1
       # Run the graph to produce the output audio.
-      summary, data_tensor = sess.run(
-          [self.merged_summaries_, self.output_], feed_dict=input_dict)
       if self._summaries_dir is not None:
+          summary, data_tensor = sess.run(
+              [self.merged_summaries_, self.output_], feed_dict=input_dict)
           self.summary_writer_.add_summary(summary)
-      data[i - offset, :] = data_tensor.flatten()
+          data[i - offset, :] = data_tensor.flatten()
+      else:
+          data_tensor = sess.run([self.output_], feed_dict=input_dict)
+          data[i - offset, :] = data_tensor[0].flatten()
       label_index = self.word_to_index[sample['label']]
       labels[i - offset] = label_index
     return data, labels

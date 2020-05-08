@@ -48,7 +48,7 @@ def main(_):
         FLAGS.data_url, FLAGS.data_dir,
         FLAGS.silence_percentage, FLAGS.unknown_percentage,
         FLAGS.wanted_words.split(','), FLAGS.validation_percentage,
-        FLAGS.testing_percentage, model_settings, False)
+        FLAGS.testing_percentage, model_settings, None)
 
     fingerprint_size = model_settings['fingerprint_size']
     label_count = model_settings['label_count']
