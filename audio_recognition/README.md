@@ -4,7 +4,8 @@ Start by cloning this repo:
 * git clone https://github.com/latentai/model-zoo-models.git
 * cd audio_recognition
 
-The following commands should "just work":
+Once this repo is cloned locally, you can use the following commands to explore LEIP framework:
+
 
 # Download dataset
 
