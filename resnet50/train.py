@@ -11,13 +11,9 @@ from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adadelta
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from keras.applications.imagenet_utils import preprocess_input
 
-from model_definition import image_size
+from model_definition import image_size, preprocess_imagenet_caffe
 
-
-def preprocess_imagenet_caffe(img):
-    return preprocess_input(img, mode='caffe')
 
 def get_model(num_classes):
     input_tensor = Input(shape=(224, 224, 3))  # this assumes K.image_data_format() == 'channels_last'

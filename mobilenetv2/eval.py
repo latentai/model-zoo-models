@@ -7,7 +7,7 @@ import tensorflow.keras as keras
 from tensorflow.keras.optimizers import Adadelta
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-from model_definition import image_size
+from model_definition import image_size, preprocess_imagenet
 
 
 def top1_acc(labels, logits):
@@ -42,7 +42,9 @@ if __name__ == '__main__':
     model = keras.models.load_model(args.input_model_path)
 
     validation_data_dir = os.path.join(args.dataset_path, 'eval')
-    test_datagen = ImageDataGenerator()
+    test_datagen = ImageDataGenerator(
+        preprocessing_function=preprocess_imagenet
+    )
 
     validation_generator = test_datagen.flow_from_directory(
         validation_data_dir,

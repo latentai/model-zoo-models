@@ -7,7 +7,7 @@ import tensorflow.keras as keras
 from tensorflow.keras.optimizers import Adadelta
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-from model_definition import image_size
+from model_definition import image_size, preprocess_imagenet_caffe
 
 
 def top1_acc(labels, logits):
@@ -16,7 +16,6 @@ def top1_acc(labels, logits):
 
 def top5_acc(labels, logits):
     return keras.metrics.top_k_categorical_accuracy(y_true=labels, y_pred=logits, k=5)
-
 
 
 if __name__ == '__main__':
@@ -42,7 +41,9 @@ if __name__ == '__main__':
     model = keras.models.load_model(args.input_model_path)
 
     validation_data_dir = args.dataset_path
-    test_datagen = ImageDataGenerator()
+    test_datagen = ImageDataGenerator(
+        preprocessing_function=preprocess_imagenet_caffe
+    )
 
     validation_generator = test_datagen.flow_from_directory(
         validation_data_dir,
