@@ -48,10 +48,11 @@ This runs inference on a single image.
 ## Open Image 10 Classes Dataset
 |       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
 |-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
-|Original FP32      |                   88.15|                 15.39|              88.0|               100|
-|LRE FP32 (baseline)|                   87.24|                 15.04|              88.0|               100|
-|LRE FP32 (storage) |                   21.86|                 14.02|              88.0|               100|
-|LRE Int16          |                   43.63|                 11.01|              90.7|               100|
+|Original FP32      |                   88.15|                 14.50|              88.0|               100|
+|LRE FP32 (baseline)|                   87.24|                 21.74|              88.0|               100|
+|LRE FP32 (storage) |                   21.86|                 21.44|              88.0|               100|
+|LRE Int8 (full)    |                   21.86|                  9.66|              90.7|               100|
+
 
 ### Preparation
 ```bash
@@ -71,22 +72,22 @@ leip compress --input_path workspace/models/inceptionv3/keras-open-images-10-cla
 ```
 ### LRE FP32 (baseline)
 ```bash
-mkdir inceptionv3-oi/compiled_tvm_fp32
-leip compile --input_path workspace/models/inceptionv3/keras-open-images-10-classes --output_path inceptionv3-oi/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path inceptionv3-oi/compiled_tvm_fp32/ --framework lre --input_types=float32 --input_path inceptionv3-oi/compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt
+mkdir inceptionv3-oi/compiled_lre_fp32
+leip compile --input_path workspace/models/inceptionv3/keras-open-images-10-classes --output_path inceptionv3-oi/compiled_lre_fp32/bin --input_types=float32 --data_type=float32
+leip evaluate --output_path inceptionv3-oi/compiled_lre_fp32/ --framework lre --input_types=float32 --input_path inceptionv3-oi/compiled_lre_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt
 ```
 ### LRE FP32 (storage)
 ```bash
-mkdir inceptionv3-oi/compiled_tvm_int8
-leip compile --input_path workspace/models/inceptionv3/keras-open-images-10-classes --output_path inceptionv3-oi/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path inceptionv3-oi/compiled_tvm_int8/ --framework lre --input_types=uint8 --input_path inceptionv3-oi/compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt
+mkdir inceptionv3-oi/compiled_lre_int8
+leip compile --input_path workspace/models/inceptionv3/keras-open-images-10-classes --output_path inceptionv3-oi/compiled_lre_int8/bin --input_types=uint8 --data_type=int8
+leip evaluate --output_path inceptionv3-oi/compiled_lre_int8/ --framework lre --input_types=uint8 --input_path inceptionv3-oi/compiled_lre_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt
 ```
-### Convert to Tflite
+### Convert model to integer
 ```bash
 mkdir inceptionv3-oi/tfliteOutput
 leip convert --input_path workspace/models/inceptionv3/keras-open-images-10-classes --framework tflite --output_path inceptionv3-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg
 ```
-### LRE Int16
+### LRE Int8 (full)
 ```bash
 leip compile --input_path inceptionv3-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --input_types=uint8
 leip evaluate --output_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt --preprocessor ''
@@ -95,10 +96,10 @@ leip evaluate --output_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --fr
 ## Imagenet Dataset
 |       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
 |-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
-|Original FP32      |                   96.26|                 23.43|              68.0|              90.3|
-|LRE FP32 (baseline)|                   95.36|                 19.88|              68.0|              90.3|
-|LRE FP32 (storage) |                   23.88|                 16.92|              68.4|              88.7|
-|LRE Int16          |                   47.69|                 12.81|              64.2|              87.7|
+|Original FP32      |                   96.26|                 22.27|              68.0|              90.3|
+|LRE FP32 (baseline)|                   95.36|                 31.42|              68.0|              90.3|
+|LRE FP32 (storage) |                   23.88|                 32.18|              68.4|              88.7|
+|LRE Int8 (full)    |                   23.89|                 11.32|              64.2|              87.7|
 
 ### Preparation
 ```bash
@@ -117,22 +118,22 @@ leip compress --input_path workspace/models/inceptionv3/keras-imagenet --quantiz
 ```
 ### LRE FP32 (baseline)
 ```bash
-mkdir inceptionv3-imagenet/compiled_tvm_fp32
-leip compile --input_path workspace/models/inceptionv3/keras-imagenet --output_path inceptionv3-imagenet/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path inceptionv3-imagenet/compiled_tvm_fp32/ --framework lre --input_types=float32 --input_path inceptionv3-imagenet/compiled_tvm_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt
+mkdir inceptionv3-imagenet/compiled_lre_fp32
+leip compile --input_path workspace/models/inceptionv3/keras-imagenet --output_path inceptionv3-imagenet/compiled_lre_fp32/bin --input_types=float32 --data_type=float32
+leip evaluate --output_path inceptionv3-imagenet/compiled_lre_fp32/ --framework lre --input_types=float32 --input_path inceptionv3-imagenet/compiled_lre_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt
 ```
 ### LRE FP32 (storage)
 ```bash
-mkdir inceptionv3-imagenet/compiled_tvm_int8
-leip compile --input_path workspace/models/inceptionv3/keras-imagenet --output_path inceptionv3-imagenet/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path inceptionv3-imagenet/compiled_tvm_int8/ --framework lre --input_types=uint8 --input_path inceptionv3-imagenet/compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt
+mkdir inceptionv3-imagenet/compiled_lre_int8
+leip compile --input_path workspace/models/inceptionv3/keras-imagenet --output_path inceptionv3-imagenet/compiled_lre_int8/bin --input_types=uint8 --data_type=int8
+leip evaluate --output_path inceptionv3-imagenet/compiled_lre_int8/ --framework lre --input_types=uint8 --input_path inceptionv3-imagenet/compiled_lre_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt
 ```
-### Convert to Tflite
+### Convert model to integer
 ```bash
 mkdir inceptionv3-imagenet/tfliteOutput
 leip convert --input_path workspace/models/inceptionv3/keras-imagenet --framework tflite --output_path inceptionv3-imagenet/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared/data/sample-models/resources/images/imagenet_images/preprocessed/ILSVRC2012_val_00000001.JPEG
 ```
-### LRE Int16
+### LRE Int8 (full)
 ```bash
 leip compile --input_path inceptionv3-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --output_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --input_types=uint8
 leip evaluate --output_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path inceptionv3-imagenet/tfliteOutput/model_save/binuint8 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/inceptionv3/keras-imagenet/class_names.txt --preprocessor ''

@@ -6,7 +6,6 @@ Start by cloning this repo:
 
 Once this repo is cloned locally, you can use the following commands to explore LEIP framework:
 
-
 # Download dataset
 
 ./dev_docker_run leip zoo download --dataset_id google-speech-commands --variant_id v0.02
@@ -39,50 +38,48 @@ This command will output the prediction of word "cat".
 
 # LEIP SDK Post-Training-Quantization Commands on Pretrained Models
 
-## Preparation
+|       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
+|-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
+|Original FP32      |                    8.73|                 20.08|              78.0|              97.1|
+|LRE FP32 (baseline)|                    8.73|                 72.81|              82.9|              96.9|
+|LRE FP32 (storage) |                    2.18|                 71.34|              82.9|              96.8|
+|LRE Int8 (full)    |                    2.18|                 59.44|              48.9|              76.2|
 
-`leip zoo download --model_id audio-recognition --variant_id tf-baseline`  
-`leip zoo download --dataset_id google-speech-commands --variant_id eval`  
-`rm -rf audio-recognition && mkdir -p audio-recognition/baselineFp32Results`  
-
-# CMD#1 Baseline FP32 TF
-`leip evaluate --output_path audio-recognition/baselineFp32Results --framework tf --input_path workspace/models/audio-recognition/tf-baseline --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`
-# LEIP Compress ASYMMETRIC
-`leip compress --input_path workspace/models/audio-recognition/tf-baseline --quantizer ASYMMETRIC --bits 8 --output_path audio-recognition/checkpointCompressed/`
-# LEIP Compress POWER_OF_TWO (POW2)
-`leip compress --input_path workspace/models/audio-recognition/tf-baseline --quantizer POWER_OF_TWO --bits 8 --output_path audio-recognition/checkpointCompressedPow2/`
-# CMD#2 LEIP FP32 TF
-`leip evaluate --output_path audio-recognition/checkpointCompressed/ --framework tf --input_path audio-recognition/checkpointCompressed/model_save/ --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`
-# CMD#3 Baseline INT8 TVM
-`rm -rf audio-recognition/compiled_tvm_int8`   
-`mkdir audio-recognition/compiled_tvm_int8`  
-`leip compile --input_path workspace/models/audio-recognition/tf-baseline --output_path audio-recognition/compiled_tvm_int8/bin --input_types=float32 --data_type=int8`  
-`leip evaluate --output_path audio-recognition/compiled_tvm_int8/ --framework lre --input_types=float32 --input_path audio-recognition/compiled_tvm_int8/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
-# CMD#4 Baseline FP32 TVM
-`rm -rf audio-recognition/compiled_tvm_fp32`   
-`mkdir audio-recognition/compiled_tvm_fp32`  
-`leip compile --input_path workspace/models/audio-recognition/tf-baseline --output_path audio-recognition/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32`  
-`leip evaluate --output_path audio-recognition/compiled_tvm_fp32/ --framework lre --input_types=float32 --input_path audio-recognition/compiled_tvm_fp32/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
-# CMD#5 LEIP INT8 TVM
-`rm -rf audio-recognition/leip_compiled_tvm_int8`  
-`mkdir audio-recognition/leip_compiled_tvm_int8`  
-`leip compile --input_path audio-recognition/checkpointCompressed/model_save/ --output_path audio-recognition/leip_compiled_tvm_int8/bin --input_types=float32 --data_type=int8`  
-`leip evaluate --output_path audio-recognition/leip_compiled_tvm_int8 --framework lre --input_types=float32 --input_path audio-recognition/leip_compiled_tvm_int8/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
-# CMD#6 LEIP FP32 TVM
-`rm -rf audio-recognition/leip_compiled_tvm_fp32`  
-`mkdir audio-recognition/leip_compiled_tvm_fp32`  
-`leip compile --input_path audio-recognition/checkpointCompressed/model_save/ --output_path audio-recognition/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32`  
-`leip evaluate --output_path audio-recognition/leip_compiled_tvm_fp32 --framework lre --input_types=float32 --input_path audio-recognition/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
-# CMD#7 LEIP-POW2 INT8 TVM
-`rm -rf audio-recognition/leip_compiled_tvm_int8_pow2`  
-`mkdir audio-recognition/leip_compiled_tvm_int8_pow2`  
-`leip compile --input_path audio-recognition/checkpointCompressedPow2/model_save/ --output_path audio-recognition/leip_compiled_tvm_int8_pow2/bin --input_types=float32 --data_type=int8`  
-`leip evaluate --output_path audio-recognition/leip_compiled_tvm_int8_pow2 --framework lre --input_types=float32 --input_path audio-recognition/leip_compiled_tvm_int8/bin --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --task=classifier --dataset=custom`  
-# CMD#8 TfLite Asymmetric INT8 TF
-`rm -rf audio-recognition/tfliteOutput`   
-`mkdir audio-recognition/tfliteOutput`   
-`leip convert --input_path workspace/models/audio-recognition/tf-baseline --framework tflite --output_path audio-recognition/tfliteOutput --data_type uint8 --policy TfLite --rep_dataset workspace/datasets/google-speech-commands/eval/cat/0c540988_nohash_0.wav`   
-`leip evaluate --output_path audio-recognition/tfliteOutput --framework tflite --input_types=uint8 --input_path audio-recognition/tfliteOutput/model_save/inference_model.cast.tflite --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt  --task=classifier --dataset=custom --preprocessor=speechcommand_uint8`
-# CMD#9 TfLite Asymmetric INT8 TVM
-`leip compile --input_path audio-recognition/tfliteOutput/model_save/inference_model.cast.tflite --output_path audio-recognition/tfliteOutput/model_save/binuint8 --input_types=uint8`   
-`leip evaluate --output_path audio-recognition/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path audio-recognition/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/google-speech-commands/eval/index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt  --task=classifier --dataset=custom --preprocessor=speechcommand_uint8`  
+### Preparation
+```bash
+leip zoo download --model_id audio-recognition --variant_id tf-baseline
+leip zoo download --dataset_id google-speech-commands --variant_id eval
+rm -rf audio-recognition-evaluate-variants
+mkdir audio-recognition-evaluate-variants
+mkdir audio-recognition-evaluate-variants/baselineFp32Results
+```
+### Original FP32
+```bash
+leip evaluate --output_path audio-recognition-evaluate-variants/baselineFp32Results --framework tf --input_path workspace/models/audio-recognition/tf-baseline --test_path workspace/datasets/google-speech-commands/eval/short_index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt
+```
+### LEIP Compress ASYMMETRIC
+```bash
+leip compress --input_path workspace/models/audio-recognition/tf-baseline --quantizer ASYMMETRIC --bits 8 --output_path audio-recognition-evaluate-variants/checkpointCompressed/
+```
+### LRE FP32 (baseline)
+```bash
+mkdir audio-recognition-evaluate-variants/compiled_lre_fp32
+leip compile --input_path workspace/models/audio-recognition/tf-baseline --output_path audio-recognition-evaluate-variants/compiled_lre_fp32/bin --input_types=float32 --data_type=float32
+leip evaluate --output_path audio-recognition-evaluate-variants/compiled_lre_fp32/ --framework lre --input_types=float32 --input_path audio-recognition-evaluate-variants/compiled_lre_fp32/bin --test_path workspace/datasets/google-speech-commands/eval/short_index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt
+```
+### LRE FP32 (storage)
+```bash
+mkdir audio-recognition-evaluate-variants/compiled_lre_int8
+leip compile --input_path workspace/models/audio-recognition/tf-baseline --output_path audio-recognition-evaluate-variants/compiled_lre_int8/bin --input_types=uint8 --data_type=int8
+leip evaluate --output_path audio-recognition-evaluate-variants/compiled_lre_int8/ --framework lre --input_types=uint8 --input_path audio-recognition-evaluate-variants/compiled_lre_int8/bin --test_path workspace/datasets/google-speech-commands/eval/short_index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt
+```
+### Convert model to integer
+```bash
+mkdir audio-recognition-evaluate-variants/tfliteOutput
+leip convert --input_path workspace/models/audio-recognition/tf-baseline --framework tflite --output_path audio-recognition-evaluate-variants/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/google-speech-commands/eval/yes/adebe223_nohash_0.wav
+```
+### LRE Int8 (full)
+```bash
+leip compile --input_path audio-recognition-evaluate-variants/tfliteOutput/model_save/inference_model.cast.tflite --output_path audio-recognition-evaluate-variants/tfliteOutput/model_save/binuint8 --input_types=uint8
+leip evaluate --output_path audio-recognition-evaluate-variants/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path audio-recognition-evaluate-variants/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/google-speech-commands/eval/short_index.txt --class_names workspace/datasets/google-speech-commands/eval/class_names.txt --preprocessor speechcommand_uint8
+```
