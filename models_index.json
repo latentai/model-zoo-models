@@ -10,7 +10,11 @@
         {
           "id": "tf-baseline",
           "show_in_frontend": true,
-          "metrics_json": null,
+          "metrics_json": "audio_recognition/metrics/google_speech_commands.json",
+          "training_dataset": {
+            "dataset_id": "google-speech-commands",
+            "variant_id": "train"
+          },
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio-recognition/tf-baseline/2020-05-08-22-19-58/a62d0f14960f4b1db27ad1cd3fe9d5f0.zip",
           "model_schema": {
             "output_names": "Add_2",
@@ -107,7 +111,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-open-images-10-classes/2020-04-13-23-38-16/8996927447f725c0a897bcbf4d876a25.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
-            "variant_id": "eval"
+            "variant_id": "train"
           },
           "metrics_json": "mobilenetv1/metrics/open_images.json",
           "model_schema": {
@@ -152,7 +156,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-open-images-10-classes/2020-04-13-23-38-25/f3de5bf63a2fceafefcf7cfac689fc6d.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
-            "variant_id": "eval"
+            "variant_id": "train"
           },
           "metrics_json": "mobilenetv2/metrics/open_images.json",
           "model_schema": {
@@ -197,7 +201,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-open-images-10-classes/2020-05-01-22-45-06/f1df15768ffe7119fef675425871f7e8.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
-            "variant_id": "eval"
+            "variant_id": "train"
           },
           "metrics_json": "resnet50/metrics/open_images.json",
           "model_schema": {
@@ -242,7 +246,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes/2020-04-13-23-39-26/7fecd4ed9cb6ce1f48d9605728fac3be.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
-            "variant_id": "eval"
+            "variant_id": "train"
           },
           "metrics_json": "vgg16/metrics/open_images.json",
           "model_schema": {
@@ -287,7 +291,7 @@
           "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes/2020-04-13-23-38-08/f4984b05f49065831ef176716a14a660.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
-            "variant_id": "eval"
+            "variant_id": "train"
           },
           "metrics_json": "inceptionv3/metrics/open_images.json",
           "model_schema": {
