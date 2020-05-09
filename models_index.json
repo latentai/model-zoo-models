@@ -11,10 +11,14 @@
           "id": "tf-baseline",
           "show_in_frontend": true,
           "metrics_json": null,
-          "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio_recognition/2020-04-02-15-24-04/92847cc4b33bf13afff48dd1fed62268.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio-recognition/tf-baseline/2020-05-08-22-19-58/a62d0f14960f4b1db27ad1cd3fe9d5f0.zip",
           "model_schema": {
-            "output_names": "add_2",
-            "input_names": "fingerprint_input,dropout_prob"
+            "output_names": "Add_2",
+            "input_names": "fingerprint_input",
+            "preprocessor": "speechcommand",
+            "task": "classifier",
+            "dataset": "custom",
+            "input_shapes": "1,3920"
           }
         }
       ]
