@@ -1,163 +1,151 @@
 {
-    "commands_run": [
-        "# Preparation",
-        "leip zoo download --model_id inceptionv3 --variant_id keras-open-images-10-classes",
-        "leip zoo download --dataset_id open-images-10-classes --variant_id eval",
-        "rm -rf inceptionv3-oi",
-        "mkdir inceptionv3-oi",
-        "mkdir inceptionv3-oi/baselineFp32Results",
-        "# CMD#1 Baseline FP32 TF",
-        "leip evaluate --output_path inceptionv3-oi/baselineFp32Results --framework tf2 --input_path workspace/models/inceptionv3/keras-open-images-10-classes --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt",
-        "# LEIP Compress ASYMMETRIC",
-        "leip compress --input_path workspace/models/inceptionv3/keras-open-images-10-classes --quantizer ASYMMETRIC --bits 8 --output_path inceptionv3-oi/checkpointCompressed/",
-        "# LEIP Compress POWER_OF_TWO (POW2)",
-        "leip compress --input_path workspace/models/inceptionv3/keras-open-images-10-classes --quantizer POWER_OF_TWO --bits 8 --output_path inceptionv3-oi/checkpointCompressedPow2/",
-        "# CMD#2 LEIP FP32 TF",
-        "leip evaluate --output_path inceptionv3-oi/checkpointCompressed/ --framework tf2 --input_path inceptionv3-oi/checkpointCompressed/model_save/ --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt",
-        "# CMD#3 Baseline INT8 TVM",
-        "mkdir inceptionv3-oi/compiled_tvm_int8",
-        "leip compile --input_path workspace/models/inceptionv3/keras-open-images-10-classes --output_path inceptionv3-oi/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path inceptionv3-oi/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path inceptionv3-oi/compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt",
-        "# CMD#4 Baseline FP32 TVM",
-        "mkdir inceptionv3-oi/compiled_tvm_fp32",
-        "leip compile --input_path workspace/models/inceptionv3/keras-open-images-10-classes --output_path inceptionv3-oi/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
-        "leip evaluate --output_path inceptionv3-oi/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path inceptionv3-oi/compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt",
-        "# CMD#5 LEIP INT8 TVM",
-        "mkdir inceptionv3-oi/leip_compiled_tvm_int8",
-        "leip compile --input_path inceptionv3-oi/checkpointCompressed/model_save/ --output_path inceptionv3-oi/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path inceptionv3-oi/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path inceptionv3-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt",
-        "# CMD#6 LEIP FP32 TVM",
-        "mkdir inceptionv3-oi/leip_compiled_tvm_fp32",
-        "leip compile --input_path inceptionv3-oi/checkpointCompressed/model_save/ --output_path inceptionv3-oi/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
-        "leip evaluate --output_path inceptionv3-oi/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path inceptionv3-oi/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt",
-        "# CMD#7 LEIP-POW2 INT8 TVM",
-        "mkdir inceptionv3-oi/leip_compiled_tvm_int8_pow2",
-        "leip compile --input_path inceptionv3-oi/checkpointCompressedPow2/model_save/ --output_path inceptionv3-oi/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path inceptionv3-oi/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path inceptionv3-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt",
-        "# CMD#8 TfLite Asymmetric INT8 TF",
-        "mkdir inceptionv3-oi/tfliteOutput",
-        "leip convert --input_path workspace/models/inceptionv3/keras-open-images-10-classes --framework tflite --output_path inceptionv3-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg",
-        "leip evaluate --output_path inceptionv3-oi/tfliteOutput --framework tflite --input_types=uint8 --input_path inceptionv3-oi/tfliteOutput/model_save/inference_model.cast.tflite --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt --preprocessor ''",
-        "# CMD#9 TfLite Asymmetric INT8 TVM",
-        "leip compile --input_path inceptionv3-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --input_types=uint8",
-        "leip evaluate --output_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path inceptionv3-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt --preprocessor ''",
-        "# CMD#10 TfLite Asymmetric FP32 TF",
-        "leip convert --input_path workspace/models/inceptionv3/keras-open-images-10-classes --framework tflite --output_path inceptionv3-oi/tfliteOutput32 --data_type float32 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg",
-        "leip evaluate --output_path inceptionv3-oi/tfliteOutput32 --framework tflite --input_types=float32 --input_path inceptionv3-oi/tfliteOutput32/model_save/inference_model.tflite --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt",
-        "# CMD#11 TfLite Asymmetric FP32 TVM",
-        "leip compile --input_path inceptionv3-oi/tfliteOutput32/model_save/inference_model.tflite --output_path inceptionv3-oi/tfliteOutput32/model_save/fp32 --input_types=float32",
-        "leip evaluate --output_path inceptionv3-oi/tfliteOutput32/model_save/fp32 --framework tvm --input_types=float32 --input_path inceptionv3-oi/tfliteOutput32/model_save/fp32 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/inceptionv3/keras-open-images-10-classes/class_names.txt"
-    ],
-    "file_sizes": [
-        [
-            "Baseline FP32",
-            "84.1MiB"
-        ],
-        [
-            "LEIP TVM INT8",
-            "modelParams: 20.8MiB, quantParams:27.7KiB"
-        ],
-        [
-            "LEIP TVM FP32",
-            "83.2MiB"
-        ],
-        [
-            "LEIP TVM INT8 POW2",
-            "modelParams: 20.8MiB, quantParams:27.7KiB"
-        ],
-        [
-            "LEIP+Tflite INT8",
-            "20.9MiB"
-        ],
-        [
-            "LEIP+Tflite FP32",
-            "83.2MiB"
-        ]
-    ],
     "performance_metrics": [
         [
             "CMD#",
-            "",
-            "Inf. Speed",
-            "Top1 Acc.",
-            "Top5 Acc."
+            "Mode",
+            "Compress",
+            "Storage",
+            "Runtime",
+            "Parameter file size (MB)",
+            "Speed (inferences/sec)",
+            "Top 1 Accuracy (%)",
+            "Top 5 Accuracy (%)"
         ],
         [
             "CMD#1",
-            "Baseline FP32 TF",
-            "15.54 inferences/sec",
-            "88.0%",
-            "100.0%"
+            "Original FP32",
+            "Baseline FP",
+            "FP",
+            "TF",
+            "88.15",
+            "14.50",
+            "88.0",
+            "100.0"
         ],
         [
             "CMD#2",
-            "LEIP FP32 TF",
-            "15.99 inferences/sec",
-            "86.7%",
-            "100.0%"
+            "Original Quantized",
+            "INT8",
+            "FP",
+            "TF",
+            "87.29",
+            "14.76",
+            "86.7",
+            "100.0"
         ],
         [
             "CMD#3",
-            "Baseline INT8 TVM",
-            "5.80 inferences/sec",
-            "88.0%",
-            "100.0%"
+            "LRE FP32 (baseline)",
+            "FP32",
+            "FP",
+            "LRE",
+            "87.24",
+            "21.74",
+            "88.0",
+            "100.0"
         ],
         [
             "CMD#4",
-            "Baseline FP32 TVM",
-            "5.01 inferences/sec",
-            "88.0%",
-            "100.0%"
+            "LRE FP32 (storage)",
+            "FP32",
+            "INT8",
+            "LRE",
+            "21.86",
+            "21.44",
+            "88.0",
+            "100.0"
         ],
         [
             "CMD#5",
-            "LEIP INT8 TVM",
-            "3.89 inferences/sec",
-            "86.7%",
-            "100.0%"
+            "LRE Int8 (storage)",
+            "INT8",
+            "INT8",
+            "LRE",
+            "21.86",
+            "21.53",
+            "86.7",
+            "100.0"
         ],
         [
             "CMD#6",
-            "LEIP FP32 TVM",
-            "7.14 inferences/sec",
-            "86.7%",
-            "100.0%"
+            "LRE Int8",
+            "INT8",
+            "FP",
+            "LRE",
+            "87.24",
+            "19.99",
+            "86.7",
+            "100.0"
         ],
         [
             "CMD#7",
-            "LEIP-POW2 INT8 TVM",
-            "14.60 inferences/sec",
-            "86.7%",
-            "100.0%"
+            "LRE pow2",
+            "Pow2",
+            "INT8",
+            "LRE",
+            "21.86",
+            "21.39",
+            "86.7",
+            "100.0"
         ],
         [
             "CMD#8",
-            "TfLite Asymmetric INT8 TF",
-            "5.65 inferences/sec",
-            "90.7%",
-            "100.0%"
+            "Tflite",
+            "INT8",
+            "INT8",
+            "TFlite",
+            "21.89",
+            "5.77",
+            "90.7",
+            "100.0"
         ],
         [
             "CMD#9",
-            "TfLite Asymmetric INT8 TVM",
-            "11.02 inferences/sec",
-            "90.7%",
-            "100.0%"
+            "LRE Int8 (full)",
+            "INT8",
+            "INT8",
+            "LRE",
+            "21.86",
+            "9.66",
+            "90.7",
+            "100.0"
+        ]
+    ],
+    "user_performance_metrics": [
+        [
+            "Mode",
+            "Parameter file size (MB)",
+            "Speed (inferences/sec)",
+            "Top 1 Accuracy (%)",
+            "Top 5 Accuracy (%)"
         ],
         [
-            "CMD#10",
-            "TfLite Asymmetric FP32 TF",
-            "10.77 inferences/sec",
-            "88.0%",
-            "100.0%"
+            "Original FP32",
+            "88.15",
+            "14.50",
+            "88.0",
+            "100.0"
         ],
         [
-            "CMD#11",
-            "TfLite Asymmetric FP32 TVM",
-            "8.59 inferences/sec",
-            "88.0%",
-            "100.0%"
+            "LRE FP32 (baseline)",
+            "87.24",
+            "21.74",
+            "88.0",
+            "100.0"
+        ],
+        [
+            "LRE FP32 (storage)",
+            "21.86",
+            "21.44",
+            "88.0",
+            "100.0"
+        ],
+        [
+            "LRE Int8 (full)",
+            "21.86",
+            "9.66",
+            "90.7",
+            "100.0"
         ]
     ]
 }

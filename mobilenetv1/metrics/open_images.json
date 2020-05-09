@@ -1,163 +1,151 @@
 {
-    "commands_run": [
-        "# Preparation",
-        "leip zoo download --model_id mobilenetv1 --variant_id keras-open-images-10-classes",
-        "leip zoo download --dataset_id open-images-10-classes --variant_id eval",
-        "rm -rf mobilenetv1-oi",
-        "mkdir mobilenetv1-oi",
-        "mkdir mobilenetv1-oi/baselineFp32Results",
-        "# CMD#1 Baseline FP32 TF",
-        "leip evaluate --output_path mobilenetv1-oi/baselineFp32Results --framework tf2 --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt",
-        "# LEIP Compress ASYMMETRIC",
-        "leip compress --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --quantizer ASYMMETRIC --bits 8 --output_path mobilenetv1-oi/checkpointCompressed/",
-        "# LEIP Compress POWER_OF_TWO (POW2)",
-        "leip compress --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --quantizer POWER_OF_TWO --bits 8 --output_path mobilenetv1-oi/checkpointCompressedPow2/",
-        "# CMD#2 LEIP FP32 TF",
-        "leip evaluate --output_path mobilenetv1-oi/checkpointCompressed/ --framework tf2 --input_path mobilenetv1-oi/checkpointCompressed/model_save/ --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt",
-        "# CMD#3 Baseline INT8 TVM",
-        "mkdir mobilenetv1-oi/compiled_tvm_int8",
-        "leip compile --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --output_path mobilenetv1-oi/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path mobilenetv1-oi/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path mobilenetv1-oi/compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt",
-        "# CMD#4 Baseline FP32 TVM",
-        "mkdir mobilenetv1-oi/compiled_tvm_fp32",
-        "leip compile --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --output_path mobilenetv1-oi/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
-        "leip evaluate --output_path mobilenetv1-oi/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path mobilenetv1-oi/compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt",
-        "# CMD#5 LEIP INT8 TVM",
-        "mkdir mobilenetv1-oi/leip_compiled_tvm_int8",
-        "leip compile --input_path mobilenetv1-oi/checkpointCompressed/model_save/ --output_path mobilenetv1-oi/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path mobilenetv1-oi/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path mobilenetv1-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt",
-        "# CMD#6 LEIP FP32 TVM",
-        "mkdir mobilenetv1-oi/leip_compiled_tvm_fp32",
-        "leip compile --input_path mobilenetv1-oi/checkpointCompressed/model_save/ --output_path mobilenetv1-oi/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
-        "leip evaluate --output_path mobilenetv1-oi/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path mobilenetv1-oi/leip_compiled_tvm_fp32/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt",
-        "# CMD#7 LEIP-POW2 INT8 TVM",
-        "mkdir mobilenetv1-oi/leip_compiled_tvm_int8_pow2",
-        "leip compile --input_path mobilenetv1-oi/checkpointCompressedPow2/model_save/ --output_path mobilenetv1-oi/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path mobilenetv1-oi/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path mobilenetv1-oi/leip_compiled_tvm_int8/bin --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt",
-        "# CMD#8 TfLite Asymmetric INT8 TF",
-        "mkdir mobilenetv1-oi/tfliteOutput",
-        "leip convert --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --framework tflite --output_path mobilenetv1-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg",
-        "leip evaluate --output_path mobilenetv1-oi/tfliteOutput --framework tflite --input_types=uint8 --input_path mobilenetv1-oi/tfliteOutput/model_save/inference_model.cast.tflite --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --preprocessor ''",
-        "# CMD#9 TfLite Asymmetric INT8 TVM",
-        "leip compile --input_path mobilenetv1-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --input_types=uint8",
-        "leip evaluate --output_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path mobilenetv1-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt --preprocessor ''",
-        "# CMD#10 TfLite Asymmetric FP32 TF",
-        "leip convert --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --framework tflite --output_path mobilenetv1-oi/tfliteOutput32 --data_type float32 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg",
-        "leip evaluate --output_path mobilenetv1-oi/tfliteOutput32 --framework tflite --input_types=float32 --input_path mobilenetv1-oi/tfliteOutput32/model_save/inference_model.tflite --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt",
-        "# CMD#11 TfLite Asymmetric FP32 TVM",
-        "leip compile --input_path mobilenetv1-oi/tfliteOutput32/model_save/inference_model.tflite --output_path mobilenetv1-oi/tfliteOutput32/model_save/fp32 --input_types=float32",
-        "leip evaluate --output_path mobilenetv1-oi/tfliteOutput32/model_save/fp32 --framework tvm --input_types=float32 --input_path mobilenetv1-oi/tfliteOutput32/model_save/fp32 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/mobilenetv1/keras-open-images-10-classes/class_names.txt"
-    ],
-    "file_sizes": [
-        [
-            "Baseline FP32",
-            "22.6MiB"
-        ],
-        [
-            "LEIP TVM INT8",
-            "modelParams: 5.6MiB, quantParams:8.6KiB"
-        ],
-        [
-            "LEIP TVM FP32",
-            "22.3MiB"
-        ],
-        [
-            "LEIP TVM INT8 POW2",
-            "modelParams: 5.6MiB, quantParams:8.6KiB"
-        ],
-        [
-            "LEIP+Tflite INT8",
-            "5.6MiB"
-        ],
-        [
-            "LEIP+Tflite FP32",
-            "22.2MiB"
-        ]
-    ],
     "performance_metrics": [
         [
             "CMD#",
-            "",
-            "Inf. Speed",
-            "Top1 Acc.",
-            "Top5 Acc."
+            "Mode",
+            "Compress",
+            "Storage",
+            "Runtime",
+            "Parameter file size (MB)",
+            "Speed (inferences/sec)",
+            "Top 1 Accuracy (%)",
+            "Top 5 Accuracy (%)"
         ],
         [
             "CMD#1",
-            "Baseline FP32 TF",
-            "21.46 inferences/sec",
-            "82.7%",
-            "98.7%"
+            "Original FP32",
+            "Baseline FP",
+            "FP",
+            "TF",
+            "23.69",
+            "21.00",
+            "82.7",
+            "98.7"
         ],
         [
             "CMD#2",
-            "LEIP FP32 TF",
-            "21.62 inferences/sec",
-            "84.0%",
-            "98.0%"
+            "Original Quantized",
+            "INT8",
+            "FP",
+            "TF",
+            "23.43",
+            "21.38",
+            "84.0",
+            "98.0"
         ],
         [
             "CMD#3",
-            "Baseline INT8 TVM",
-            "29.73 inferences/sec",
-            "7.3%",
-            "40.7%"
+            "LRE FP32 (baseline)",
+            "FP32",
+            "FP",
+            "LRE",
+            "23.35",
+            "41.99",
+            "82.7",
+            "98.7"
         ],
         [
             "CMD#4",
-            "Baseline FP32 TVM",
-            "34.00 inferences/sec",
-            "82.7%",
-            "98.7%"
+            "LRE FP32 (storage)",
+            "FP32",
+            "INT8",
+            "LRE",
+            "5.85",
+            "41.76",
+            "7.3",
+            "40.7"
         ],
         [
             "CMD#5",
-            "LEIP INT8 TVM",
-            "35.65 inferences/sec",
-            "7.3%",
-            "46.7%"
+            "LRE Int8 (storage)",
+            "INT8",
+            "INT8",
+            "LRE",
+            "5.85",
+            "41.00",
+            "7.3",
+            "46.7"
         ],
         [
             "CMD#6",
-            "LEIP FP32 TVM",
-            "34.28 inferences/sec",
-            "84.0%",
-            "98.0%"
+            "LRE Int8",
+            "INT8",
+            "FP",
+            "LRE",
+            "23.35",
+            "41.60",
+            "84.0",
+            "98.0"
         ],
         [
             "CMD#7",
-            "LEIP-POW2 INT8 TVM",
-            "28.46 inferences/sec",
-            "7.3%",
-            "46.7%"
+            "LRE pow2",
+            "Pow2",
+            "INT8",
+            "LRE",
+            "5.85",
+            "42.12",
+            "7.3",
+            "46.7"
         ],
         [
             "CMD#8",
-            "TfLite Asymmetric INT8 TF",
-            "14.47 inferences/sec",
-            "20.7%",
-            "61.3%"
+            "Tflite",
+            "INT8",
+            "INT8",
+            "TFlite",
+            "5.88",
+            "14.76",
+            "20.7",
+            "61.3"
         ],
         [
             "CMD#9",
-            "TfLite Asymmetric INT8 TVM",
-            "26.01 inferences/sec",
-            "20.0%",
-            "62.7%"
+            "LRE Int8 (full)",
+            "INT8",
+            "INT8",
+            "LRE",
+            "5.87",
+            "28.04",
+            "20.0",
+            "62.7"
+        ]
+    ],
+    "user_performance_metrics": [
+        [
+            "Mode",
+            "Parameter file size (MB)",
+            "Speed (inferences/sec)",
+            "Top 1 Accuracy (%)",
+            "Top 5 Accuracy (%)"
         ],
         [
-            "CMD#10",
-            "TfLite Asymmetric FP32 TF",
-            "19.07 inferences/sec",
-            "82.7%",
-            "98.7%"
+            "Original FP32",
+            "23.69",
+            "21.00",
+            "82.7",
+            "98.7"
         ],
         [
-            "CMD#11",
-            "TfLite Asymmetric FP32 TVM",
-            "35.29 inferences/sec",
-            "82.7%",
-            "98.7%"
+            "LRE FP32 (baseline)",
+            "23.35",
+            "41.99",
+            "82.7",
+            "98.7"
+        ],
+        [
+            "LRE FP32 (storage)",
+            "5.85",
+            "41.76",
+            "7.3",
+            "40.7"
+        ],
+        [
+            "LRE Int8 (full)",
+            "5.87",
+            "28.04",
+            "20.0",
+            "62.7"
         ]
     ]
 }

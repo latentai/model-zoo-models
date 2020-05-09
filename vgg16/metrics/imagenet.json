@@ -1,162 +1,151 @@
 {
-    "commands_run": [
-        "# Preparation",
-        "leip zoo download --model_id vgg16 --variant_id keras-imagenet",
-        "rm -rf vgg16-imagenet",
-        "mkdir vgg16-imagenet",
-        "mkdir vgg16-imagenet/baselineFp32Results",
-        "# CMD#10 Baseline FP32 TF",
-        "leip evaluate --output_path vgg16-imagenet/baselineFp32Results --framework tf2 --input_path workspace/models/vgg16/keras-imagenet --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt",
-        "# LEIP Compress ASYMMETRIC",
-        "leip compress --input_path workspace/models/vgg16/keras-imagenet --quantizer ASYMMETRIC --bits 8 --output_path vgg16-imagenet/checkpointCompressed/",
-        "# LEIP Compress POWER_OF_TWO (POW2)",
-        "leip compress --input_path workspace/models/vgg16/keras-imagenet --quantizer POWER_OF_TWO --bits 8 --output_path vgg16-imagenet/checkpointCompressedPow2/",
-        "# CMD#11 LEIP FP32 TF",
-        "leip evaluate --output_path vgg16-imagenet/checkpointCompressed/ --framework tf2 --input_path vgg16-imagenet/checkpointCompressed/model_save/ --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt",
-        "# CMD#12 Baseline INT8 TVM",
-        "mkdir vgg16-imagenet/compiled_tvm_int8",
-        "leip compile --input_path workspace/models/vgg16/keras-imagenet --output_path vgg16-imagenet/compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path vgg16-imagenet/compiled_tvm_int8/ --framework tvm --input_types=uint8 --input_path vgg16-imagenet/compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt",
-        "# CMD#13 Baseline FP32 TVM",
-        "mkdir vgg16-imagenet/compiled_tvm_fp32",
-        "leip compile --input_path workspace/models/vgg16/keras-imagenet --output_path vgg16-imagenet/compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
-        "leip evaluate --output_path vgg16-imagenet/compiled_tvm_fp32/ --framework tvm --input_types=float32 --input_path vgg16-imagenet/compiled_tvm_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt",
-        "# CMD#14 LEIP INT8 TVM",
-        "mkdir vgg16-imagenet/leip_compiled_tvm_int8",
-        "leip compile --input_path vgg16-imagenet/checkpointCompressed/model_save/ --output_path vgg16-imagenet/leip_compiled_tvm_int8/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path vgg16-imagenet/leip_compiled_tvm_int8 --framework tvm --input_types=uint8 --input_path vgg16-imagenet/leip_compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt",
-        "# CMD#15 LEIP FP32 TVM",
-        "mkdir vgg16-imagenet/leip_compiled_tvm_fp32",
-        "leip compile --input_path vgg16-imagenet/checkpointCompressed/model_save/ --output_path vgg16-imagenet/leip_compiled_tvm_fp32/bin --input_types=float32 --data_type=float32",
-        "leip evaluate --output_path vgg16-imagenet/leip_compiled_tvm_fp32 --framework tvm --input_types=float32 --input_path vgg16-imagenet/leip_compiled_tvm_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt",
-        "# CMD#16 LEIP-POW2 INT8 TVM",
-        "mkdir vgg16-imagenet/leip_compiled_tvm_int8_pow2",
-        "leip compile --input_path vgg16-imagenet/checkpointCompressedPow2/model_save/ --output_path vgg16-imagenet/leip_compiled_tvm_int8_pow2/bin --input_types=uint8 --data_type=int8",
-        "leip evaluate --output_path vgg16-imagenet/leip_compiled_tvm_int8_pow2 --framework tvm --input_types=uint8 --input_path vgg16-imagenet/leip_compiled_tvm_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt",
-        "# CMD#17 TfLite Asymmetric INT8 TF",
-        "mkdir vgg16-imagenet/tfliteOutput",
-        "leip convert --input_path workspace/models/vgg16/keras-imagenet --framework tflite --output_path vgg16-imagenet/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared/data/sample-models/resources/images/imagenet_images/preprocessed/ILSVRC2012_val_00000001.JPEG",
-        "leip evaluate --output_path vgg16-imagenet/tfliteOutput --framework tflite --input_types=uint8 --input_path vgg16-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt --preprocessor ''",
-        "# CMD#18 TfLite Asymmetric INT8 TVM",
-        "leip compile --input_path vgg16-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --output_path vgg16-imagenet/tfliteOutput/model_save/binuint8 --input_types=uint8",
-        "leip evaluate --output_path vgg16-imagenet/tfliteOutput/model_save/binuint8 --framework tvm --input_types=uint8 --input_path vgg16-imagenet/tfliteOutput/model_save/binuint8 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt --preprocessor ''",
-        "# CMD#19 TfLite Asymmetric FP32 TF",
-        "leip convert --input_path workspace/models/vgg16/keras-imagenet --framework tflite --output_path vgg16-imagenet/tfliteOutput32 --data_type float32 --policy TfLite --rep_dataset /shared/data/sample-models/resources/images/imagenet_images/preprocessed/ILSVRC2012_val_00000001.JPEG",
-        "leip evaluate --output_path vgg16-imagenet/tfliteOutput32 --framework tflite --input_types=float32 --input_path vgg16-imagenet/tfliteOutput32/model_save/inference_model.tflite --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt",
-        "# CMD#20 TfLite Asymmetric FP32 TVM",
-        "leip compile --input_path vgg16-imagenet/tfliteOutput32/model_save/inference_model.tflite --output_path vgg16-imagenet/tfliteOutput32/model_save/fp32 --input_types=float32",
-        "leip evaluate --output_path vgg16-imagenet/tfliteOutput32/model_save/fp32 --framework tvm --input_types=float32 --input_path vgg16-imagenet/tfliteOutput32/model_save/fp32 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/vgg16/keras-imagenet/class_names.txt"
-    ],
-    "file_sizes": [
-        [
-            "Baseline FP32",
-            "527.9MiB"
-        ],
-        [
-            "LEIP TVM INT8",
-            "modelParams: 132.0MiB, quantParams:3.1KiB"
-        ],
-        [
-            "LEIP TVM FP32",
-            "527.8MiB"
-        ],
-        [
-            "LEIP TVM INT8 POW2",
-            "modelParams: 132.0MiB, quantParams:3.1KiB"
-        ],
-        [
-            "LEIP+Tflite INT8",
-            "132.0MiB"
-        ],
-        [
-            "LEIP+Tflite FP32",
-            "527.8MiB"
-        ]
-    ],
     "performance_metrics": [
         [
             "CMD#",
-            "",
-            "Inf. Speed",
-            "Top1 Acc.",
-            "Top5 Acc."
+            "Mode",
+            "Compress",
+            "Storage",
+            "Runtime",
+            "Parameter file size (MB)",
+            "Speed (inferences/sec)",
+            "Top 1 Accuracy (%)",
+            "Top 5 Accuracy (%)"
         ],
         [
             "CMD#10",
-            "Baseline FP32 TF",
-            "10.81 inferences/sec",
-            "68.8%",
-            "90.8%"
+            "Original FP32",
+            "Baseline FP",
+            "FP",
+            "TF",
+            "553.50",
+            "10.52",
+            "68.8",
+            "90.8"
         ],
         [
             "CMD#11",
-            "LEIP FP32 TF",
-            "10.64 inferences/sec",
-            "68.8%",
-            "91.2%"
+            "Original Quantized",
+            "INT8",
+            "FP",
+            "TF",
+            "553.43",
+            "10.57",
+            "68.8",
+            "91.2"
         ],
         [
             "CMD#12",
-            "Baseline INT8 TVM",
-            "7.28 inferences/sec",
-            "68.8%",
-            "91.2%"
+            "LRE FP32 (baseline)",
+            "FP32",
+            "FP",
+            "LRE",
+            "553.43",
+            "7.00",
+            "68.8",
+            "90.8"
         ],
         [
             "CMD#13",
-            "Baseline FP32 TVM",
-            "7.22 inferences/sec",
-            "68.8%",
-            "90.8%"
+            "LRE FP32 (storage)",
+            "FP32",
+            "INT8",
+            "LRE",
+            "138.36",
+            "6.98",
+            "68.8",
+            "91.2"
         ],
         [
             "CMD#14",
-            "LEIP INT8 TVM",
-            "7.27 inferences/sec",
-            "68.8%",
-            "91.2%"
+            "LRE Int8 (storage)",
+            "INT8",
+            "INT8",
+            "LRE",
+            "138.36",
+            "7.03",
+            "68.8",
+            "91.2"
         ],
         [
             "CMD#15",
-            "LEIP FP32 TVM",
-            "7.22 inferences/sec",
-            "68.8%",
-            "91.2%"
+            "LRE Int8",
+            "INT8",
+            "FP",
+            "LRE",
+            "553.43",
+            "7.10",
+            "68.8",
+            "91.2"
         ],
         [
             "CMD#16",
-            "LEIP-POW2 INT8 TVM",
-            "7.19 inferences/sec",
-            "68.8%",
-            "91.2%"
+            "LRE pow2",
+            "Pow2",
+            "INT8",
+            "LRE",
+            "138.36",
+            "7.01",
+            "68.8",
+            "91.2"
         ],
         [
             "CMD#17",
-            "TfLite Asymmetric INT8 TF",
-            "1.32 inferences/sec",
-            "42.7%",
-            "76.8%"
+            "Tflite",
+            "INT8",
+            "INT8",
+            "TFlite",
+            "138.41",
+            "1.29",
+            "42.7",
+            "76.8"
         ],
         [
             "CMD#18",
-            "TfLite Asymmetric INT8 TVM",
-            "4.32 inferences/sec",
-            "42.6%",
-            "77.5%"
+            "LRE Int8 (full)",
+            "INT8",
+            "INT8",
+            "LRE",
+            "138.40",
+            "2.24",
+            "42.6",
+            "77.5"
+        ]
+    ],
+    "user_performance_metrics": [
+        [
+            "Mode",
+            "Parameter file size (MB)",
+            "Speed (inferences/sec)",
+            "Top 1 Accuracy (%)",
+            "Top 5 Accuracy (%)"
         ],
         [
-            "CMD#19",
-            "TfLite Asymmetric FP32 TF",
-            "4.61 inferences/sec",
-            "68.8%",
-            "90.8%"
+            "Original FP32",
+            "553.50",
+            "10.52",
+            "68.8",
+            "90.8"
         ],
         [
-            "CMD#20",
-            "TfLite Asymmetric FP32 TVM",
-            "7.07 inferences/sec",
-            "68.8%",
-            "90.8%"
+            "LRE FP32 (baseline)",
+            "553.43",
+            "7.00",
+            "68.8",
+            "90.8"
+        ],
+        [
+            "LRE FP32 (storage)",
+            "138.36",
+            "6.98",
+            "68.8",
+            "91.2"
+        ],
+        [
+            "LRE Int8 (full)",
+            "138.40",
+            "2.24",
+            "42.6",
+            "77.5"
         ]
     ]
 }
