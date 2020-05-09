@@ -27,7 +27,7 @@ Once this repo is cloned locally, you can use the following commands to explore 
 (Set --epochs and --batch_size to 1 for a quick training run.)
 48 epochs produced about 80% top1 accuracy. 150 epochs would perform better.
 ```bash
-./dev_docker_run ./train.py --dataset_path workspace/datasets/open-images-10-classes/train/  --eval_dataset_path workspace/datasets/open-images-10-classes/eval/ --epochs 48
+./dev_docker_run ./train.py --dataset_path workspace/datasets/open-images-10-classes/train/  --eval_dataset_path workspace/datasets/open-images-10-classes/eval/ --epochs 150
 ```
 # Evaluate a trained model
 ```bash
