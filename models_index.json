@@ -108,7 +108,7 @@
         {
           "id": "keras-open-images-10-classes",
           "show_in_frontend": true,
-          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-open-images-10-classes/2020-04-13-23-38-16/8996927447f725c0a897bcbf4d876a25.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-open-images-10-classes/2020-05-10-06-04-12/ad71dcba22296da33dbe75b379c84016.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
             "variant_id": "train"
@@ -117,7 +117,7 @@
           "model_schema": {
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
-            "preprocessor": "float32",
+            "preprocessor": "imagenet",
             "input_shapes": "1,224,224,3",
             "task": "classifier",
             "dataset": "custom"
@@ -153,7 +153,7 @@
         {
           "id": "keras-open-images-10-classes",
           "show_in_frontend": true,
-          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-open-images-10-classes/2020-04-13-23-38-25/f3de5bf63a2fceafefcf7cfac689fc6d.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-open-images-10-classes/2020-05-10-06-04-22/18c74b63eb661685610964b681c39682.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
             "variant_id": "train"
@@ -162,7 +162,7 @@
           "model_schema": {
             "output_names": "dense_3/Softmax",
             "input_names": "input_1",
-            "preprocessor": "float32",
+            "preprocessor": "imagenet",
             "input_shapes": "1,224,224,3",
             "task": "classifier",
             "dataset": "custom"
@@ -243,7 +243,7 @@
         {
           "id": "keras-open-images-10-classes",
           "show_in_frontend": true,
-          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes/2020-04-13-23-39-26/7fecd4ed9cb6ce1f48d9605728fac3be.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes/2020-05-10-06-04-03/9ee32f34625d59260d4c102048562c70.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
             "variant_id": "train"
@@ -252,7 +252,7 @@
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
-            "preprocessor": "float32",
+            "preprocessor": "imagenet_caffe",
             "input_shapes": "1,224,224,3",
             "task": "classifier",
             "dataset": "custom"
@@ -288,7 +288,7 @@
         {
           "id": "keras-open-images-10-classes",
           "show_in_frontend": true,
-          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes/2020-04-13-23-38-08/f4984b05f49065831ef176716a14a660.zip",
+          "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes/2020-05-10-06-03-51/2ec10b01b84245df120ae24d00b1b4b0.zip",
           "training_dataset": {
             "dataset_id": "open-images-10-classes",
             "variant_id": "train"
@@ -297,7 +297,7 @@
           "model_schema": {
             "output_names": "dense/Softmax",
             "input_names": "input_1",
-            "preprocessor": "float32",
+            "preprocessor": "imagenet",
             "input_shapes": "1,224,224,3",
             "task": "classifier",
             "dataset": "custom"
