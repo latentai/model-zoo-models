@@ -28,7 +28,7 @@ if __name__ == '__main__':
         type=str,
         default=None,
         required=True,
-        help='Path to folders of labeled images. Expects "eval" subfolder'
+        help='Path to folders of labeled images. '
     )
     parser.add_argument(
         '--input_model_path',
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     model = keras.models.load_model(args.input_model_path)
 
-    validation_data_dir = os.path.join(args.dataset_path, 'eval')
+    validation_data_dir = args.dataset_path
     test_datagen = ImageDataGenerator(
         preprocessing_function=preprocess_imagenet
     )
