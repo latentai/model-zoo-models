@@ -328,7 +328,7 @@
     {
       "id": "open-images-10-classes",
       "full_name": "Open Images 10 Classes",
-      "description":"A 10-class object recognition dataset compiled from the larger Google Open Images V5 dataset",
+      "description":"A 10-class object recognition dataset compiled from the larger Google Open Images V5 dataset. Each class contains an average of 163 images with labels.",
       "variants": [
         {
           "id": "train",
