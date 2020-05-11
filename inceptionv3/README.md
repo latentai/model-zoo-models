@@ -46,12 +46,13 @@ This runs inference on a single image.
 
 # LEIP SDK Post-Training-Quantization Commands on Pretrained Models
 ## Open Image 10 Classes Dataset
+
 |       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
 |-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
-|Original FP32      |                   88.15|                 14.50|              88.0|               100|
-|LRE FP32 (baseline)|                   87.24|                 21.74|              88.0|               100|
-|LRE FP32 (storage) |                   21.86|                 21.44|              88.0|               100|
-|LRE Int8 (full)    |                   21.86|                  9.66|              90.7|               100|
+|Original FP32      |                   88.15|                 15.11|              89.3|               100|
+|LRE FP32 (baseline)|                   87.24|                 21.32|              89.3|               100|
+|LRE FP32 (storage) |                   21.86|                 20.48|              89.3|               100|
+|LRE Int8 (full)    |                   21.86|                  9.55|              90.0|               100|
 
 
 ### Preparation

@@ -43,10 +43,10 @@ Open Image 10 Classes Commands
 
 |       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
 |-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
-|Original FP32      |                   21.07|                 16.02|              94.7|             100.0|
-|LRE FP32 (baseline)|                   20.47|                 45.68|              94.7|             100.0|
-|LRE FP32 (storage) |                    5.14|                 44.40|              12.0|              60.0|
-|LRE Int8 (full)    |                    5.20|                 33.68|              18.7|              64.7|
+|Original FP32      |                   21.07|                 16.37|              94.0|               100|
+|LRE FP32 (baseline)|                   20.47|                 45.41|              94.0|               100|
+|LRE FP32 (storage) |                    5.14|                 44.71|              91.3|               100|
+|LRE Int8 (full)    |                    5.20|                 33.00|              13.3|                66|
 
 ### Preparation
 ```bash

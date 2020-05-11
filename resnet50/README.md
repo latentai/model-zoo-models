@@ -40,53 +40,6 @@ This runs inference on a single image.
 # LEIP SDK Post-Training-Quantization Commands on Pretrained Models
 
 Open Image 10 Classes Commands
-
-|       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
-|-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
-|Original FP32      |                  103.05|                 16.16|              73.6|              92.4|
-|LRE FP32 (baseline)|                  102.35|                 23.50|              73.6|              92.4|
-|LRE FP32 (storage) |                   25.62|                 23.83|              74.0|              92.6|
-
-### Preparation
-```bash
-leip zoo download --model_id resnetv2-50 --variant_id keras-imagenet
-rm -rf resnet50-imagenet
-mkdir resnet50-imagenet
-mkdir resnet50-imagenet/baselineFp32Results
-```
-### Original FP32
-```bash
-leip evaluate --output_path resnet50-imagenet/baselineFp32Results --framework tf --input_path workspace/models/resnetv2-50/keras-imagenet --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/resnetv2-50/keras-imagenet/class_names.txt
-```
-### LEIP Compress ASYMMETRIC
-```bash
-leip compress --input_path workspace/models/resnetv2-50/keras-imagenet --quantizer ASYMMETRIC --bits 8 --output_path resnet50-imagenet/checkpointCompressed/
-```
-### LRE FP32 (baseline)
-```bash
-mkdir resnet50-imagenet/compiled_lre_fp32
-leip compile --input_path workspace/models/resnetv2-50/keras-imagenet --output_path resnet50-imagenet/compiled_lre_fp32/bin --input_types=float32 --data_type=float32
-leip evaluate --output_path resnet50-imagenet/compiled_lre_fp32/ --framework lre --input_types=float32 --input_path resnet50-imagenet/compiled_lre_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/resnetv2-50/keras-imagenet/class_names.txt
-```
-### LRE FP32 (storage)
-```bash
-mkdir resnet50-imagenet/compiled_lre_int8
-leip compile --input_path workspace/models/resnetv2-50/keras-imagenet --output_path resnet50-imagenet/compiled_lre_int8/bin --input_types=uint8 --data_type=int8
-leip evaluate --output_path resnet50-imagenet/compiled_lre_int8/ --framework lre --input_types=uint8 --input_path resnet50-imagenet/compiled_lre_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/resnetv2-50/keras-imagenet/class_names.txt
-```
-### Convert model to integer
-```bash
-mkdir resnet50-imagenet/tfliteOutput
-leip convert --input_path workspace/models/resnetv2-50/keras-imagenet --framework tflite --output_path resnet50-imagenet/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared/data/sample-models/resources/images/imagenet_images/preprocessed/ILSVRC2012_val_00000001.JPEG
-```
-### LRE Int8 (full)
-```bash
-leip compile --input_path resnet50-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --output_path resnet50-imagenet/tfliteOutput/model_save/binuint8 --input_types=uint8
-leip evaluate --output_path resnet50-imagenet/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path resnet50-imagenet/tfliteOutput/model_save/binuint8 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/resnetv2-50/keras-imagenet/class_names.txt --preprocessor ''
-```
-
-Imagenet Commands
-
 |       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
 |-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
 |Original FP32      |                   94.94|                 12.10|              82.0|              99.3|
@@ -130,4 +83,49 @@ leip convert --input_path workspace/models/resnetv2-50/keras-open-images-10-clas
 ```bash
 leip compile --input_path resnet50-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path resnet50-oi/tfliteOutput/model_save/binuint8 --input_types=uint8
 leip evaluate --output_path resnet50-oi/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path resnet50-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt --preprocessor ''
+
+Imagenet Commands
+
+|       Mode        |Parameter file size (MB)|Speed (inferences/sec)|Top 1 Accuracy (%)|Top 5 Accuracy (%)|
+|-------------------|-----------------------:|---------------------:|-----------------:|-----------------:|
+|Original FP32      |                  103.05|                 16.16|              73.6|              92.4|
+|LRE FP32 (baseline)|                  102.35|                 23.50|              73.6|              92.4|
+|LRE FP32 (storage) |                   25.62|                 23.83|              74.0|              92.6|
+
+### Preparation
+```bash
+leip zoo download --model_id resnetv2-50 --variant_id keras-imagenet
+rm -rf resnet50-imagenet
+mkdir resnet50-imagenet
+mkdir resnet50-imagenet/baselineFp32Results
+```
+### Original FP32
+```bash
+leip evaluate --output_path resnet50-imagenet/baselineFp32Results --framework tf --input_path workspace/models/resnetv2-50/keras-imagenet --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/resnetv2-50/keras-imagenet/class_names.txt
+```
+### LEIP Compress ASYMMETRIC
+```bash
+leip compress --input_path workspace/models/resnetv2-50/keras-imagenet --quantizer ASYMMETRIC --bits 8 --output_path resnet50-imagenet/checkpointCompressed/
+```
+### LRE FP32 (baseline)
+```bash
+mkdir resnet50-imagenet/compiled_lre_fp32
+leip compile --input_path workspace/models/resnetv2-50/keras-imagenet --output_path resnet50-imagenet/compiled_lre_fp32/bin --input_types=float32 --data_type=float32
+leip evaluate --output_path resnet50-imagenet/compiled_lre_fp32/ --framework lre --input_types=float32 --input_path resnet50-imagenet/compiled_lre_fp32/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/resnetv2-50/keras-imagenet/class_names.txt
+```
+### LRE FP32 (storage)
+```bash
+mkdir resnet50-imagenet/compiled_lre_int8
+leip compile --input_path workspace/models/resnetv2-50/keras-imagenet --output_path resnet50-imagenet/compiled_lre_int8/bin --input_types=uint8 --data_type=int8
+leip evaluate --output_path resnet50-imagenet/compiled_lre_int8/ --framework lre --input_types=uint8 --input_path resnet50-imagenet/compiled_lre_int8/bin --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/resnetv2-50/keras-imagenet/class_names.txt
+```
+### Convert model to integer
+```bash
+mkdir resnet50-imagenet/tfliteOutput
+leip convert --input_path workspace/models/resnetv2-50/keras-imagenet --framework tflite --output_path resnet50-imagenet/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared/data/sample-models/resources/images/imagenet_images/preprocessed/ILSVRC2012_val_00000001.JPEG
+```
+### LRE Int8 (full)
+```bash
+leip compile --input_path resnet50-imagenet/tfliteOutput/model_save/inference_model.cast.tflite --output_path resnet50-imagenet/tfliteOutput/model_save/binuint8 --input_types=uint8
+leip evaluate --output_path resnet50-imagenet/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path resnet50-imagenet/tfliteOutput/model_save/binuint8 --test_path /shared/data/sample-models/resources/data/imagenet/testsets/testset_1000_images.preprocessed.1000.txt --class_names workspace/models/resnetv2-50/keras-imagenet/class_names.txt --preprocessor ''
 ```
