@@ -3,7 +3,7 @@
     {
       "id": "audio-recognition",
       "full_name": "Audio Recognition",
-      "description": "",
+      "description": "A recurrent neural network for performing speech recognition.",
       "model_type": "Audio Recognition",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition",
       "variants": [
@@ -328,6 +328,7 @@
     {
       "id": "open-images-10-classes",
       "full_name": "Open Images 10 Classes",
+      "description":"A 10-class object recognition dataset compiled from the larger Google Open Images V5 dataset",
       "variants": [
         {
           "id": "train",
