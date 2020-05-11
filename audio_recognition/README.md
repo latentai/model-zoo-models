@@ -1,15 +1,15 @@
 # Getting Started with Audio Recognition
 
 Start by cloning this repo:
-* git clone https://github.com/latentai/model-zoo-models.git
-* cd audio_recognition
+* ```git clone https://github.com/latentai/model-zoo-models.git```
+* ```cd audio_recognition```
 
 Once this repo is cloned locally, you can use the following commands to explore LEIP framework:
 
 # Download dataset
-
+```bash
 ./dev_docker_run leip zoo download --dataset_id google-speech-commands --variant_id v0.02
-
+```
 # Train the model
 
 --how_many_training_steps 10000,10000 means 10000 high learning rate steps followed by 10000 low learning rate steps.
