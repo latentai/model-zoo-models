@@ -83,6 +83,7 @@ leip convert --input_path workspace/models/resnetv2-50/keras-open-images-10-clas
 ```bash
 leip compile --input_path resnet50-oi/tfliteOutput/model_save/inference_model.cast.tflite --output_path resnet50-oi/tfliteOutput/model_save/binuint8 --input_types=uint8
 leip evaluate --output_path resnet50-oi/tfliteOutput/model_save/binuint8 --framework lre --input_types=uint8 --input_path resnet50-oi/tfliteOutput/model_save/binuint8 --test_path workspace/datasets/open-images-10-classes/eval/index.txt --class_names workspace/models/resnetv2-50/keras-open-images-10-classes/class_names.txt --preprocessor ''
+```
 
 Imagenet Commands
 
