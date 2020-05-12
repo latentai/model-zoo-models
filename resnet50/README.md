@@ -77,7 +77,7 @@ leip evaluate --output_path resnet50-oi/compiled_lre_int8/ --framework lre --inp
 ### Convert model to integer
 ```bash
 mkdir resnet50-oi/tfliteOutput
-leip convert --input_path workspace/models/resnetv2-50/keras-open-images-10-classes --framework tflite --output_path resnet50-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg
+leip convert --input_path workspace/models/resnetv2-50/keras-open-images-10-classes --framework tflite --output_path resnet50-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg
 ```
 ### LRE Int8 (full)
 ```bash

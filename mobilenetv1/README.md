@@ -81,7 +81,7 @@ leip evaluate --output_path mobilenetv1-oi/compiled_lre_int8/ --framework lre --
 ### Convert model to integer
 ```bash
 mkdir mobilenetv1-oi/tfliteOutput
-leip convert --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --framework tflite --output_path mobilenetv1-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset /shared-workdir/workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg
+leip convert --input_path workspace/models/mobilenetv1/keras-open-images-10-classes --framework tflite --output_path mobilenetv1-oi/tfliteOutput --data_type int8 --policy TfLite --rep_dataset workspace/datasets/open-images-10-classes/eval/Apple/06e47f3aa0036947.jpg
 ```
 ### LRE Int8 (full)
 ```bash
