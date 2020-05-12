@@ -6,6 +6,8 @@ import tensorflow.keras as keras
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 from tensorflow.keras.preprocessing import image
 
+from model_definition import preprocess_imagenet
+
 parser = argparse.ArgumentParser()
 parser.add_argument(
     '--image_file',
@@ -38,7 +40,7 @@ class_names = open(args.input_class_names_path, 'r').read().split('\n')
 img = image.load_img(args.image_file, target_size=(224, 224), interpolation='lanczos')
 x = image.img_to_array(img)
 x = np.expand_dims(x, axis=0)
-x = preprocess_input(x)
+x = preprocess_imagenet(x)
 
 preds = model.predict(x)[0]
 #print('Predicted:', preds)
