@@ -170,7 +170,7 @@ def create_model(
         print("\nLoading pretrained weights.\n")
         template_model.load_weights(saved_weights_name)
     else:
-        template_model.load_weights("backend.h5", by_name=True)
+        template_model.load_weights("workspace/models/yolo/keras-pretrained-backbone/backend.h5", by_name=True)
 
     if multi_gpu > 1:
         train_model = multi_gpu_model(template_model, gpus=multi_gpu)
