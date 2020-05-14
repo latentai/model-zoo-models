@@ -57,26 +57,6 @@
       ]
     },
     {
-      "id": "ssd_mobilenetv1",
-      "full_name": "SSD MobilenetV1",
-      "description": "SSD MobilenetV1 is an object recognition model that implements depth-wise convolutions within the network in an effort to reduce latency on mobile devices.",
-      "model_type": "Object Recognition",
-      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/ssd_mobilenetv1",
-      "variants": [
-        {
-          "id": "keras-checkpoint",
-          "show_in_frontend": false,
-          "metrics_json": null,
-          "weights_url": "https://model-zoo-data.latentai.io/model-weights/ssd_mobilenetv1/2020-04-06-13-30-23/6042b3e976bce1138639ab2750a10688.zip",
-          "model_schema": {
-            "output_names": "predictions/concat",
-            "input_names": "input_1",
-            "input_shapes": "1, 300, 300, 3"
-          }
-        }
-      ]
-    },
-    {
       "id": "mobilenetv1",
       "full_name": "Mobilenet V1",
       "description": "Mobilenet V1 is an image classification model that implements depth-wise convolutions within the network in an effort to reduce latency on mobile devices.",
