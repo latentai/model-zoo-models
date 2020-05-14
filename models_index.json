@@ -28,28 +28,6 @@
       ]
     },
     {
-      "id": "audio-recognition-gtc",
-      "full_name": "Audio Recognition: Training Aware",
-      "description": "",
-      "model_type": "Audio Recognition",
-      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition_gtc",
-      "variants": [
-        {
-          "id": "gtc-baseline-30",
-          "lp_accuracy": 0.77,
-          "hp_accuracy": 0.87,
-          "show_in_frontend": true,
-          "metrics_json": null,
-          "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio_recognition/2020-04-02-15-24-04/92847cc4b33bf13afff48dd1fed62268.zip",
-          "model_schema": {
-            "output_names": "dense",
-            "input_names": "fingerprint_input",
-            "input_shapes": "1, 224, 224, 3"
-          }
-        }
-      ]
-    },
-    {
       "id": "yolo",
       "full_name": "You Look Only Once Object Detection",
       "description": "YOLO (You Only Look Once), is a deep neural network architecture for object detection. YOLO differentiates itself from other common neural network architectures for object detection tasks in that it performs inference usign a single forward pass through a single neural network.",
