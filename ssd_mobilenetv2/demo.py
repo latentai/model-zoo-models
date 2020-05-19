@@ -127,8 +127,8 @@ if __name__ == '__main__':
                 currentAxis.text(xmin, ymin, display_txt, bbox={'facecolor': color, 'alpha': 0.5})
 
                 json_report.append({
-                    'coords': coords,
-                    'score': coords,
+                    'coords': [xmin, ymin, xmax - xmin + 1, ymax - ymin + 1],
+                    'score': score,
                     'label_name': label_name,
                     'label_index': label
                 })
