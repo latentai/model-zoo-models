@@ -47,7 +47,9 @@ if __name__ == '__main__':
     model.save('tmp.h5', include_optimizer=False)
     tf.keras.backend.clear_session()
     tf.keras.backend.set_learning_phase(0)
-    model2 = keras.models.load_model('tmp.h5')
+    model2 = keras.models.load_model('tmp.h5', custom_objects={'PriorBox': PriorBox,
+                                                                     'compute_loss': MultiboxLoss(21,
+                                                                                                  neg_pos_ratio=2.0).compute_loss})
     os.remove('tmp.h5')
 
     sess = tf.compat.v1.keras.backend.get_session()
