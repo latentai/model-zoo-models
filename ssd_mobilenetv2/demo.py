@@ -1,4 +1,6 @@
 #!/usr/bin/python
+import json
+
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
@@ -59,6 +61,8 @@ if __name__ == '__main__':
         sets = yaml.safe_load(fp)
 
     np.set_printoptions(suppress=True)
+
+    json_report = []
 
     config = tf.compat.v1.ConfigProto()
     with tf.compat.v1.Session(config=config) as s:
@@ -122,6 +126,15 @@ if __name__ == '__main__':
                 currentAxis.add_patch(plt.Rectangle(*coords, fill=False, edgecolor=color, linewidth=2))
                 currentAxis.text(xmin, ymin, display_txt, bbox={'facecolor': color, 'alpha': 0.5})
 
+                json_report.append({
+                    'coords': coords,
+                    'score': coords,
+                    'label_name': label_name,
+                    'label_index': label
+                })
+
             result_file_name = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'results/result.png')
             plt.savefig(result_file_name)
-    print('\n\n\nResult file is stored to : {}\n\n'.format(result_file_name))
+    print('\n\n\nResult image file is stored to : {}\n\n'.format(result_file_name))
+
+    print(json.dumps(json_report, sort_keys=True, indent=4))
