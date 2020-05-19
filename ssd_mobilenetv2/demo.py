@@ -19,10 +19,10 @@ voc_classes = ['Aeroplane', 'Bicycle', 'Bird', 'Boat', 'Bottle',
                'Sheep', 'Sofa', 'Train', 'Tvmonitor']
 
 
-def restore_tf_checkpoint(conf, sess):
+def restore_tf_checkpoint(conf, sess, path_to_model):
 
     sess.run(tf.compat.v1.initialize_all_variables())
-    model = tf.keras.models.load_model(conf['tf_model_path'] + '/trained.h5',
+    model = tf.keras.models.load_model(path_to_model,
                                custom_objects={
                                    'PriorBox': PriorBox,
                                    'compute_loss': MultiboxLoss(21, neg_pos_ratio=2.0).compute_loss
@@ -62,7 +62,7 @@ if __name__ == '__main__':
 
     config = tf.compat.v1.ConfigProto()
     with tf.compat.v1.Session(config=config) as s:
-        tf_inference = restore_tf_checkpoint(sets, s)
+        tf_inference = restore_tf_checkpoint(sets, s, args.path_to_model)
         inputs = []
         images = []
         img_path = args.path_to_demo_img

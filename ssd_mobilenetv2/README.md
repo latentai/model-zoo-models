@@ -27,6 +27,9 @@ mkdir -p saved_models/tf
 
 ### Evaluate the model
 
+
+mkdir -p model_evaluation/ground_truth/
+
 ```
 ./dev_docker_run python eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml
 ```
