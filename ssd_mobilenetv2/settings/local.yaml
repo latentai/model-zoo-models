@@ -1,4 +1,4 @@
-dataset_dir: 'VOC/VOCdevkit'
+dataset_dir: 'workspace/datasets/pascal-voc2007/full-dataset/'
 tf_model_path: 'saved_models/tf'
 compressed_model_path: 'saved_models/compressed_asymmetric/model_save/'
 input_node: 'input_1:0'

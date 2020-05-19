@@ -13,6 +13,10 @@ epochs: Epochs count
 learning_rate: 0.0001
 ```
 
+Download dataset:
+
+`./dev_docker_run leip zoo download --dataset_id pascal-voc2007 --variant_id full-dataset`
+
 ### Train the model
 
 ```
