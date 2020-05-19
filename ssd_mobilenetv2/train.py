@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-from tensorflow.keras.models import load_model
 
 import os
 import sys
@@ -11,10 +10,8 @@ sys.path.append(dir_path + '/../../')
 sys.path.append(dir_path)
 sys.path.append(dir_path.replace('ssd_kerasV2', ''))
 sys.path.append('.')
-from tensorflow.keras.models import Model
 
 import tensorflow.keras as keras
-from tensorflow.keras import backend as K
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 import matplotlib.pyplot as plt
 
@@ -25,7 +22,7 @@ import yaml
 from random import shuffle
 from PIL import Image
 
-from model.ssd300MobileNetV2Lite import SSD, relu6
+from model.ssd300MobileNetV2Lite import SSD
 from ssd_training import MultiboxLoss
 from ssd_utils import BBoxUtility
 

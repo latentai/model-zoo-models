@@ -1,17 +1,17 @@
 #!/usr/bin/python
-from BoundingBox import BoundingBox
-from BoundingBoxes import BoundingBoxes
-from eval_utils import BBFormat
-from Evaluator import *
 import argparse
+import glob
+import os
+import shutil
 # from argparse import RawTextHelpFormatter
 import sys
-import os
-import glob
-import shutil
 
-from x86_compile_ssd import build
+from BoundingBox import BoundingBox
+from BoundingBoxes import BoundingBoxes
+from Evaluator import *
+from eval_utils import BBFormat
 from x86_prepare_eval_data import X86_Model
+
 
 # Validate formats
 def ValidateFormats(argFormat, argName, errors):

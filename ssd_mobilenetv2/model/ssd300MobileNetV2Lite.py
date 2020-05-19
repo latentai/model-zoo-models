@@ -8,21 +8,14 @@ import tensorflow.keras.backend as K
 from tensorflow.keras.layers import Conv2D, DepthwiseConv2D
 from tensorflow.keras.layers import BatchNormalization
 from tensorflow.keras.layers import Flatten, Add
-from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import concatenate
 from tensorflow.keras.layers import Reshape
-from tensorflow.keras.models import Model
 from ssd_layers import PriorBox
-from tensorflow.keras.applications import MobileNetV2
 
-import tensorflow.keras as keras
 from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
-from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Input
 from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers import Adadelta
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 def get_model(num_classes):

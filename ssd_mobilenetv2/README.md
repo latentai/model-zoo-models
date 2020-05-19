@@ -19,6 +19,8 @@ Download dataset:
 
 ### Train the model
 
+mkdir -p saved_models/tf
+
 ```
 ./dev_docker_run python train.py --path_to_settings settings/local.yaml
 ```

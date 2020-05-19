@@ -3,10 +3,8 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from tensorflow.keras.preprocessing import image
-from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
-from glob import glob
 import yaml
 import pickle
 import os

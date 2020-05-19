@@ -1,4 +1,3 @@
-import os
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 import argparse
@@ -7,11 +6,8 @@ import pickle
 import numpy as np
 import os
 from glob import glob
-import shutil
 from xml.etree import ElementTree
 from tqdm import tqdm
-from PIL import Image
-from model.ssd300MobileNetV2Lite import SSD
 from tensorflow.keras.preprocessing import image
 from ssd_utils import BBoxUtility
 from ssd_layers import PriorBox
