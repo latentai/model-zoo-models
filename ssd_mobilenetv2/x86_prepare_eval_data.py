@@ -10,9 +10,10 @@ from ssd_utils import BBoxUtility
 import argparse
 import numpy as np
 from PIL import Image
-from keras.applications.resnet50 import preprocess_input
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from xml.etree import ElementTree
 from tensorflow.keras.preprocessing import image
+from x86model import Model
 print('Segmentation fault (core dumped)')
 
 base = "./"
@@ -21,28 +22,28 @@ name_dir = base + "resources/data/imagenet/"
 #
 # Load the test image, match the expected input shape of 224,224,3
 #
-img_name = image_dir + "000030.jpg"
+# img_name = image_dir + "000030.jpg"
 
-dtype = "float32"
-img = Image.open(img_name).resize((224, 224))
-data = np.array(img)[np.newaxis, :].astype(dtype)
-global_data = preprocess_input(data[:, :, :, ::-1], mode="tf")
+# dtype = "float32"
+# img = Image.open(img_name).resize((224, 224))
+# data = np.array(img)[np.newaxis, :].astype(dtype)
+# global_data = preprocess_input(data[:, :, :, ::-1], mode="tf")
 input_name = "input_1"
-shape_dict = {input_name: global_data.shape}
+# shape_dict = {input_name: global_data.shape}
 ctx = tvm.cpu(0)
-base = "./compiled_tvm_int8/bin/"
-loaded_graph = open(base + "modelDescription.json").read()
-loaded_lib = tvm.runtime.load_module(base + "modelLibrary.so")
-loaded_params = bytearray(open(base + "modelParams.params", "rb").read())
-
-graphjson = json.loads(loaded_graph)
+base = "baseline_compiled_tvm_int/bin/"
+# loaded_graph = open(base + "modelDescription.json").read()
+# loaded_lib = tvm.runtime.load_module(base + "modelLibrary.so")
+# loaded_params = bytearray(open(base + "modelParams.params", "rb").read())
+#
+# graphjson = json.loads(loaded_graph)
 # if 'leip' in list(graphjson.keys()):
 #     del graphjson['leip']
 #     loaded_graph = json.dumps(graphjson)
 
-m = graph_runtime.create(loaded_graph, loaded_lib, ctx)
-m.set_input(input_name, tvm.nd.array(global_data))
-m.load_params(loaded_params)
+# m = graph_runtime.create(loaded_graph, loaded_lib, ctx)
+# m.set_input(input_name, tvm.nd.array(global_data))
+# m.load_params(loaded_params)
 
 priors = pickle.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                        'priorFiles/prior_boxes_ssd300MobileNetV2_224_224.pkl'), 'rb'))
@@ -62,27 +63,29 @@ class X86_Model():
         with open(args.path_to_settings, 'r') as fp:
             sets = yaml.safe_load(fp)
         self.sets = sets
+        # loaded_graph = open(base + "modelDescription.json").read()
+        # loaded_lib = tvm.runtime.load_module(base + "modelLibrary.so")
+        # self.loaded_params = bytearray(open(base + "modelParams.params", "rb").read())
+        #
+        # graphjson = json.loads(loaded_graph)
+        # if 'leip' in list(graphjson.keys()):
+        #     del graphjson['leip']
+        #     loaded_graph = json.dumps(graphjson)
+        #
+        # graph = loaded_graph
+        # lib = loaded_lib
+        # m = graph_runtime.create(graph, lib, ctx)
+        # print('input_name: {}'.format(input_name))
+        # m.load_params(self.loaded_params)
+        # self.m = m
+        self.m = Model()
+        self.m.load(base)
 
-        loaded_graph = open(base + "modelDescription.json").read()
-        loaded_lib = tvm.runtime.load_module(base + "modelLibrary.so")
-        self.loaded_params = bytearray(open(base + "modelParams.params", "rb").read())
-
-        graphjson = json.loads(loaded_graph)
-        if 'leip' in list(graphjson.keys()):
-            del graphjson['leip']
-            loaded_graph = json.dumps(graphjson)
-
-        graph = loaded_graph
-        lib = loaded_lib
-        m = graph_runtime.create(graph, lib, ctx)
-        print('input_name: {}'.format(input_name))
-        m.load_params(loaded_params)
-        self.m = m
 
     def inference(self, _data):
-        print('img: {}'.format(global_data.shape))
-        m.set_input(input_name, tvm.nd.array(global_data))
-        tvm_output = m.get_output(0).asnumpy()
+        print('img: {}'.format(_data.shape))
+        self.m.set_input(input_name, tvm.nd.array(_data))
+        tvm_output = self.m.get_output(0).asnumpy()
         # self.m.set_input(input_name, tvm.nd.array(global_data))
         # tvm_output = self.m.get_output(0)
         # tvm_output = tvm_output.asnumpy()
@@ -91,7 +94,7 @@ class X86_Model():
 
         return tvm_output
 
-    def create_model_prediction(self, n_images=100):
+    def create_model_prediction(self, n_images=400):
         priors = pickle.load(open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                                'priorFiles/prior_boxes_ssd300MobileNetV2_224_224.pkl'), 'rb'))
 
@@ -105,48 +108,46 @@ class X86_Model():
         annotation_files = []
 
         print('Prepare : {} files for evaluation. '.format(n_images))
+        input_shape = (self.sets['img_height'], self.sets['img_width'], 3)
 
         with open(os.path.join(self.sets['dataset_dir'], 'VOC2007/ImageSets/Main/test.txt'), 'r') as annot_f:
             for annotation in tqdm(list(annot_f)[:n_images]):
                 try:
                     img_path = os.path.join(self.sets['dataset_dir'], 'VOC2007/JPEGImages/') + annotation.split(' ')[0].strip() + '.jpg'
-                    img = Image.open(img_name).resize((224, 224))
-                    data = np.array(img)[np.newaxis, :].astype(dtype)
-                    data = preprocess_input(data[:, :, :, ::-1], mode="tf")
-
-                    data = image.img_to_array(img)
+                    img = image.load_img(img_path, target_size=(input_shape[0], input_shape[1]))
+                    img = image.img_to_array(img)
                     result_images.append(img_path)
-                    images.append(data)
-                    inputs.append(data)
+                    images.append(img)
+                    inputs.append(img.copy())
                     annotation_files.append(annotation)
                 except Exception as e:
                     print('Error while opening file.', e)
 
         result_detections = []
 
-        # inputs = preprocess_input(np.array(inputs))
+        # inputs = preprocess_input(np.array(inputs)[:, :, :, ::-1], mode="tf")
         inputs = np.array(inputs)
+        inputs = preprocess_input(inputs)
 
         print('inputs: {}'.format(inputs.shape))
 
         results = []
-        for img in inputs:
-            m.set_input(input_name, tvm.nd.array(img))
-            m.run()
+        for img in tqdm(inputs):
+            # self.m._model.set_input(input_name, tvm.nd.array(img))
+            # self.m._model.run()
+            tvm_output = self.m.predict_on_batch(img)
             # ftimer = m.module.time_evaluator("run", ctx, number=1, repeat=1)
             # prof_res = np.array(ftimer().results) * 1000  # convert to millisecond
 
-            tvm_output = m.get_output(0)
-            res = tvm_output.asnumpy()[0]
+            tvm_output = self.m._model.get_output(0)
             img_result = bbox_util.detection_out(tvm_output.asnumpy())
             results.append(img_result)
 
         results = np.array(results)
         results = np.squeeze(results, axis=1)
         print('results: {}'.format(results.shape))
-        print('first results: {}'.format(results[0][0].shape))
 
-        for i in range(len(results)):
+        for i, img in tqdm(enumerate(images)):
             det_label = results[i][:, 0]
             det_conf = results[i][:, 1]
             det_xmin = results[i][:, 2]
@@ -186,6 +187,7 @@ class X86_Model():
             result_detections.append(detections)
 
         print('Test images: {}'.format(len(result_images)))
+        print('result_detections: {}'.format(len(result_detections)))
 
         model_predictions = []
         MODEL_PREDICTION_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'model_evaluation/model_prediction/')
