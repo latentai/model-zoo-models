@@ -1,12 +1,10 @@
+# from matplotlib import pyplot as plt
+import json
 import os
-import tvm
-from tvm.contrib import graph_runtime
 
 import numpy as np
-from PIL import Image
-# from matplotlib import pyplot as plt
-from keras.applications.resnet50 import preprocess_input
-import json
+import tvm
+from tvm.contrib import graph_runtime
 
 
 class Model:

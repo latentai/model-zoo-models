@@ -1,20 +1,17 @@
-import os
-import tvm
-from tvm.contrib import graph_runtime
-import json
-import yaml
-import pickle
-from tqdm import tqdm
-from glob import glob
-from ssd_utils import BBoxUtility
 import argparse
-import numpy as np
-from PIL import Image
-from tensorflow.keras.applications.imagenet_utils import preprocess_input
+import os
+import pickle
+from glob import glob
 from xml.etree import ElementTree
+
+import numpy as np
+import tvm
+import yaml
+from ssd_utils import BBoxUtility
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from tensorflow.keras.preprocessing import image
+from tqdm import tqdm
 from x86model import Model
-print('Segmentation fault (core dumped)')
 
 base = "./"
 image_dir = base + "imgs/"
@@ -79,7 +76,7 @@ class X86_Model():
         # m.load_params(self.loaded_params)
         # self.m = m
         self.m = Model()
-        self.m.load(base)
+        self.m.load(args.input_path)
 
 
     def inference(self, _data):

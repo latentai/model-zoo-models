@@ -237,6 +237,7 @@ parser.add_argument(
     help='no plot is shown during execution')
 parser.add_argument('--path_to_settings', help='Path to dataset', required=True)
 parser.add_argument('--n_images', help='Model checkpoints', default=100)
+parser.add_argument('--input_path', help='Path to compiled model', required=True)
 
 args = parser.parse_args()
 

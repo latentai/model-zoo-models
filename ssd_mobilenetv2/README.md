@@ -31,13 +31,18 @@ Download dataset:
 
 ### Showcase on single example
 ```
-./dev_docker_run python demo.py --path_to_settings settings/local.yaml  --path_to_model saved_models/compressed/ --path_to_demo_img imgs/000030.jpg
+./dev_docker_run python demo.py --path_to_settings settings/local.yaml  --path_to_model saved_models/tf/saved_model.h5 --path_to_demo_img imgs/000030.jpg
 ```
 
 
+### Convert to tf checkpoint
+```
+./dev_docker_run python convert_keras_model_to_checkpoint.py --input_model_path saved_models/tf/saved_model.h5 --output_model_path converted_checkpoint
+```
+
 ### Compress
 ```    
-./dev_docker_run leip compress --input_path saved_models/tf/ --output_path saved_models/compressed_asymmetric/ --quantizer asymmetric
+leip compress --input_path converted_checkpoint --output_path saved_models/compressed_asymmetric/ --quantizer asymmetric
 ```
 
 ### Evaluate compressed model
@@ -49,11 +54,11 @@ Download dataset:
 ### Compile
 
 ```
-./dev_docker_run leip compile --input_path /model-zoo-models/ssd_mobilenetv2/saved_models/tf/ --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_int8/bin --input_types=float32 --data_type=int8 --output_names predictions/concat
+./dev_docker_run leip compile --input_path converted_checkpoint --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_int8/bin --input_types=float32 --data_type=int8 --output_names predictions/concat
 ```
 
 ### Evaluate compiled model
 
 ```
-./dev_docker_run python x86_eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml
+./dev_docker_run python x86_eval.py --input_path compiled_tvm_int8/bin -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml
 ```
