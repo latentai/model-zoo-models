@@ -1,16 +1,14 @@
-import os
 import json
-import cv2
-from yolo3.utils import get_yolo_boxes, makedirs
-from yolo3.bbox import draw_boxes
-from keras.models import load_model
+import os
 
-from utils.detections.eval import evaluate
-from utils.detections.eval import parser
-from utils.detections.voc_subset_10_percent import voc_subset
+import cv2
+from detections.eval import evaluate
+from detections.eval import parser
+from detections.voc_subset_10_percent import voc_subset
+from yolo3.utils import get_yolo_boxes
+from yolo3.yolo_as_tf import load_model_tf
 
 from demo import restore_keras_checkpoint
-from yolo3.yolo_as_tf import load_model_tf
 
 
 def prepare_detections(args):
