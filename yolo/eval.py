@@ -2,9 +2,9 @@ import json
 import os
 
 import cv2
-from detections.eval import evaluate
-from detections.eval import parser
-from detections.voc_subset_10_percent import voc_subset
+from detections_utils.eval import evaluate
+from detections_utils.eval import parser
+from detections_utils.voc_subset_10_percent import voc_subset
 from yolo3.utils import get_yolo_boxes
 from yolo3.yolo_as_tf import load_model_tf
 
