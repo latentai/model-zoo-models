@@ -51,16 +51,23 @@ leip compress --input_path converted_checkpoint --output_path saved_models/compr
 ./dev_docker_run python eval.py -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml --model_checkpoints saved_models/compressed_asymmetric/model_save/
 ```
 
-### Compile
+### LRE FP32 (baseline)
+```
+leip compile --input_path high_precision_converted --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_fp32/bin --input_types=float32 --data_type=float32 --output_names predictions/concat
+```
+This command requires LEIP SDK to be installed.
+
+```
+python x86_eval.py --input_path compiled_tvm_fp32/bin -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml --dequantize ''
+```
+
+### LRE FP32 (storage)
 
 ```
 leip compile --input_path converted_checkpoint --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_int8/bin --input_types=float32 --data_type=int8 --output_names predictions/concat
 ```
 
-### Evaluate compiled model
-
 This command requires LEIP SDK to be installed.
-
 ```
-python x86_eval.py --input_path compiled_tvm_int8/bin -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml
+python x86_eval.py --input_path compiled_tvm_int8/bin -gt  model_evaluation/ground_truth -det model_evaluation/model_prediction --noplot --path_to_settings settings/local.yaml --dequantize 1
 ```
