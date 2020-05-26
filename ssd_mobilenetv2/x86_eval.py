@@ -238,6 +238,8 @@ parser.add_argument(
 parser.add_argument('--path_to_settings', help='Path to dataset', required=True)
 parser.add_argument('--n_images', help='Model checkpoints', default=100)
 parser.add_argument('--input_path', help='Path to compiled model', required=True)
+parser.add_argument('-d', '--dequantize', default=False,
+                    help='True\False: whether to dequantize compiled model. Used for int8 models.')
 
 args = parser.parse_args()
 

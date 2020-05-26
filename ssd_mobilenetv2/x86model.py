@@ -19,8 +19,8 @@ class Model:
 
         self._dequantize = True
         self._input_name = 'input_1'
-        # if 'dequantize' in kwargs.keys():
-        #     self._dequantize = kwargs['dequantize']
+        if 'dequantize' in kwargs.keys():
+            self._dequantize = kwargs['dequantize']
 
     def predict_on_batch(self, x):
         """

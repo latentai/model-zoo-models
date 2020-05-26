@@ -75,7 +75,8 @@ class X86_Model():
         # print('input_name: {}'.format(input_name))
         # m.load_params(self.loaded_params)
         # self.m = m
-        self.m = Model()
+        dequantize = args.dequantize
+        self.m = Model(dequantize=dequantize)
         self.m.load(args.input_path)
 
 
