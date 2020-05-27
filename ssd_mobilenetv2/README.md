@@ -40,6 +40,15 @@ Download dataset:
 ./dev_docker_run python convert_keras_model_to_checkpoint.py --input_model_path saved_models/tf/saved_model.h5 --output_model_path converted_checkpoint
 ```
 
+# LEIP SDK Post-Training-Quantization Commands on Pretrained Models
+
+|       Mode        |Parameter file size (MB)|mAP Accuracy %        |
+|-------------------|-----------------------:|---------------------:|
+|Original FP32      |                      74|                 36.90|
+|LRE FP32 (baseline)|                      25|                 45.13|
+|LRE FP32 (storage) |                     6.2|                 26.06|
+
+
 ### Compress
 ```    
 leip compress --input_path converted_checkpoint --output_path saved_models/compressed_asymmetric/ --quantizer asymmetric

@@ -58,6 +58,31 @@
         }
       ]
     },
+        {
+      "id": "ssd_mobilenetv2",
+      "full_name": "SSD MobileNet V2",
+      "description": "Released in 2019, this model is a single-stage object detection model that goes straight from image pixels to bounding box coordinates and class probabilities. The model architecture is based on inverted residual structure where the input and output of the residual block are thin bottleneck layers as opposed to traditional residual models.",
+      "model_type": "Object Recognition",
+      "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/ssd_mobilenetv2",
+      "variants": [
+        {
+          "id": "keras-pretrained",
+          "show_in_frontend": true,
+          "metrics_json": "ssd_mobilenetv2/metrics/pascal-voc2007.json",
+          "training_dataset": {
+            "dataset_id": "pascal-voc2007",
+            "variant_id": "full-dataset"
+          },
+          "weights_url": "https://model-zoo-data.latentai.io/ssd_mobilenetv2/keras-pretrained/2020-05-27-04-27-12/f1079bd760806da64a576f37c36583f1.zip",
+          "model_schema": {
+            "output_names": "predictions/concat",
+            "input_names": "input_1",
+            "input_shapes": "1, 224, 224, 3",
+            "disabled_pass": "FoldConstant"
+          }
+        }
+      ]
+    },
     {
       "id": "mobilenetv1",
       "full_name": "Mobilenet V1",
