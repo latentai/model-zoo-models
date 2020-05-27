@@ -64,7 +64,7 @@ python x86_eval.py --input_path compiled_tvm_fp32/bin -gt  model_evaluation/grou
 ### LRE FP32 (storage)
 
 ```
-leip compile --input_path converted_checkpoint --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_int8/bin --input_types=float32 --data_type=int8 --output_names predictions/concat
+leip compile --input_path converted_checkpoint --input_shapes "1, 224, 224, 3" --output_path compiled_tvm_int8/bin --input_types=uint8 --data_type=int8 --output_names predictions/concat
 ```
 
 This command requires LEIP SDK to be installed.
