@@ -29,16 +29,19 @@
     },
     {
       "id": "yolo",
-      "full_name": "You Look Only Once Object Detection",
-      "description": "YOLO (You Only Look Once), is a deep neural network architecture for object detection. YOLO differentiates itself from other common neural network architectures for object detection tasks in that it performs inference usign a single forward pass through a single neural network.",
+      "full_name": "YOLOv3",
+      "description": "YOLO (You Only Look Once), is a deep neural network architecture for object detection. YOLO differentiates itself from other common neural network architectures for object detection tasks in that it performs inference using a single forward pass through a single neural network.",
       "model_type": "Object Recognition",
       "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/yolo",
       "variants": [
         {
           "id": "keras-pretrained",
           "show_in_frontend": false,
-          "compressed": false,
           "metrics_json": null,
+          "training_dataset": {
+            "dataset_id": "pascal-voc2007",
+            "variant_id": "full-dataset"
+          },
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/yolo/keras-pretrained/2020-05-01-22-06-25/dbb0dbdd8a08b93023053fb553d6ba70.zip",
           "model_schema": {
             "output_names": "conv_105/BiasAdd",
@@ -50,7 +53,6 @@
           "id": "keras-pretrained-backbone",
           "show_in_frontend": false,
           "metrics_json": null,
-          "compressed": false,
           "weights_url": "http://model-zoo-data.latentai.io.s3.amazonaws.com/model-weights/yolo/2020-04-21-12-12-17/62186a8066b28c8af75bdcf3be019cda.zip",
           "model_schema": {}
         }
@@ -301,6 +303,7 @@
     {
       "id": "pascal-voc2007",
       "full_name": "Pascal Voc 2007",
+      "description": "The goal of this challenge is to recognize objects from 20 visual object classes in realistic scenes (i.e. not pre-segmented objects).",
       "variants": [
         {
           "id": "full-dataset",

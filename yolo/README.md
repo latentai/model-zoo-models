@@ -58,7 +58,7 @@ For fp32 evaluation will look like:
 
 # Demo
 
-Once you download (or train) the model you can run demo script. By default this scrip will create `output` directory and put all predictions there.
+Once you download (or train) the model you can run demo script. By default this script will create `output` directory and put all predictions there.
 
 `python demo.py --conf config_voc_demo.json --input workspace/datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/000346.jpg`
 

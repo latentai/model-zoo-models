@@ -26,7 +26,7 @@
         "class_scale":          1,
 
         "tensorboard_dir":      "log_voc",
-        "saved_weights_name":   "h5/voc.h5",
+        "saved_weights_name":   "workspace/models/yolo/keras-pretrained/voc.h5",
         "debug":                true
     },
 
