@@ -328,12 +328,20 @@
     },
     {
       "id": "pascal-voc2007",
-      "full_name": "Pascal Voc 2007",
+      "full_name": "Pascal VOC 2007",
       "description": "The goal of this challenge is to recognize objects from 20 visual object classes in realistic scenes (i.e. not pre-segmented objects).",
       "variants": [
         {
           "id": "full-dataset",
           "data_url": "https://model-zoo-data.latentai.io/datasets/pascal-voc2007/full-dataset/2020-03-27-02-55-46/53e36a01c2ff00c1dad58b99f291123c.zip"
+        },
+        {
+          "id": "train",
+          "data_url": "https://model-zoo-data.latentai.io/datasets/voc/2020-05-27-11-23-49/9df170b0aa294d84aeb7031b3c0999e2.zip"
+        },
+        {
+          "id": "eval",
+          "data_url": "https://model-zoo-data.latentai.io/datasets/voc/2020-05-27-11-41-15/fb125ce7d0f469cf5805fa15c137f813.zip"
         }
       ]
     },
