@@ -68,7 +68,14 @@ You can use `config_voc_demo.json` to use pretrained model or `config_voc_train.
 
 `./dev_docker_run ./utils/convert_keras_model_to_checkpoint.py --input_model_path h5/voc.h5`
 
-# LEIP part
+# LEIP SDK Post-Training-Quantization Commands on Pretrained Models
+
+|       Mode        |Parameter file size (MB)|mAP Accuracy %        |
+|-------------------|-----------------------:|---------------------:|
+|Original FP32      |                     236|                 31.25|
+|LRE FP32 (baseline)|                     236|                 31.25|
+|LRE FP32 (storage) |                      59|                 31.33|
+
 
 ## Compress keras checkpoint
 

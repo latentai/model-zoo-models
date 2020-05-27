@@ -36,17 +36,18 @@
       "variants": [
         {
           "id": "keras-pretrained",
-          "show_in_frontend": false,
-          "metrics_json": null,
+          "show_in_frontend": true,
+          "metrics_json": "yolo/metrics/pascal-voc2007.json",
           "training_dataset": {
             "dataset_id": "pascal-voc2007",
             "variant_id": "full-dataset"
           },
           "weights_url": "https://model-zoo-data.latentai.io/model-weights/yolo/keras-pretrained/2020-05-01-22-06-25/dbb0dbdd8a08b93023053fb553d6ba70.zip",
           "model_schema": {
-            "output_names": "conv_105/BiasAdd",
+            "output_names": "conv_81/BiasAdd,conv_93/BiasAdd,conv_105/BiasAdd",
             "input_names": "input_1",
-            "input_shapes": "1, 224, 224, 3"
+            "input_shapes": "1, 416, 416, 3",
+            "preprocessor": "float32"
           }
         },
         {
