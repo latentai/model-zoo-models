@@ -1,0 +1,15 @@
+{
+   "dataset":{
+      "dataset_id":"pascal-voc2007",
+      "train_variant":"full-dataset",
+      "eval_variant":null
+   },
+   "base_model_for_training": {
+      "model_id": "yolo",
+      "variant_id": "keras-pretrained-backbone"
+   },
+   "train_args":"--conf config_voc_train.json",
+   "quick_train_args":"--conf config_voc_train_quick.json",
+   "evaluate_args":"-i workspace/datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/ -c config_voc_train.json -gtforma xyrb -detformat xyrb -gt workspace/datasets/pascal-voc2007/full-dataset/VOC2007/Annotations/ -det detections/",
+   "demo_args":"--conf config_voc_train.json --input workspace/datasets/pascal-voc2007/full-dataset/VOC2007/JPEGImages/000346.jpg"
+}

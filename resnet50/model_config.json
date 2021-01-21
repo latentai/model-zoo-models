@@ -1,0 +1,11 @@
+{
+   "dataset":{
+      "dataset_id":"open-images-10-classes",
+      "train_variant":"train",
+      "eval_variant":"eval"
+   },
+   "train_args":"--dataset_path workspace/datasets/open-images-10-classes/train/ --eval_dataset_path workspace/datasets/open-images-10-classes/eval/ --epochs 600",
+   "quick_train_args":"--epochs 1 --dataset_path workspace/datasets/open-images-10-classes/train/ --eval_dataset_path workspace/datasets/open-images-10-classes/eval/",
+   "evaluate_args":"--dataset_path workspace/datasets/open-images-10-classes/eval/ --input_model_path trained_model/model.h5",
+   "demo_args":"--input_model_path trained_model/model.h5 --image_file test_images/dog.jpg"
+}

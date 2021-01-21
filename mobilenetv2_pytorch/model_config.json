@@ -1,0 +1,11 @@
+{
+   "dataset":{
+      "dataset_id":"open-images-10-classes",
+      "train_variant":"train",
+      "eval_variant":"eval"
+   },
+   "train_args":"--dataset_path workspace/datasets/open-images-10-classes/ --epochs 20",
+   "quick_train_args":"--dataset_path workspace/datasets/open-images-10-classes/ --epochs 1",
+   "evaluate_args":"--dataset_path workspace/datasets/open-images-10-classes/eval/ --input_model_path workspace/trained_model/mobilenetv2.jit.pt",
+   "demo_args":"--input_model_path workspace/trained_model/mobilenetv2.jit.pt --image_file test_images/dog.jpg --input_class_names_path workspace/datasets/open-images-10-classes/eval/class_names.txt"
+}
