@@ -1,0 +1,11 @@
+{
+   "dataset":{
+      "dataset_id":"mnist",
+      "train_variant":null,
+      "eval_variant":"eval"
+   },
+   "train_args":"--basedirectory train_dir",
+   "quick_train_args":"--basedirectory train_dir --num_epochs 1",
+   "evaluate_args":"--input_path train_dir/lenet_on_mnist_adam_weight_decay_0.0002_lam_bl_1e-05_lam_dl_0.01/int_model_final/",
+   "demo_args":"--input_model train_dir/lenet_on_mnist_adam_weight_decay_0.0002_lam_bl_1e-05_lam_dl_0.01/int_model_final/"
+}

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if ! [ -x "$(command -v nvidia-docker)" ]; then
+  echo 'nvidia-docker is not installed. Using CPU mode docker' >&2
+  DOCKER_CMD=docker
+else
+  echo 'Found nvidia-docker. Using GPU mode nvidia-docker' >&2
+  DOCKER_CMD=nvidia-docker
+fi
+
+
+mkdir -p ~/.keras
+
+# add 	-p 6006:6006 to share port...
+
+set -x # show command being run
+$DOCKER_CMD run --rm -it --shm-size 1G  \
+	-v `pwd`:/shared \
+	-v `pwd`/../utils:/shared/utils \
+	-v ~/.keras:/root/.keras \
+	-w /shared \
+	latentaiorg/leip-sdk:latest.dev1 "$@"
