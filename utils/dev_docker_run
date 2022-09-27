@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir -p ~/.keras
+
+set -x # show command being run
+docker run --rm -it --shm-size 2G --gpus all  \
+	-v `pwd`:/shared \
+	-v `pwd`/../utils:/shared/utils \
+	-v ~/.keras:/root/.keras \
+	-v $PWD/../.LICENSE_KEY:/root/.LICENSE_KEY \
+	-v $PWD/../../latentai-sdk/workspace:/sdk-workspace \
+	-w /shared \
+	registry.gitlab.com/latentai/latentai-sdk/leip-sdk:gpu-cuda.develop "$@"

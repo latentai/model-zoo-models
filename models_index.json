@@ -1,0 +1,639 @@
+{
+    "models": [{
+            "id": "audio-recognition",
+            "full_name": "Audio Recognition",
+            "description": "A recurrent neural network for performing speech recognition.",
+            "model_type": "Audio Recognition",
+            "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/audio_recognition",
+            "variants": [{
+                "id": "tf-baseline",
+                "show_in_frontend": true,
+                "automated_metrics_collection": true,
+                "generate_sdk_commands_for_readme": true,
+                "eval_dataset": {
+                    "dataset_id": "google-speech-commands",
+                    "variant_id": "eval"
+                },
+                "class_names_file_path": "class_names.txt",
+                "evaluation_options": {
+                    "start_cmd_number": 1,
+                    "output_folder": "audio-recognition"
+                },
+                "weights_url": "https://model-zoo-data.latentai.io/model-weights/audio-recognition/tf-baseline/2020-06-14-20-36-57/d3359690c81cfed481f7c193b33419a1.zip",
+                "model_schema": {
+                    "output_names": "Add_2",
+                    "input_names": "fingerprint_input",
+                    "preprocessor": "leip.core.preprocessors.speechcommand.speechcommand",
+                    "dataset": "custom",
+                    "remove_nodes": "dropout"
+                }
+            }]
+        },
+        {
+            "id": "lenet_gtc",
+            "full_name": "LeNet (Training Aware)",
+            "description": "The classic LeNet convolutional neural network proposed by Yann LeCun, trained using Training Aware quantization.",
+            "model_type": "Image Classification",
+            "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/lenet_gtc",
+            "variants": [{
+                    "id": "high_precision",
+                    "show_in_frontend": false,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": false,
+                    "weights_url": "https://model-zoo-data.latentai.io/lenet_gtc/high_precision/2020-06-20-01-30-40/49aa54b697df8f11346c1add4e2c018b.zip",
+                    "training_dataset": {
+                        "dataset_id": "mnist",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "mnist",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "lenet_gtc-mnist-hp"
+                    },
+                    "model_schema": {
+                        "dataset": "custom",
+                        "input_names": "Placeholder",
+                        "output_names": "Softmax",
+                        "preprocessor": "rgbtogray"
+                    }
+                },
+                {
+                    "id": "low_precision",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/lenet_gtc/low_precision/2020-06-20-01-27-16/503a44de83d9aff3e44f80434ae7896d.zip",
+                    "training_dataset": {
+                        "dataset_id": "mnist",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "mnist",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "lenet_gtc-mnist-lp"
+                    },
+                    "model_schema": {
+                        "dataset": "custom",
+                        "input_names": "Placeholder",
+                        "output_names": "Softmax",
+                        "preprocessor": "rgbtogray"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "mobilenetv1",
+            "full_name": "Mobilenet V1",
+            "description": "Mobilenet V1 is an image classification model that implements depth-wise convolutions within the network in an effort to reduce latency on mobile devices.",
+            "model_type": "Image Classification",
+            "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/mobilenetv1",
+            "variants": [{
+                    "id": "keras-open-images-10-classes",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-open-images-10-classes/2020-05-10-06-04-12/ad71dcba22296da33dbe75b379c84016.zip",
+                    "training_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "mobilenetv1-oi"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet",
+                        "dataset": "custom"
+                    }
+                },
+                {
+                    "id": "keras-imagenet",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/mobilenetv1/keras-imagenet/2020-04-13-23-38-12/ad27ad2f39b3d73215ae55839d72eeca.zip",
+                    "training_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "mobilenetv1-imagenet"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet",
+                        "dataset": "custom"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "mobilenetv2",
+            "full_name": "Mobilenet V2",
+            "description": "Mobilenet V2 is an image classification model that implements depth-wise convolutions within the network in an effort to optimize latency on mobile devices. MobilenetV2 is architecturally similar to V1, but has been further optimized to reduce latency on mobile devices.",
+            "model_type": "Image Classification",
+            "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/mobilenetv2",
+            "variants": [{
+                    "id": "keras-open-images-10-classes",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-open-images-10-classes/2020-05-10-06-04-22/18c74b63eb661685610964b681c39682.zip",
+                    "training_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "mobilenetv2-oi"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet",
+                        "dataset": "custom"
+                    }
+                },
+                {
+                    "id": "keras-imagenet",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/keras-imagenet/2020-04-13-23-38-21/7b91c2ab8d28181894ce3a423cb8eb1c.zip",
+                    "training_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "mobilenetv2-imagenet"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet",
+                        "dataset": "custom"
+                    }
+                },
+                {
+                    "id": "pytorch-open-images-10-classes",
+                    "show_in_frontend": false,
+                    "automated_metrics_collection": false,
+                    "generate_sdk_commands_for_readme": false,
+                    "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/pytorch-open-images-10-classes/2022-06-28-17-43-24/37b62ab006c9ee06baad47cb8a5181bc.zip",
+                    "training_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "mobilenetv2-pytorch-oi"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet_torch_nchw",
+                        "input_shapes": "None,3,224,224"
+                    }
+                },
+                {
+                    "id": "pytorch-jit-open-images-10-classes",
+                    "show_in_frontend": false,
+                    "automated_metrics_collection": false,
+                    "generate_sdk_commands_for_readme": false,
+                    "weights_url": "https://model-zoo-data.latentai.io/mobilenetv2/pytorch-jit-open-images-10-classes/2022-06-28-17-54-26/41431a186b2257ce3ad7c7c0ae279ca1.zip",
+                    "training_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "mobilenetv2-pytorch-jit-oi"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet_torch_nchw",
+                        "input_shapes": "None,3,224,224"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "resnetv2-50",
+            "full_name": "Resnetv2-50",
+            "description": "Resnetv2-50 is a convolutional neural network used for image classification that is 50 layers deep. ResNet is a residual neural network known for it's ability to learn skip functions during training, allowing it to effectively skip layers during the training process resulting in a simplflied neural network that uses fewer layers.",
+            "model_type": "Image Classification",
+            "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/resnet50",
+            "variants": [{
+                    "id": "keras-open-images-10-classes",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-open-images-10-classes/2020-05-01-22-45-06/f1df15768ffe7119fef675425871f7e8.zip",
+                    "training_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "resnet50-oi"
+                    },
+                    "storage_int8_on_tflite_compile": false,
+                    "compile_target": "llvm -mcpu=skylake",
+                    "model_schema": {
+                        "preprocessor": "imagenet_caffe",
+                        "dataset": "custom"
+                    }
+                },
+                {
+                    "id": "keras-imagenet",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/resnetv2-50/keras-imagenet/2020-04-13-23-38-32/69598b3630011f49cbb582704cbeefac.zip",
+                    "training_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "resnet50-imagenet"
+                    },
+                    "storage_int8_on_tflite_compile": false,
+                    "compile_target": "llvm -mcpu=skylake",
+                    "model_schema": {
+                        "preprocessor": "imagenet_caffe",
+                        "dataset": "custom"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "vgg16",
+            "full_name": "VGG16",
+            "description": "VGG16 is a convolution neural network with 16 layers that acheives high performance on image classifcation tasks.",
+            "model_type": "Image Classification",
+            "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/vgg16",
+            "variants": [{
+                    "id": "keras-open-images-10-classes",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-open-images-10-classes/2020-05-10-06-04-03/9ee32f34625d59260d4c102048562c70.zip",
+                    "training_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "vgg16-oi"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet_caffe",
+                        "dataset": "custom"
+                    }
+                },
+                {
+                    "id": "keras-imagenet",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/vgg16/keras-imagenet/2020-04-13-23-39-07/90cd0632afb0fa49925398d9f6ea9880.zip",
+                    "training_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "vgg16-imagenet"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet_caffe",
+                        "dataset": "custom"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "inceptionv3",
+            "full_name": "Inception V3",
+            "description": "Inception V3 is a convolutional neural network developed by Google to perform image classificaiton tasks.",
+            "model_type": "Image Classification",
+            "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/inceptionv3",
+            "variants": [{
+                    "id": "keras-open-images-10-classes",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-open-images-10-classes/2020-05-10-06-03-51/2ec10b01b84245df120ae24d00b1b4b0.zip",
+                    "training_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "inceptionv3-oi"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet",
+                        "dataset": "custom"
+                    }
+                },
+                {
+                    "id": "keras-imagenet",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/inceptionv3/keras-imagenet/2020-04-13-23-37-59/321a4048251230bca334403319ab9d71.zip",
+                    "training_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "inceptionv3-imagenet"
+                    },
+                    "model_schema": {
+                        "preprocessor": "imagenet",
+                        "dataset": "custom"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "xception",
+            "full_name": "Xception",
+            "description": "Xception is a convolutional neural network developed by Google to perform image classification tasks.",
+            "model_type": "Image Classification",
+            "repository_url": "https://github.com/latentai/model-zoo-models/tree/master/xception",
+            "variants": [{
+                    "id": "keras-open-images-10-classes",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/xception/keras-open-images-10-classes/2020-10-02-15-57-22/c4fea9009a9cedd52f717cab191b0416.zip",
+                    "training_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "open-images-10-classes",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "xception-oi"
+                    },
+                    "storage_int8_on_tflite_compile": false,
+                    "compile_target": "llvm -mcpu=skylake",
+                    "model_schema": {
+                        "preprocessor": "imagenet",
+                        "dataset": "custom"
+                    }
+                },
+                {
+                    "id": "keras-imagenet",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": true,
+                    "generate_sdk_commands_for_readme": true,
+                    "weights_url": "https://model-zoo-data.latentai.io/xception/keras-imagenet/2020-10-02-15-51-14/20cd8ce636213bf8dd6352c22fe35d6e.zip",
+                    "training_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "imagenet",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "xception-imagenet"
+                    },
+                    "storage_int8_on_tflite_compile": false,
+                    "compile_target": "llvm -mcpu=skylake",
+                    "model_schema": {
+                        "preprocessor": "imagenet",
+                        "dataset": "custom"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "yolov5s",
+            "full_name": "Yolo V5 Small",
+            "description": "Yolov5 Small is a one-shot detection network developed to perform object detection tasks.",
+            "model_type": "Object Detection",
+            "variants": [{
+                    "id": "pt-fire-and-smoke-batch-1",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": false,
+                    "generate_sdk_commands_for_readme": false,
+                    "weights_url": "https://model-zoo-data.latentai.io/yolov5s/pt-fire-and-smoke-batch-1/2022-08-04-15-53-00/8ef132c132507957f7761fc4e2ed0230.zip",
+                    "training_dataset": {
+                        "dataset_id": "fire-and-smoke",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "fire-and-smoke",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "yolov5s-b1-fns"
+                    },
+                    "model_schema": {
+                        "preprocessor": "processors.preprocess",
+                        "postprocessor": "processors.postprocess",
+                        "input_shapes": "1,3,640,640",
+                        "output_format": "yolov5",
+                        "dataset_type": "coco"
+                    }
+                },
+                {
+                    "id": "pt-fire-and-smoke-batch-8",
+                    "show_in_frontend": true,
+                    "automated_metrics_collection": false,
+                    "generate_sdk_commands_for_readme": false,
+                    "weights_url": "https://model-zoo-data.latentai.io/yolov5s/pt-fire-and-smoke-batch-8/2022-08-04-15-54-05/0f5cd26571734476286df485ca51cbfa.zip",
+                    "training_dataset": {
+                        "dataset_id": "fire-and-smoke",
+                        "variant_id": "train"
+                    },
+                    "eval_dataset": {
+                        "dataset_id": "fire-and-smoke",
+                        "variant_id": "eval"
+                    },
+                    "class_names_file_path": "class_names.txt",
+                    "evaluation_options": {
+                        "start_cmd_number": 1,
+                        "output_folder": "yolov5s-b8-fns"
+                    },
+                    "model_schema": {
+                        "preprocessor": "processors.preprocess",
+                        "postprocessor": "processors.postprocess",
+                        "input_shapes": "8,3,640,640",
+                        "output_format": "yolov5",
+                        "dataset_type": "coco"
+                    }
+                }
+            ]
+        }
+    ],
+    "datasets": [{
+            "id": "open-images-10-classes",
+            "full_name": "Open Images 10-Classes",
+            "description": "A 10-class object recognition dataset compiled from the larger Google Open Images V5 dataset. Each class contains an average of 163 images with labels.",
+            "variants": [{
+                    "id": "train",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/open-images-10-classes/train/2020-05-01-19-15-57/c8499f9a0606cb5dc225bf7578b51279.zip"
+                },
+                {
+                    "id": "eval",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/open-images-10-classes/eval/2020-05-01-19-11-29/360a64f2fa62ae5ab8913186c8623ca7.zip",
+                    "index_path": "index.txt"
+                }
+            ]
+        },
+        {
+            "id": "pascal-voc2007",
+            "full_name": "Pascal VOC 2007",
+            "description": "The goal of this challenge is to recognize objects from 20 visual object classes in realistic scenes (i.e. not pre-segmented objects).",
+            "variants": [{
+                    "id": "full-dataset",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/pascal-voc2007/full-dataset/2020-07-20-18-45-30/d3b2389516fca4562c86c1f7fe32ce86.zip"
+                },
+                {
+                    "id": "train",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/pascal-voc2007/train/2020-07-20-19-14-16/5cb8dee2d070e67ccbeb8cb575e5cca0.zip"
+                },
+                {
+                    "id": "eval",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/pascal-voc2007/eval/2020-07-20-19-06-45/8ab364f788aef6c3ee779c7a5c53e58a.zip"
+                }
+            ]
+        },
+        {
+            "id": "google-speech-commands",
+            "full_name": "Google Speech Commands",
+            "variants": [{
+                    "id": "v0.02",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/google-speech-commands/v0.02/2020-04-30-23-19-34/0d5603d8360cab2cb56626a7837f3a05.zip"
+                },
+                {
+                    "id": "eval",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/google-speech-commands/eval/2020-05-07-20-19-26/61f283ce9f64b21d64161e8aa8b682f1.zip",
+                    "index_path": "short_index.txt"
+                },
+                {
+                    "id": "train",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/google-speech-commands/train/2020-05-06-23-02-09/4e016ecc42982a6b76f973a4ef6d9c3d.zip"
+                }
+            ]
+        },
+        {
+            "id": "imagenet",
+            "full_name": "Imagenet",
+            "variants": [{
+                    "id": "train",
+                    "data_url": null
+                },
+                {
+                    "id": "eval",
+                    "data_url": null,
+                    "index_path": "index.txt"
+                }
+            ]
+        },
+        {
+            "id": "mnist",
+            "full_name": "MNIST",
+            "variants": [{
+                    "id": "train",
+                    "data_url": null
+                },
+                {
+                    "id": "eval",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/mnist/eval/2020-05-28-02-50-02/ee741a0180cbb338ad24c8338cdfb752.zip",
+                    "index_path": "index.txt"
+                }
+            ]
+        },
+        {
+            "id": "fire-and-smoke",
+            "full_name": "Fire and Smoke COCO-like dataset",
+            "variants": [{
+                    "id": "train",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/fire-and-smoke/train/2022-02-28-19-41-33/e15bb05d8748f7b53907f36d3da1368d.zip"
+                },
+                {
+                    "id": "eval",
+                    "data_url": "https://model-zoo-data.latentai.io/datasets/fire-and-smoke/eval/2022-02-28-19-45-48/d8a2c98f6e2a1f1498dc080aa22b7fd9.zip"
+                }
+            ]
+        }
+    ]
+}

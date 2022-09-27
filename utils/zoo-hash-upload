@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+
+
+import argparse
+import datetime
+import hashlib
+import os
+import random
+import subprocess
+from pathlib import Path
+from subprocess import CalledProcessError, PIPE
+
+
+def hash_file(path):
+    with open(path, "rb") as f:
+        file_hash = hashlib.md5()
+        while True:
+            chunk = f.read(8192)
+            if not chunk:
+                break
+            file_hash.update(chunk)
+
+    return file_hash.hexdigest()
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("local_file")
+parser.add_argument("path_in_s3")
+args = parser.parse_args()
+
+local_file = Path(args.local_file)
+path_in_s3 = Path(args.path_in_s3.strip("/")) / datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
+
+tmp_zip = None
+try:
+    if local_file.is_file() and local_file.suffix == ".zip":
+        print(f"file {local_file} is a zip file")
+    elif local_file.exists():
+        print(f"file {local_file} is a non-zip file or directory, zipping...")
+        tmp_zip = Path(f"/tmp/zooTmpZip{random.random()}.zip")
+
+        if local_file.is_file():
+            local_file_dir = local_file.parent
+            local_file_names = [local_file.name]
+        else:
+            local_file_dir = local_file
+            local_file_names = [f.name for f in local_file.glob("*")]
+
+        subprocess.check_call(["zip", "-r", tmp_zip] + local_file_names, shell=False, cwd=local_file_dir)
+        local_file = tmp_zip
+
+    if not local_file.is_file():
+        print("file {} does not exist locally".format(local_file))
+        exit(1)
+
+    file_hash = hash_file(local_file)
+    print("ZIP file hash: "+file_hash)
+
+    dest_filename = f"{file_hash}.zip"
+    dest_path_in_s3 = str(path_in_s3 / dest_filename)
+
+    dest_s3_url = "s3://model-zoo-data.latentai.io/" + dest_path_in_s3
+    http_s3_url = "http://model-zoo-data.latentai.io.s3.amazonaws.com/" + dest_path_in_s3
+    https_cloudfront_url = "https://model-zoo-data.latentai.io/" + dest_path_in_s3
+
+    print(f"S3 URL:               {dest_s3_url}")
+    print(f"HTTP S3 URL:          {http_s3_url}")
+    print(f"HTTPS CloudFront URL: {https_cloudfront_url}")
+
+    args = ["aws", "s3", "cp", "--profile", "model-zoo-writer", local_file, dest_s3_url, "--acl", "public-read"]
+    subprocess.run(args, check=True, text=True, stderr=PIPE)
+except CalledProcessError as ex:
+    print("Error:", ex.stderr.strip())
+finally:
+    if tmp_zip:
+        os.remove(tmp_zip)
